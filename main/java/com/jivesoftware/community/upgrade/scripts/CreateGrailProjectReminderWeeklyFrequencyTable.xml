@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<schema name="CreateGrailProjectReminderWeeklyFrequencyTable">
+    <table name="grailProjReminderWeeklyFreq" description="">
+        <column name="reminderId" type="bigint" nullable="false" description=""/>
+        <column name="weekFrequency" type="bigint" nullable="true" description="Remind on every mentioned weeks"/>
+        <column name="weekDays" type="text" nullable="true" description="Comma separated days to remain on very mentioned weekFrequency"/>
+        <constraint type="foreignkey" name="projreminder_weekfrq_fk" column="reminderId" reftable="grailprojectreminders"  deferred="true"/>
+    </table>
+</schema>

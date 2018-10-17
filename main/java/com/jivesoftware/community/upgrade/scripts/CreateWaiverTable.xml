@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+
+<!-- Table definition for Waiver -->
+<schema name="CreateWaiverTable">
+    <table name="grailWaiver" description="">
+        <column name="waiverID" type="bigint" nullable="false" description=""/>
+        <column name="name" type="varchar" size="255" nullable="true" description=""/>
+        <column name="summary" type="varchar" size="3000" nullable="true" description=""/>		
+        <column name="brand" type="bigint" nullable="true" description=""/>
+		<column name="methodology" type="bigint" nullable="true" description=""/>       
+		<column name="preApprovals" type="varchar" size="255" nullable="true" description=""/>
+		<column name="preApprovalComment" type="varchar" size="2000" nullable="true" description=""/>
+		<column name="nexus" type="bigint" nullable="true" description=""/>		
+        <column name="status" type="bigint" nullable="true" description=""/>
+        <column name="creationBy" type="bigint" nullable="false" description="Author who created the content"/>
+        <column name="modificationBy" type="bigint" nullable="false" description="Author who modified the content"/>
+        <column name="creationDate" type="bigint" nullable="false" description="Creation date"/>
+        <column name="modificationDate" type="bigint" nullable="false" description="Modification date"/>
+        <index type="normal" name="grailWaiver_Idx" column="waiverID"/>
+    </table>
+
+</schema>

@@ -1,0 +1,57 @@
+<html>
+<head>
+    <script type="text/javascript">
+        function updateCoordinates()
+        {
+            var width = document.getElementById("world").width;
+            var height = document.getElementById("world").height;
+
+            var americas = document.getElementById("americas");
+            americas.coords = (157/819*width)+", "+(20/319*height)+", "+(274/819*width)+", "+(148/319*height);
+            var americas_2 = document.getElementById("americas_2");
+            americas_2.coords = (237/819*width)+", "+(152/319*height)+", "+(329/819*width)+", "+(313/319*height);
+            var americas_3 = document.getElementById("americas_3");
+            americas_3.coords = (279/819*width)+", "+(5/319*height)+", "+(376/819*width)+", "+(47/319*height);
+
+            var western_europe = document.getElementById("western_europe");
+            western_europe.coords = (381/819*width)+", "+(25/319*height)+", "+(438/819*width)+", "+(101/319*height);
+
+            var eemea = document.getElementById("eemea");
+            eemea.coords = (365/819*width)+", "+(107/319*height)+", "+(515/819*width)+", "+(169/319*height);
+            var eemea_2 = document.getElementById("eemea_2");
+            eemea_2.coords = (417/819*width)+", "+(169/319*height)+", "+(495/819*width)+", "+(267/319*height);
+            var eemea_3 = document.getElementById("eemea_3");
+            eemea_3.coords = (443/819*width)+", "+(12/319*height)+", "+(534/819*width)+", "+(104/319*height);
+            var eemea_4 = document.getElementById("eemea_4");
+            eemea_4.coords = (535/819*width)+", "+(15/319*height)+", "+(658/819*width)+", "+(67/319*height);
+
+            var asia_pacific = document.getElementById("asia_pacific");
+            asia_pacific.coords = (528/819*width)+", "+(69/319*height)+", "+(627/819*width)+", "+(165/319*height);
+            var asia_pacific_2 = document.getElementById("asia_pacific_2");
+            asia_pacific_2.coords = (602/819*width)+", "+(191/319*height)+", "+(685/819*width)+", "+(275/319*height);
+        }
+
+    </script>
+
+</head>
+<body onload="updateCoordinates();">
+    <img id = "world" src = "../images/world-stretched.jpg" width="100%" USEMAP = "#1" BORDER = "0" />
+    <MAP NAME = "1">
+        <AREA id = "americas" SHAPE = "RECT" COORDS =  " 157,  20,  274,  148" HREF = "./community/research_studies/americas" alt = "Americas">
+        <AREA id = "americas_2" SHAPE = "RECT" COORDS = " 237,  152,  329,  313" HREF = "./community/research_studies/americas" alt = "Americas">
+        <AREA id = "americas_3" SHAPE = "RECT" COORDS = " 279,  5,  376,  47" HREF = "./community/research_studies/americas" alt = "Americas">
+
+        <AREA id = "western_europe" SHAPE = "RECT" COORDS = " 381,  25,  438,  101" HREF = "./community/research_studies/western_europe" alt = "Western Europe">
+
+
+        <AREA id = "eemea" SHAPE = "RECT" COORDS = " 365,  107,  515,  169" HREF = "./community/research_studies/eemea" alt = "EEMEA">
+        <AREA id = "eemea_2" SHAPE = "RECT" COORDS = " 417,  169,  495,  267" HREF = "./community/research_studies/eemea" alt = "EEMEA">
+        <AREA id = "eemea_3" SHAPE = "RECT" COORDS = " 443,  12,  534,  104" HREF = "./community/research_studies/eemea" alt = "EEMEA">
+        <AREA id = "eemea_4" SHAPE = "RECT" COORDS = " 535,  15,  658,  67" HREF = "./community/research_studies/eemea" alt = "EEMEA">
+
+        <AREA id = "asia_pacific" SHAPE = "RECT" COORDS = " 528,  69,  627,  165" HREF = "./community/research_studies/asia-pacific" alt = "Asia-Pacific">
+        <AREA id = "asia_pacific_2" SHAPE = "RECT" COORDS = " 602,  191,  685,  275" HREF = "./community/research_studies/asia-pacific" alt = "Asia-Pacific">
+        <AREA SHAPE = "DEFAULT" NOHREF>
+    </MAP>
+</body>
+</html>

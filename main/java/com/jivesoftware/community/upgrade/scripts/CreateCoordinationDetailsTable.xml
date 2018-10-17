@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+
+        <!-- Table definition for Co-ordination Details -->
+<schema name="CreateCoordinationDetailsTable">
+
+<table name="grailCoordinationDetails" description="">
+    <column name="projectID" type="bigint" nullable="false" description=""/>
+    <column name="agencyID" type="bigint" nullable="false" description=""/>
+    <column name="competitiveBids" type="int" default="0" nullable="true" description=""/>
+    <column name="supplier" type="bigint" nullable="true" description=""/>
+    <column name="supplierGroup" type="bigint" nullable="true" description=""/>
+
+    <column name="startMonth" type="int" nullable="true" description=""/>
+    <column name="startYear" type="int" nullable="true" description=""/>
+    <column name="endMonth" type="int" nullable="true" description=""/>
+    <column name="endYear" type="int" nullable="true" description=""/>
+
+    <column name="creationBy" type="bigint" nullable="false" description="Author who created the content"/>
+    <column name="modificationBy" type="bigint" nullable="false" description="Author who modified the content"/>
+    <column name="creationDate" type="bigint" nullable="false" description="Creation date"/>
+    <column name="modificationDate" type="bigint" nullable="false" description="Modification date"/>
+
+
+    <index type="normal" name="coordinationDetails_Idx" column="projectID,agencyID,startYear,endYear"/>
+</table>
+
+</schema>

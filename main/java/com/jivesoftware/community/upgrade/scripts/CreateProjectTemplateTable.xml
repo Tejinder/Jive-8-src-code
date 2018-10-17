@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+
+<!-- Table definition for Projects -->
+<schema name="CreateProjectTemplateTable">
+
+    <table name="grailProjectTemplate" description="Project Template Table">
+		<column name="templateID" type="bigint" nullable="false" description=""/>
+		<column name="templateName" type="varchar" size="100" nullable="false" description=""/>
+		<column name="creationBy" type="bigint" nullable="false" description=""/>
+        <column name="name" type="varchar" size="255" nullable="true" description=""/>
+        <column name="description" type="varchar" size="2000" nullable="true" description=""/>
+		<column name="categoryType" type="varchar" size="5000" nullable="true" description=""/>
+		<column name="brand" type="bigint" nullable="true" description="Brand ID"/>
+		<column name="methodologyType" type="bigint" nullable="true" description=""/>
+		<column name="methodologyGroup" type="bigint" nullable="true" description=""/>
+		<column name="proposedMethodology" type="bigint" nullable="true" description=""/>
+		<column name="endMarkets" type="varchar" size="5000" nullable="true" description=""/>
+		<column name="startDate" type="bigint" nullable="true" description=""/>
+		<column name="endDate" type="bigint" nullable="true" description=""/>
+		<column name="ownerID" type="bigint" nullable="true" description=""/>
+		<column name="spiID" type="bigint" nullable="true" description=""/>
+        <column name="modificationBy" type="bigint" nullable="false" description=""/>
+        <column name="creationDate" type="bigint" nullable="false" description=""/>
+        <column name="modificationDate" type="bigint" nullable="false" description=""/>
+		
+        <index type="normal" name="grailProjectTemplate_Idx" column="templateID,templateName,creationBy"/>
+    </table>
+
+</schema>

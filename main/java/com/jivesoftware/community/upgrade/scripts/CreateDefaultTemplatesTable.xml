@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<schema name="CreateDefaultTemplatesTable">
+    <table name="graildefaulttemplates" description="">
+        <column name="id" type="bigint" nullable="false" description=""/>
+        <column name="title" type="varchar" size="255" nullable="false" description=""/>
+        <column name="templateType" type="bigint" nullable="false" description=""/>
+        <column name="description" type="varchar" size="255" nullable="true" description=""/>
+        <column name="userID" type="bigint" nullable="false" description=""/>
+        <index type="primary" name="graildefaulttemplates_Idx" column="id"/>
+        <constraint type="foreignkey" name="graildefaulttemplates_user_fk" column="userID" reftable="jiveUser" deferred="true"/>
+    </table>
+</schema>

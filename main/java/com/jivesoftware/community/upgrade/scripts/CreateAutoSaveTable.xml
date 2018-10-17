@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+
+<!-- Table definition for Agency EvaluationRatings Details -->
+<schema name="CreateAutoSaveTable">
+    <table name="grailAutoSaveFormDetails" description="Used to persist auto save form details">
+        <column name="id" type="bigint" nullable="false" description=""/>
+        <column name="objectType" type="bigint" nullable="false" description=""/>
+        <column name="objectID" type="bigint" nullable="false" description=""/>
+        <column name="details" type="varchar" nullable="false" size="10000" description=""/>
+        <column name="userID" type="bigint" nullable="false" description=""/>
+        <column name="isDraft" type="int" nullable="false" description="Is Draft (Boolean)"/>
+        <constraint type="foreignkey" name="grailAutoSaveDetails_user_fk" column="userID" reftable="jiveUser" deferred="true"/>
+    </table>
+</schema>

@@ -1,0 +1,1392 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+         version="3.0">
+    <display-name>Jive SBS</display-name>
+    <description>Team collaboration application by Jive Software (jivesoftware.com)</description>
+
+    <!-- Web-specific configuration for Jive SBS, loaded by Spring -->
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>
+            classpath:spring-webContext.xml
+        </param-value>
+    </context-param>
+
+    <!-- Shindig context param -->
+    <context-param>
+        <param-name>guice-modules</param-name>
+        <!-- Ensure that PluginGuiceModule is last to enable plugins to override things -->
+
+        <!-- Replace com.jivesoftware.api.core.v3.handlers.HandlerModule with
+             com.jivesoftware.community.opensocial.services.OpenSocialModule to rip out v3 -->
+
+        <param-value>
+            com.jivesoftware.community.opensocial.util.GuiceBeanProviderFactory:
+            com.jivesoftware.community.opensocial.properties.JiveShindigPropertiesModule:
+            com.jivesoftware.community.opensocial.expressions.JiveExpressionsModule:
+            com.jivesoftware.community.opensocial.gadgets.JiveDefaultGuiceModule:
+            com.jivesoftware.api.core.v3.handlers.HandlerModule:
+            com.jivesoftware.community.opensocial.util.JiveShindigModule:
+            com.jivesoftware.community.opensocial.services.OpenSocialOAuthModule:
+            org.apache.shindig.gadgets.oauth2.OAuth2Module:
+            org.apache.shindig.gadgets.oauth2.OAuth2MessageModule:
+            org.apache.shindig.gadgets.oauth2.handler.OAuth2HandlerModule:
+            org.apache.shindig.gadgets.oauth2.persistence.sample.OAuth2PersistenceModule:
+            org.apache.shindig.common.cache.ehcache.EhCacheModule:
+            com.jivesoftware.api.core.jsonrpc.CoreApiGuiceModule:
+            com.jivesoftware.api.connects.jsonrpc.ConnectsApiGuiceModule:
+            com.jivesoftware.community.app.development.jsonrpc.DevSettingsGuiceModule:
+            com.jivesoftware.community.app.rest.jsonrpc.MarketResourceGuiceModule:
+            com.jivesoftware.base.plugin.guice.PluginGuiceModule:
+            org.apache.shindig.gadgets.admin.GadgetAdminModule
+        </param-value>
+  </context-param>
+
+    <!-- Filters -->
+    <!-- Request-encoding filter should be first in chain to change char-encoding from default (ISO-8859-1)-->
+    <filter>
+        <filter-name>request-encoding</filter-name>
+        <filter-class>com.jivesoftware.community.web.filter.SetRequestCharacterEncodingFilter</filter-class>
+    </filter>
+
+    <filter>
+        <display-name>MetricsFilter</display-name>
+        <filter-name>metricsFilter</filter-name>
+        <filter-class>com.jivesoftware.community.web.filter.MetricsFilter</filter-class>
+    </filter>
+
+    <filter>
+        <display-name>SearchFilter</display-name>
+        <filter-name>searchFilter</filter-name>
+        <filter-class>com.jivesoftware.community.web.filter.SearchFilter</filter-class>
+    </filter>
+
+    <filter>
+        <display-name>DispatchContextResetFilter</display-name>
+        <filter-name>dispatchContextResetFilter</filter-name>
+        <filter-class>com.jivesoftware.community.web.filter.DispatchContextResetFilter</filter-class>
+    </filter>
+
+    <!-- Filters -->
+    <filter>
+        <display-name>ResourceRoutingFilter</display-name>
+        <filter-name>resourceRoutingFilter</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+
+    <!-- Profiling filters -->
+    <filter>
+        <display-name>RequestProfilingFilter</display-name>
+        <filter-name>profilingFilter</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+    <filter>
+        <display-name>ServerLatencyFilter</display-name>
+        <filter-name>latencyFilter</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+
+    <filter>
+        <filter-name>addXFrameOptions</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+
+    <!-- Filter to remove JSESSIONID values from being embedded in URIs. -->
+    <filter>
+        <filter-name>RemoveJsessionId</filter-name>
+        <filter-class>com.jivesoftware.community.web.filter.RemoveJsessionIdFilter</filter-class>
+    </filter>
+
+
+    <!-- Filter to add a header the compact P3P policy. -->
+    <filter>
+        <filter-name>CompactP3PPolicyFilter</filter-name>
+        <filter-class>com.jivesoftware.community.web.filter.P3PCompactPolicyFilter</filter-class>
+    </filter>
+
+
+    <!--
+        Spring Security Security filter. Passes incoming requests through the Spring Security AAA infrastructure.
+    -->
+    <filter>
+        <display-name>Spring Security HTTP Request Security Filter</display-name>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+    <filter>
+        <filter-name>RobotDetectorFilter</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+        <init-param>
+            <param-name>targetBeanName</param-name>
+            <param-value>robotDetectorFilter</param-value>
+        </init-param>
+    </filter>
+    <filter>
+        <filter-name>ApplicationStateFilter</filter-name>
+        <filter-class>com.jivesoftware.community.web.filter.ApplicationStateFilter</filter-class>
+    </filter>
+
+    <!-- Migration filter
+        This filter (and its mappings) is disabled by default. If you have migrated from Jive Forums 5.5,
+        Jive Integrated Server or Jive Knowledge Base 1.7.x it is recommended to enable this filter. This will
+        filter will automatically translate calls for thread.jspa message.jspa, messageview.jspa
+        entry.jspa, forum.jspa, category.jspa and kbcategory.jspa pages to Jive SBS urls such as /thread/xyz,
+        /message/xyz, etc
+    -->
+    <filter>
+        <filter-name>migration</filter-name>
+        <filter-class>com.jivesoftware.community.web.filter.MigrationFilter</filter-class>
+    </filter>
+    <filter>
+        <filter-name>response-encoding</filter-name>
+        <filter-class>com.jivesoftware.community.web.filter.SetResponseCharacterEncodingFilter</filter-class>
+    </filter>
+    <filter>
+        <filter-name>dwrFilter</filter-name>
+        <filter-class>org.directwebremoting.servlet.DwrWebContextFilter</filter-class>
+    </filter>
+    <filter>
+        <display-name>RequestBasedLocalCache</display-name>
+        <filter-name>requestBasedLocalCache</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+    <filter>
+        <display-name>I18nResourceRequestHelper</display-name>
+        <filter-name>i18nResourceRequestHelper</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+    <filter>
+        <display-name>SoySubTemplateUpdateHelper</display-name>
+        <filter-name>soySubTemplateUpdateHelper</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+    <filter>
+        <filter-name>struts2-prepare</filter-name>
+        <filter-class>com.jivesoftware.community.web.struts.JiveStrutsPrepareFilter</filter-class>
+    </filter>
+    <filter>
+        <filter-name>sitemeshFilter</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+        <init-param>
+            <param-name>targetFilterLifecycle</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </filter>
+    <filter>
+        <filter-name>strutsFilter</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+        <init-param>
+            <param-name>targetFilterLifecycle</param-name>
+            <param-value>true</param-value>
+        </init-param>
+        <!--  <filter-class>com.jivesoftware.community.web.struts.JiveFilterDispatcher</filter-class> -->
+    </filter>
+    <filter>
+        <filter-name>plugins</filter-name>
+        <filter-class>com.jivesoftware.base.plugin.PluginFilter</filter-class>
+    </filter>
+
+    <filter>
+        <filter-name>oauth2Filter</filter-name>
+        <filter-class>com.jivesoftware.community.web.filter.OAuth2Filter</filter-class>
+    </filter>
+
+    <!--
+        Guest page caching filter. This filter will enable caching of guest views for pages.
+        Disabled by default, set the jive property 'jive.pageCache.enabled' to 'true' to enable.
+        To change the expiry time set the jive property 'jive.pageCache.expiration.seconds'
+        (30 by default)
+    -->
+    <filter>
+        <filter-name>page-cache</filter-name>
+        <filter-class>com.jivesoftware.community.web.filter.JiveCacheFilter</filter-class>
+    </filter>
+
+    <filter>
+        <filter-name>forceXHRFilter</filter-name>
+        <filter-class>com.jivesoftware.community.web.filter.RequireXHRFilter</filter-class>
+    </filter>
+    <filter>
+        <filter-name>dynamicResponseHeader</filter-name>
+        <filter-class>com.jivesoftware.community.web.filter.JiveDynamicResponseHeaderFilter</filter-class>
+    </filter>
+
+    <filter>
+        <display-name>UserResponseHeaderFilter</display-name>
+        <filter-name>userResponseHeaderFilter</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+
+    <filter>
+        <filter-name>requestContextFilter</filter-name>
+        <filter-class>org.springframework.web.filter.RequestContextFilter</filter-class>
+    </filter>
+
+    <!-- Web service application state filters -->
+
+    <filter>
+        <filter-name>connectsApplicationStateFilter</filter-name>
+        <filter-class>com.jivesoftware.api.connects.service.filter.ConnectsApplicationStateFilter</filter-class>
+    </filter>
+
+    <filter>
+        <filter-name>coreAPIApplicationStateFilter</filter-name>
+        <filter-class>com.jivesoftware.api.core.v2.filters.CoreAPIApplicationStateFilter</filter-class>
+    </filter>
+
+    <filter>
+        <display-name>Core API Spring Security HTTP Request Security Filter</display-name>
+        <filter-name>coreApiSecurityFilterChain</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+
+    <filter>
+        <filter-name>shindigApplicationStateFilter</filter-name>
+        <filter-class>com.jivesoftware.community.opensocial.filter.ShindigApplicationStateFilter</filter-class>
+    </filter>
+
+    <!-- Shindig filters -->
+    <filter>
+        <filter-name>authFilter</filter-name>
+        <filter-class>org.apache.shindig.auth.AuthenticationServletFilter</filter-class>
+    </filter>
+
+    <filter>
+        <filter-name>appSubdomainFilter</filter-name>
+        <filter-class>com.jivesoftware.community.opensocial.filter.AppSubdomainFilter</filter-class>
+    </filter>
+
+    <filter>
+        <filter-name>hostFilter</filter-name>
+        <filter-class>org.apache.shindig.common.servlet.HostFilter</filter-class>
+    </filter>
+
+    <filter>
+        <filter-name>noCacheDevModeFilter</filter-name>
+        <filter-class>com.jivesoftware.community.web.filter.NoCacheDevModeFilter</filter-class>
+    </filter>
+
+    <filter>
+        <filter-name>xhrTokenFilter</filter-name>
+        <filter-class>com.jivesoftware.community.web.security.XHRTokenFilter</filter-class>
+    </filter>
+
+    <filter>
+        <filter-name>SeoNoIndexFilter</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+        <init-param>
+            <param-name>targetBeanName</param-name>
+            <param-value>seoNoIndexFilter</param-value>
+        </init-param>
+    </filter>
+
+    <filter>
+        <filter-name>securityToken2Filter</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+
+    <filter>
+        <filter-name>adminConsoleDefaultLocaleFilter</filter-name>
+        <filter-class>com.jivesoftware.community.web.filter.AdminConsoleDefaultLocaleFilter</filter-class>
+    </filter>
+
+
+    <filter>
+        <display-name>WebSocketAuthenticationFilter</display-name>
+        <filter-name>webSocketAuthenticationFilter</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+
+
+    <!-- Cleanup filters to safeguard against leaking data from request to request.  These
+         should be first in the chain. -->
+    <!-- Request-encoding filter should be first in chain to change char-encoding from default (ISO-8859-1)-->
+    <filter-mapping>
+        <filter-name>dispatchContextResetFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>request-encoding</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>metricsFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>searchFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <!-- Prefilter Shindig authFilter requests so that security tokens show the app subdomain (if any) -->
+    <!-- MUST be ahead of all "authFilter" mappings in the filter chain -->
+    <filter-mapping>
+        <filter-name>appSubdomainFilter</filter-name>
+        <url-pattern>/social/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>appSubdomainFilter</filter-name>
+        <url-pattern>/gadgets/ifr</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>appSubdomainFilter</filter-name>
+        <url-pattern>/gadgets/makeRequest</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>appSubdomainFilter</filter-name>
+        <url-pattern>/gadgets/api/rpc/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>appSubdomainFilter</filter-name>
+        <url-pattern>/gadgets/api/rest/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>xhrTokenFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>SeoNoIndexFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>adminConsoleDefaultLocaleFilter</filter-name>
+        <url-pattern>/admin/*</url-pattern>
+    </filter-mapping>
+
+    <!-- Shindig filter mappings -->
+    <filter-mapping>
+        <filter-name>authFilter</filter-name>
+        <url-pattern>/social/*</url-pattern>
+        <url-pattern>/gadgets/ifr</url-pattern>
+        <url-pattern>/gadgets/makeRequest</url-pattern>
+        <url-pattern>/gadgets/api/rpc/*</url-pattern>
+        <url-pattern>/gadgets/api/rest/*</url-pattern>
+        <url-pattern>/gadgets/proxy/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>securityToken2Filter</filter-name>
+        <url-pattern>/social/*</url-pattern>
+        <url-pattern>/gadgets/ifr</url-pattern>
+        <url-pattern>/gadgets/makeRequest</url-pattern>
+        <url-pattern>/gadgets/api/rpc/*</url-pattern>
+        <url-pattern>/gadgets/api/rest/*</url-pattern>
+        <url-pattern>/gadgets/proxy/*</url-pattern>
+        <url-pattern>/gadgets/concat</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>hostFilter</filter-name>
+        <url-pattern>/gadgets/ifr</url-pattern>
+        <url-pattern>/gadgets/js/*</url-pattern>
+        <url-pattern>/gadgets/proxy/*</url-pattern>
+        <url-pattern>/gadgets/concat</url-pattern>
+        <url-pattern>/gadgets/makeRequest</url-pattern>
+        <url-pattern>/gadgets/api/rpc/*</url-pattern>
+        <url-pattern>/gadgets/api/rest/*</url-pattern>
+        <url-pattern>/social/rest/*</url-pattern>
+        <url-pattern>/social/rpc/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>oauth2Filter</filter-name>
+        <url-pattern>/integration/tiles/*</url-pattern>
+    </filter-mapping>
+
+    <!-- Filter mappings
+         Note: the ordering of these filters is important.
+    -->
+    <filter-mapping>
+        <filter-name>latencyFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>resourceRoutingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>plugins</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>addXFrameOptions</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <!-- Web service application state filters MUST preceed the standard ApplicationStateFilter in order to override default behavior -->
+    <filter-mapping>
+        <filter-name>connectsApplicationStateFilter</filter-name>
+        <url-pattern>/api/connects/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>coreAPIApplicationStateFilter</filter-name>
+        <url-pattern>/api/core/*</url-pattern>
+        <url-pattern>/api/jivelinks/*</url-pattern>
+        <url-pattern>/api/version</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>coreApiSecurityFilterChain</filter-name>
+        <url-pattern>/api/core/*</url-pattern>
+        <url-pattern>/api/jivelinks/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>shindigApplicationStateFilter</filter-name>
+        <url-pattern>/gadgets/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>shindigApplicationStateFilter</filter-name>
+        <url-pattern>/social/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>ApplicationStateFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>RemoveJsessionId</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>CompactP3PPolicyFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>profilingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>userResponseHeaderFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>requestContextFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>RobotDetectorFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <!-- Migration filter -->
+    <filter-mapping>
+        <filter-name>migration</filter-name>
+        <url-pattern>/forum.jspa</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>migration</filter-name>
+        <url-pattern>/thread.jspa</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>migration</filter-name>
+        <url-pattern>/message.jspa</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>migration</filter-name>
+        <url-pattern>/messageview.jspa</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>migration</filter-name>
+        <url-pattern>/entry.jspa</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>migration</filter-name>
+        <url-pattern>/category.jspa</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>migration</filter-name>
+        <url-pattern>/kbcategory.jspa</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>migration</filter-name>
+        <url-pattern>/rss/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>dwrFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>requestBasedLocalCache</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>i18nResourceRequestHelper</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>soySubTemplateUpdateHelper</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <!-- Page Caching Filter -->
+    <filter-mapping>
+        <filter-name>page-cache</filter-name>
+        <url-pattern>/index.jspa</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>page-cache</filter-name>
+        <url-pattern>/community/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>page-cache</filter-name>
+        <url-pattern>/thread/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>page-cache</filter-name>
+        <url-pattern>/message/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>page-cache</filter-name>
+        <url-pattern>/docs/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>page-cache</filter-name>
+        <url-pattern>/blogs/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>page-cache</filter-name>
+        <url-pattern>/people/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>page-cache</filter-name>
+        <url-pattern>/projects/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>page-cache</filter-name>
+        <url-pattern>/search/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>page-cache</filter-name>
+        <url-pattern>/tags/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>page-cache</filter-name>
+        <url-pattern>/groups/*</url-pattern>
+    </filter-mapping>
+
+    <!-- Sitemesh for page decoration and webwork-->
+    <filter-mapping>
+        <filter-name>struts2-prepare</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>ERROR</dispatcher>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>sitemeshFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>forceXHRFilter</filter-name>
+        <url-pattern>*.jspa</url-pattern>
+    </filter-mapping>
+    <!-- The SetResponseCharacterEncoding filter must come after the sitemesh filter and before
+         any other filters.
+    -->
+    <filter-mapping>
+        <filter-name>response-encoding</filter-name>
+        <url-pattern>*.jsp</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>ERROR</dispatcher>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>response-encoding</filter-name>
+        <url-pattern>*.jspa</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>response-encoding</filter-name>
+        <url-pattern>/community/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>response-encoding</filter-name>
+        <url-pattern>/thread/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>response-encoding</filter-name>
+        <url-pattern>/message/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>response-encoding</filter-name>
+        <url-pattern>/docs/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>response-encoding</filter-name>
+        <url-pattern>/blogs/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>response-encoding</filter-name>
+        <url-pattern>/people/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>response-encoding</filter-name>
+        <url-pattern>/projects/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>response-encoding</filter-name>
+        <url-pattern>/search/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>response-encoding</filter-name>
+        <url-pattern>/tags/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>response-encoding</filter-name>
+        <url-pattern>/groups/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>oauth2Filter</filter-name>
+        <url-pattern>/oauth2/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>ERROR</dispatcher>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>strutsFilter</filter-name>
+        <url-pattern>/thirdparty/analytics</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>ERROR</dispatcher>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>strutsFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>ERROR</dispatcher>
+    </filter-mapping>
+
+
+    <filter-mapping>
+        <filter-name>noCacheDevModeFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>webSocketAuthenticationFilter</filter-name>
+        <url-pattern>/socket</url-pattern>
+    </filter-mapping>
+
+    <!-- Listeners -->
+    <listener>
+        <listener-class>com.jivesoftware.community.web.JiveApplicationContextLoaderListener</listener-class>
+    </listener>
+    <listener>
+        <listener-class>com.jivesoftware.community.web.ContinuationListener</listener-class>
+    </listener>
+    <listener>
+        <listener-class>com.jivesoftware.community.cache.RequestBasedLocalCache</listener-class>
+    </listener>
+    <listener>
+        <listener-class>com.jivesoftware.community.web.soy.i18n.bundles.BundleRequestHelper</listener-class>
+    </listener>
+    <listener>
+        <listener-class>com.jivesoftware.community.web.soy.SoySubTemplateUpdateHelper</listener-class>
+    </listener>
+    <listener>
+        <listener-class>org.springframework.security.web.session.HttpSessionEventPublisher</listener-class>
+    </listener>
+
+    <!-- Session event listeners -->
+    <listener>
+        <listener-class>com.jivesoftware.community.aaa.AuthSessionListener</listener-class>
+    </listener>
+
+    <listener>
+        <listener-class>com.jivesoftware.community.aaa.JiveHttpSessionAttributeListener</listener-class>
+    </listener>
+
+    <!-- Shindig listener -->
+    <listener>
+        <listener-class>org.apache.shindig.common.servlet.GuiceServletContextListener</listener-class>
+    </listener>
+
+    <!-- Servlets -->
+    <servlet>
+        <servlet-name>JiveServlet</servlet-name>
+        <servlet-class>com.jivesoftware.community.util.JiveServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+	
+	<!--Grail File Download Servlet -->
+	<servlet>
+        <servlet-name>GrailFileDownloadServlet</servlet-name>
+        <servlet-class>com.grail.util.GrailFileDownloadServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+	
+    <servlet>
+        <servlet-name>ThemeServlet</servlet-name>
+        <servlet-class>com.jivesoftware.community.theme.ThemeServlet</servlet-class>
+        <load-on-startup>2</load-on-startup>
+    </servlet>
+
+<!--	
+	<servlet>
+        <servlet-name>CartItemCount</servlet-name>
+        <servlet-class>com.grail.cart.util.CartServlet</servlet-class>
+        <load-on-startup>2</load-on-startup>
+    </servlet>
+	-->
+    <servlet>
+        <description>Direct Web Remoter Servlet</description>
+        <display-name>DWR Servlet</display-name>
+        <servlet-name>dwr-invoker</servlet-name>
+        <servlet-class>com.jivesoftware.community.dwr.JiveDwrSpringServlet</servlet-class>
+        <init-param>
+            <param-name>logLevel</param-name>
+            <param-value>ERROR</param-value>
+        </init-param>
+        <init-param>
+            <description>We don't want DWR pulling our JSESSIONID cookie incase its httpOnly. Using auth header instead.</description>
+            <param-name>crossDomainSessionSecurity</param-name>
+            <param-value>false</param-value>
+        </init-param>
+        <init-param>
+            <param-name>allowScriptTagRemoting</param-name>
+            <param-value>true</param-value>
+        </init-param>
+        <init-param>
+            <param-name>pollAndCometEnabled</param-name>
+            <param-value>true</param-value>
+        </init-param>
+        <init-param>
+            <param-name>publishContainerAs</param-name>
+            <param-value>dwr-container</param-value>
+        </init-param>
+        <init-param>
+            <description>Do we startup in debug mode?</description>
+            <param-name>debug</param-name>
+            <param-value>true</param-value>
+        </init-param>
+        <load-on-startup>5</load-on-startup>
+    </servlet>
+    <servlet>
+        <servlet-name>ResourceLoaderServlet</servlet-name>
+        <servlet-class>com.jivesoftware.community.web.servlet.ResourceLoaderServlet</servlet-class>
+        <!--
+           JS script alias definitions.
+
+           In the form of "script.[alias name]"
+        -->
+        <init-param>
+            <param-name>script.messagepost</param-name>
+            <param-value>
+                <!--utils|hilite|post|prototype|mctabs|uploadmonitor|autosave|spellcheckbase|spellchecklite|posteditor|effects|controls|domLib|domTT|ua|ftiens4|jive|jiveimage|fancyzoomhtml|fancyzoom-->
+				utils|hilite|post|prototype|mctabs|multifile|uploadmonitor|autosave|guieditor|spellcheckbase|spellchecklite|posteditor|scriptaculous|effects|controls|domLib|domTT|ua|ftiens4|jive|fastinit|jiveimage|fancyzoomhtml|fancyzoom
+            </param-value>
+        </init-param>
+        <init-param>
+            <param-name>script.docupload</param-name>
+            <param-value>
+                <!--utils|hilite|post|prototype|uploadmonitor|effects|controls|domLib|domTT|ua|ftiens4|jive|fancyzoomhtml|fancyzoom-->
+				utils|hilite|post|prototype|uploadmonitor|scriptaculous|effects|controls|domLib|domTT|ua|ftiens4|jive|fancyzoomhtml|fancyzoom
+            </param-value>
+        </init-param>
+        <init-param>
+            <param-name>script.global</param-name>
+            <param-value>
+                <!--utils|hilite|prototype|effects|controls|domLib|domTT|ua|ftiens4|jive|jiveimage|fancyzoomhtml|fancyzoom-->
+				utils|hilite|prototype|scriptaculous|effects|controls|domLib|domTT|ua|ftiens4|jive|jiveimage|fancyzoomhtml|fancyzoom
+            </param-value>
+        </init-param>
+        <init-param>
+            <param-name>script.jive</param-name>
+            <param-value>/scripts/jive.js</param-value>
+        </init-param>
+        <init-param>
+            <param-name>script.utils</param-name>
+            <param-value>/scripts/utils.js</param-value>
+        </init-param>
+        <init-param>
+            <param-name>script.hilite</param-name>
+            <param-value>/scripts/row-hilite.js</param-value>
+        </init-param>
+        <init-param>
+            <param-name>script.post</param-name>
+            <param-value>/scripts/post.js</param-value>
+        </init-param>
+        <init-param>
+            <param-name>script.prototype</param-name>
+            <param-value>/scripts/prototype/prototype.js</param-value>
+        </init-param>
+        <init-param>
+            <param-name>script.mctabs</param-name>
+            <param-value>/scripts/tiny_mce/utils/mctabs.js</param-value>
+        </init-param>
+		<init-param>
+            <param-name>script.multifile</param-name>
+            <param-value>/scripts/multifile.js</param-value>
+        </init-param>
+        <init-param>
+            <param-name>script.uploadmonitor</param-name>
+            <param-value>/scripts/uploadprogressmonitor.js</param-value>
+        </init-param>
+		<init-param>
+            <param-name>script.autosave</param-name>
+            <param-value>/scripts/autosave.js</param-value>
+        </init-param>
+        <init-param>
+            <param-name>script.guieditor</param-name>
+            <param-value>/scripts/guieditor.js</param-value>
+        </init-param>
+        <init-param>
+            <param-name>script.spellcheckbase</param-name>
+            <param-value>/scripts/spellchecker/spellcheckerbase.js</param-value>
+        </init-param>
+        <init-param>
+            <param-name>script.spellchecklite</param-name>
+            <param-value>/scripts/spellchecker/litespellchecker.js</param-value>
+        </init-param>
+        <init-param>
+            <param-name>script.posteditor</param-name>
+            <param-value>/scripts/posteditor.js</param-value>
+        </init-param>
+		<init-param>
+            <param-name>script.scriptaculous</param-name>
+            <param-value>/scripts/scriptaculous/scriptaculous.js</param-value>
+        </init-param>
+        <init-param>
+            <param-name>script.effects</param-name>
+            <param-value>/scripts/scriptaculous/effects.js</param-value>
+        </init-param>
+        <init-param>
+            <param-name>script.controls</param-name>
+            <param-value>/scripts/scriptaculous/controls.js</param-value>
+        </init-param>
+        <init-param>
+            <param-name>script.domLib</param-name>
+            <param-value>/scripts/domLib.js</param-value>
+        </init-param>
+        <init-param>
+            <param-name>script.domTT</param-name>
+            <param-value>/scripts/domTT.js</param-value>
+        </init-param>
+        <init-param>
+            <param-name>script.ua</param-name>
+            <param-value>/scripts/ua.js</param-value>
+        </init-param>
+        <init-param>
+            <param-name>script.ftiens4</param-name>
+            <param-value>/scripts/ftiens4.js</param-value>
+        </init-param>
+        <init-param>
+            <param-name>script.jiveimage</param-name>
+            <param-value>/scripts/jiveimage.js</param-value>
+        </init-param>
+        <init-param>
+            <param-name>script.lightbox</param-name>
+            <param-value>/scripts/lightbox.js</param-value>
+        </init-param>
+
+        <init-param>
+            <param-name>script.fancyzoomhtml</param-name>
+            <param-value>/scripts/fancyzoom/js/FancyZoomHTML.js</param-value>
+        </init-param>
+        <init-param>
+            <param-name>script.fancyzoom</param-name>
+            <param-value>/scripts/fancyzoom/js/FancyZoom.js</param-value>
+        </init-param>
+        <init-param>
+            <param-name>script.tablekit</param-name>
+            <param-value>/scripts/tablekit/tablekit.js</param-value>
+        </init-param>
+
+        <load-on-startup>3</load-on-startup>
+    </servlet>
+    <servlet>
+        <servlet-name>ImageConfirmation</servlet-name>
+        <servlet-class>com.jivesoftware.community.web.servlet.ImageConfirmationServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <display-name>CXF Servlet</display-name>
+        <servlet-name>CXFServlet</servlet-name>
+        <servlet-class>org.apache.cxf.transport.servlet.CXFServlet</servlet-class>
+        <load-on-startup>6</load-on-startup>
+    </servlet>
+
+    <servlet>
+        <display-name>CXF Servlet</display-name>
+        <servlet-name>APICXFServlet</servlet-name>
+        <servlet-class>com.jivesoftware.base.cxf.CXFServletWithCustomBus</servlet-class>
+        <init-param>
+            <param-name>bus</param-name>
+            <param-value>apiCxfBus</param-value>
+        </init-param>
+        <load-on-startup>7</load-on-startup>
+    </servlet>
+
+    <servlet>
+        <!-- This servlet doesn't seem to be used -->
+        <display-name>CXF Servlet</display-name>
+        <servlet-name>RPCCXFServlet</servlet-name>
+        <servlet-class>com.jivesoftware.base.cxf.CXFServletWithCustomBus</servlet-class>
+        <init-param>
+            <param-name>bus</param-name>
+            <param-value>rpcCxfBus</param-value>
+        </init-param>
+        <load-on-startup>8</load-on-startup>
+    </servlet>
+
+    <servlet>
+        <servlet-name>CEServlet</servlet-name>
+        <servlet-class>com.jivesoftware.community.web.servlet.CommunityEverywhereServlet</servlet-class>
+    </servlet>
+
+    <!-- used for jsp taglibs in freemarker files -->
+    <servlet>
+        <servlet-name>JspSupportServlet</servlet-name>
+        <servlet-class>org.apache.struts2.views.JspSupportServlet</servlet-class>
+        <load-on-startup>4</load-on-startup>
+    </servlet>
+
+    <servlet>
+        <servlet-name>pageCounter</servlet-name>
+        <servlet-class>com.jivesoftware.community.web.servlet.PageCounterServlet</servlet-class>
+    </servlet>
+
+    <!-- Shindig servlets -->
+
+    <!-- OAuth2 servlet -->
+    <servlet>
+        <servlet-name>OAuth2Servlet</servlet-name>
+        <servlet-class>com.jivesoftware.community.oauth2.OAuth2Servlet</servlet-class>
+    </servlet>
+
+    <!-- Render a Gadget -->
+    <servlet>
+        <servlet-name>xml-to-html</servlet-name>
+        <servlet-class>
+            com.jivesoftware.community.opensocial.gadgets.servlet.JiveGadgetRenderingServlet
+        </servlet-class>
+    </servlet>
+
+    <!-- Proxy -->
+    <servlet>
+        <servlet-name>proxy</servlet-name>
+        <servlet-class>
+            com.jivesoftware.community.opensocial.gadgets.servlet.JiveProxyServlet
+        </servlet-class>
+    </servlet>
+
+    <!-- Proxy -->
+    <servlet>
+        <servlet-name>jiveOAuth2Callback</servlet-name>
+        <servlet-class>
+            com.jivesoftware.community.opensocial.gadgets.servlet.JiveOAuth2CallbackServlet
+        </servlet-class>
+    </servlet>
+
+    <!-- makeRequest -->
+    <servlet>
+        <servlet-name>makeRequest</servlet-name>
+        <servlet-class>
+            org.apache.shindig.gadgets.servlet.MakeRequestServlet
+        </servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>concat</servlet-name>
+        <servlet-class>
+            com.jivesoftware.community.opensocial.gadgets.servlet.JiveConcatProxyServlet
+        </servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>concatresources</servlet-name>
+        <servlet-class>
+            com.jivesoftware.community.opensocial.ext.ConcatResourcesServlet
+        </servlet-class>
+    </servlet>
+
+    <!-- OAuth callback -->
+    <servlet>
+        <servlet-name>oauthCallback</servlet-name>
+        <servlet-class>
+            org.apache.shindig.gadgets.servlet.OAuthCallbackServlet
+        </servlet-class>
+    </servlet>
+
+    <!-- OAuth callback -->
+    <servlet>
+        <servlet-name>oauth2Callback</servlet-name>
+        <servlet-class>
+            org.apache.shindig.gadgets.servlet.OAuth2CallbackServlet
+        </servlet-class>
+    </servlet>
+
+    <!-- Metadata RPC -->
+    <servlet>
+        <servlet-name>metadata</servlet-name>
+        <servlet-class>
+            org.apache.shindig.gadgets.servlet.RpcServlet
+        </servlet-class>
+    </servlet>
+
+    <!-- RPC Relay -->
+    <servlet>
+        <servlet-name>ifpcrelay</servlet-name>
+        <servlet-class>
+            com.jivesoftware.community.opensocial.ext.JiveRpcRelayServlet
+        </servlet-class>
+    </servlet>
+
+    <!-- javascript serving -->
+    <servlet>
+        <servlet-name>js</servlet-name>
+        <servlet-class>org.apache.shindig.gadgets.servlet.JsServlet</servlet-class>
+    </servlet>
+
+    <!-- Serve social REST api -->
+    <servlet>
+        <servlet-name>socialRestapiServlet</servlet-name>
+        <servlet-class>
+            com.jivesoftware.community.opensocial.ext.JiveDataServiceServlet
+        </servlet-class>
+        <init-param>
+            <param-name>handlers</param-name>
+            <param-value>org.apache.shindig.handlers</param-value>
+        </init-param>
+    </servlet>
+
+    <!-- Serve social RPC api -->
+    <servlet>
+        <servlet-name>socialJsonRpcServlet</servlet-name>
+        <!--org.apache.shindig.protocol.JsonRpcServlet-->
+        <servlet-class>
+            com.jivesoftware.community.opensocial.ext.JiveJsonRpcServlet
+        </servlet-class>
+        <init-param>
+            <param-name>handlers</param-name>
+            <param-value>org.apache.shindig.handlers</param-value>
+        </init-param>
+    </servlet>
+
+    <!-- Serve gadgets RPC api -->
+    <servlet>
+        <servlet-name>gadgetsJsonRpcServlet</servlet-name>
+        <servlet-class>
+            org.apache.shindig.protocol.JsonRpcServlet
+        </servlet-class>
+        <init-param>
+            <param-name>handlers</param-name>
+            <param-value>org.apache.shindig.handlers</param-value>
+        </init-param>
+    </servlet>
+
+    <!-- Serve gadgets REST api -->
+    <servlet>
+        <servlet-name>gadgetsRestapiServlet</servlet-name>
+        <servlet-class>
+            com.jivesoftware.community.opensocial.ext.JiveDataServiceServlet
+        </servlet-class>
+        <init-param>
+            <param-name>handlers</param-name>
+            <param-value>org.apache.shindig.handlers</param-value>
+        </init-param>
+    </servlet>
+
+    <!-- temporary for titan, migrate existing tile instances to use Jive's own auth tokens -->
+    <servlet>
+        <servlet-name>TileInstanceUpgrader</servlet-name>
+        <servlet-class>com.jivesoftware.community.integration.upgrade.service.TileMigrationServlet</servlet-class>
+    </servlet>
+
+
+    <!-- uncomment for proxool
+    <servlet>
+        <servlet-name>ProxoolStatistics</servlet-name>
+        <servlet-class>org.logicalcobwebs.proxool.admin.servlet.AdminServlet</servlet-class>
+    </servlet>
+    -->
+
+    <servlet>
+        <description>RealtimeServlet</description>
+        <servlet-name>realtimeServlet</servlet-name>
+        <servlet-class>org.springframework.web.context.support.HttpRequestHandlerServlet</servlet-class>
+
+        <async-supported>true</async-supported>
+    </servlet>
+
+    <!--@@JSPC-SERVLETS@@-->
+
+    <!-- Servlet mappings -->
+    <servlet-mapping>
+        <servlet-name>JiveServlet</servlet-name>
+        <url-pattern>/servlet/JiveServlet/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>JiveServlet</servlet-name>
+        <url-pattern>/admin/servlet/*</url-pattern>
+    </servlet-mapping>
+	
+	<servlet-mapping>
+        <servlet-name>GrailFileDownloadServlet</servlet-name>
+        <url-pattern>/file/download/*</url-pattern>
+    </servlet-mapping>
+	<!--
+	<servlet-mapping>
+		<servlet-name>CartItemCount</servlet-name>
+		<url-pattern>/cart/cartItemCount</url-pattern>
+	</servlet-mapping>
+-->
+    <servlet-mapping>
+        <servlet-name>GrailFileDownloadServlet</servlet-name>
+        <url-pattern>/oracledocuments/download/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>ThemeServlet</servlet-name>
+        <url-pattern>/themes/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ResourceLoaderServlet</servlet-name>
+        <url-pattern>/resources/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ResourceLoaderServlet</servlet-name>
+        <url-pattern>/plugins/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>dwr-invoker</servlet-name>
+        <url-pattern>/dwr/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ImageConfirmation</servlet-name>
+        <url-pattern>/confirmation/imageconfirmationservlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>RPCCXFServlet</servlet-name>
+        <url-pattern>/rpc/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>CXFServlet</servlet-name>
+        <url-pattern>/__services/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>APICXFServlet</servlet-name>
+        <url-pattern>/api/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>CEServlet</servlet-name>
+        <url-pattern>/everywhere/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>pageCounter</servlet-name>
+        <url-pattern>/beacon/*</url-pattern>
+    </servlet-mapping>
+
+    <!-- Shindig servlet mappings -->
+    <servlet-mapping>
+        <servlet-name>OAuth2Servlet</servlet-name>
+        <url-pattern>/internalOAuth2/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>js</servlet-name>
+        <url-pattern>/gadgets/js/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>proxy</servlet-name>
+        <url-pattern>/gadgets/proxy/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>jiveOAuth2Callback</servlet-name>
+        <url-pattern>/gadgets/jiveOAuth2Callback/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>makeRequest</servlet-name>
+        <url-pattern>/gadgets/makeRequest</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>gadgetsJsonRpcServlet</servlet-name>
+        <url-pattern>/gadgets/api/rpc/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>gadgetsRestapiServlet</servlet-name>
+        <url-pattern>/gadgets/api/rest/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>concat</servlet-name>
+        <url-pattern>/gadgets/concat</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>concatresources</servlet-name>
+        <url-pattern>/gadgets/concatresources</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>oauthCallback</servlet-name>
+        <url-pattern>/gadgets/oauthcallback</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>oauth2Callback</servlet-name>
+        <url-pattern>/gadgets/oauth2callback</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>xml-to-html</servlet-name>
+        <url-pattern>/gadgets/ifr</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>metadata</servlet-name>
+        <url-pattern>/gadgets/metadata</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>ifpcrelay</servlet-name>
+        <url-pattern>/gadgets/ifpc.relay.html</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>ifpcrelay</servlet-name>
+        <url-pattern>/gadgets/xpc.swf</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>socialRestapiServlet</servlet-name>
+        <url-pattern>/social/rest/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>socialJsonRpcServlet</servlet-name>
+        <url-pattern>/social/rpc/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>realtimeServlet</servlet-name>
+        <url-pattern>/socket/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>TileInstanceUpgrader</servlet-name>
+        <url-pattern>/integration/tiles/migration</url-pattern>
+    </servlet-mapping>
+
+
+    <!-- uncomment for proxool
+    <servlet-mapping>
+        <servlet-name>ProxoolStatistics</servlet-name>
+        <url-pattern>/admin/proxool</url-pattern>
+    </servlet-mapping>
+    -->
+
+    <!--
+        Set the session timeout for the webapp to 60 minutes. If you would like to
+        configure the timeout through  your application server comment out this section.
+    -->
+    <session-config>
+        <session-timeout>60</session-timeout>
+    </session-config>
+
+    <!-- JIVE-12122 - deny direct access to .jspf files -->
+    <security-constraint>
+        <display-name>excluded</display-name>
+        <web-resource-collection>
+            <web-resource-name>No Access</web-resource-name>
+            <url-pattern>*.jspf</url-pattern>
+        </web-resource-collection>
+        <auth-constraint />
+        <user-data-constraint>
+            <transport-guarantee>NONE</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+
+    <!-- weblogic requires that these are defined -->
+    <mime-mapping>
+        <extension>css</extension>
+        <mime-type>text/css</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>js</extension>
+        <mime-type>application/x-javascript</mime-type>
+    </mime-mapping>
+
+    <!-- Welcome file list -->
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+
+    <!-- Error pages -->
+    <error-page>
+        <error-code>500</error-code>
+        <location>/500.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/404.jsp</location>
+    </error-page>
+    <error-page>
+        <exception-type>java.lang.SecurityException</exception-type>
+        <location>/securityException.jsp</location>
+    </error-page>
+    <jsp-config>
+        <!-- tag lib definitions -->
+        <taglib>
+            <taglib-uri>struts-tags</taglib-uri>
+            <taglib-location>/WEB-INF/struts-tags.tld</taglib-location>
+        </taglib>
+        <taglib>
+            <taglib-uri>jivetags</taglib-uri>
+            <taglib-location>/WEB-INF/jive.tld</taglib-location>
+        </taglib>
+        <taglib>
+            <taglib-uri>oscache</taglib-uri>
+            <taglib-location>/WEB-INF/oscache.tld</taglib-location>
+        </taglib>
+        <taglib>
+            <taglib-uri>http://www.opensymphony.com/sitemesh/decorator</taglib-uri>
+            <taglib-location>/WEB-INF/sitemesh-decorator.tld</taglib-location>
+        </taglib>
+        <taglib>
+            <taglib-uri>http://www.opensymphony.com/sitemesh/page</taglib-uri>
+            <taglib-location>/WEB-INF/sitemesh-page.tld</taglib-location>
+        </taglib>
+    </jsp-config>
+</web-app>

@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<schema name="CreatePendingActivityTable">
+    <table name="grailpendingactivities" description="">
+        <column name="id" type="bigint" nullable="false" description=""/>
+        <column name="projectid" type="bigint" nullable="false" description=""/>
+        <column name="endmarketid" type="bigint" nullable="false" description=""/>
+        <column name="ismultimarket" type="bigint" nullable="false" description=""/>
+        <column name="stage" type="bigint" nullable="false" description=""/>
+        <column name="responsibleBy" type="varchar" nullable="false" description=""/>
+        <column name="activity" type="bigint" nullable="false" description=""/>
+        <column name="activityLink" type="varchar" nullable="false" description=""/>
+        <column name="active" type="bigint" nullable="false" description=""/>
+    </table>
+</schema>

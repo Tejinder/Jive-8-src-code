@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+
+<!-- Table definition for Synchro New Requirements -->
+
+<schema name="CreateQPRSnapshotProjectTable">
+    <table name="grailQPRSnapshotProject" description="New Project QPR Snapshot Project Table">
+        <column name="snapshotId" type="bigint" nullable="false" description="Snapshot ID"/>
+        <column name="projectId" type="bigint" nullable="false" description="Project ID"/>
+        <column name="projectName" type="varchar" size="255" nullable="false" description="Project name"/>
+        <column name="budgetLocation" type="bigint" nullable="true" description="Budget Location"/>
+        <column name="methodologyDetails" type="varchar" size="5000" nullable="true" description="Methodology Details"/> 
+        <column name="isbrand" type="int" nullable="true" description="Branded/NonBranded Field"/>
+        <column name="isFreeze" type="int" nullable="true" description="Is the Project SnapShot Frozen"/>
+        
+        <column name="totalCost" type="decimal" default="0" nullable="true" description="Project Total Cost"/>
+		<column name="totalCostCurrency" type="bigint" nullable="true" description="Project Total Cost Currency"/>
+      
+        <column name="creationBy" type="bigint" nullable="false" description="Author ID who created the content"/>
+        <column name="modificationBy" type="bigint" nullable="false" description="Author who modified the content"/>
+        <column name="creationDate" type="bigint" nullable="false" description="Creation date"/>
+        <column name="modificationDate" type="bigint" nullable="false" description="Modification date"/>
+        
+        <index type="normal" name="grailQPRSnapProjec_Idx" column="snapshotId,projectId"/>
+    </table>
+
+</schema>

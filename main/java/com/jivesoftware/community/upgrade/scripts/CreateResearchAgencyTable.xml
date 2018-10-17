@@ -1,0 +1,146 @@
+<?xml version="1.0"?>
+<schema name="CreateResearchAgencyTable">
+    <table name="grailResearchAgency" description="">
+        <column name="id" type="bigint" nullable="false" description=""/>
+        <column name="name" type="varchar" size="255" nullable="false" description=""/>
+		<column name="sortOrder" type="bigint" nullable="true" description="Stores the order by which it sorts"/>
+		<column name="isActive" type="int" default="1" nullable="true" description="Property active/inactive state"/>
+        <index type="normal" name="grailResearchAgency_Idx" column="id"/>		
+    </table>
+		<sql>
+	  <![CDATA[
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (1,'CSOP',1);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (2,'IMRB',2);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (3,'IMRB International',3);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (4,'Kantar',4);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (5,'Millward Brown',5);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (6,'TNS',6);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (7,'TNS Aisa',7);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (8,'TNS Argentina',8);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (9,'TNS Cambodia',9);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (10,'TNS Canada',10);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (11,'TNS Chile',11);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (12,'TNS Gailup',12);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (13,'TNS Hoffmann',13);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (14,'TNS Indonesia',14);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (15,'TNS Infratest Germany',15);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (16,'TNS Italy',16);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (17,'TNS Korea',17);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (18,'TNS Malaysia',18);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (19,'TNS Mexico',19);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (20,'TNS NIPO',20);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (21,'TNS Poland',21);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (22,'TNS RMS',22);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (23,'TNS Russia',23);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (24,'TNS Singapore',24);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (25,'TNS Sofres',25);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (26,'TNS South Africa',26);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (27,'TNS Spain',27);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (28,'TNS Taiwan',28);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (29,'TNS UK',29);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (30,'TNS Ukraine',30);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (31,'Akkanto',31);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (32,'Colmar Brunton',32);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (33,'De Facto Marketing',33);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (34,'GfK Research Dynamics',34);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (35,'Green Zebras',35);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (36,'Information Tools Ltd',36);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (37,'Insight Pro',37);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (38,'Ipsos',38);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (39,'IRI',39);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (40,'Masmi',40);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (41,'MRB Bangladesh',41);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (42,'Nielsen',42);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (43,'Novel Research',43);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (44,'ULTEX Global Dynamics',44);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (45,'AMRB - MENA',45);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (46,'TNS (KANTAR)',46);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (47,'TNS BBSS',47);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (48,'TNS France',48);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (49,'TNS/IMRB',49);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (50,'ALMARES',50);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (51,'Aztec',51);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (52,'Barem',52);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (53,'British American Tobacco',53);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (54,'Business&Decision (Suisse) SA',54);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (55,'CCR',55);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (56,'CMR',56);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (57,'Consultores 21',57);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (58,'CPSI download',58);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (59,'Data Market C.A.',59);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (60,'Deloitte',60);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (61,'Eidos Consultores',61);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (62,'Euromonitor International',62);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (63,'Geometry',63);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (64,'GN Research',64);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (65,'Heuristica',65);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (66,'HHB & Associates',66);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (67,'IBM',67);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (68,'IM Research',68);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (69,'In Motion Research',69);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (70,'Infotools',70);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (71,'Infoview',71);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (72,'Interacciones Creativas',72);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (73,'ISRA Center Marketing Research',73);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (74,'JMR',74);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (75,'Logista',75);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (76,'Media Wave',76);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (77,'MIS Trend',77);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (78,'MSIntelligence',78);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (79,'NDN Zrt.',79);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (80,'Novak',80);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (81,'PriceWaterhouseCooper',81);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (82,'Qualitative Intelligence',82);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (83,'Quantium',83);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (84,'Roy Morgan',84);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (85,'syndicated approach (Ipsos)',85);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (86,'The Leading Edge',86);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (87,'The Link Marketing',87);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (88,'Tienda Registrada',88);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (89,'TRN',89);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (90,'Unimer',90);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (91,'AMRB LLC',91);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (92,'Kantar Japan',92);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (93,'Kantar North Africa',93);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (94,'LMRB',94);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (95,'Sirius Marketing & Social Research',95);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (96,'TNS Brasil',96);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (97,'TNS Central Asia',97);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (98,'TNS China',98);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (99,'TNS CSOP',99);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (100,'TNS Egypt',100);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (101,'TNS Global',101);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (102,'TNS Icap',102);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (103,'TNS ICAP S.A.',103);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (104,'TNS Kenya',104);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (105,'TNS Philippines',105);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (106,'TNS Polska S.A.',106);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (107,'TNS SA',107);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (108,'TNS Vietnam',108);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (109,'Advantage',109);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (110,'Ceylon Tobacco Company PLC',110);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (111,'Color Juice SRL',111);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (112,'Cunali & Moretti',112);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (113,'DIRECT CALL CENTER SRL',113);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (114,'Dynamic Search',114);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (115,'Economist Intelligence Unit',115);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (116,'Geometry Global Benelux BV',116);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (117,'IBOPE Ineligencia',117);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (118,'Imagem Pesquisa',118);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (119,'IMAS',119);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (120,'Imperial Tobacco Canada',120);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (121,'MMA',121);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (122,'Oasis Insights (Pvt.) Ltd',122);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (123,'Peter Klimaschewski',123);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (124,'Provokers',124);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (125,'R2 CONSULTING',125);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (126,'Retailplus Eastern Europe S.R.L.',126);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (127,'Schäfer',127);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (128,'Square Melon',128);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (129,'Symphoni IRI',129);
+		INSERT INTO grailResearchAgency(id, "name", sortorder) VALUES (130,'TM & PARTNER',130);
+		
+		
+		]]>
+	</sql>
+</schema>

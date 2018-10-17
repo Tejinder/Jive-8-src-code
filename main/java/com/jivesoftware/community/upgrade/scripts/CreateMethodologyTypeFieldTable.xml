@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<schema name="CreateMethodologyTypeFieldTable">
+    <table name="grailMethodologyTypeFields" description="">
+        <column name="id" type="bigint" nullable="false" description=""/>
+        <column name="name" type="varchar" size="255" nullable="false" description=""/>	
+		<column name="sortOrder" type="bigint" nullable="true" description="Stores the order by which it sorts"/>
+		<column name="isActive" type="int" default="1" nullable="true" description="Property active/inactive state"/>
+        <index type="normal" name="graildMTypeFields_Idx" column="id"/>		
+    </table>
+		<sql>
+	  <![CDATA[
+		INSERT INTO grailMethodologyTypeFields(id, "name", sortorder) VALUES (1,'Quantitative',1);
+		INSERT INTO grailMethodologyTypeFields(id, "name", sortorder) VALUES (2,'Qualitative',2);
+		INSERT INTO grailMethodologyTypeFields(id, "name", sortorder) VALUES (3,'Quant & Qual',3);
+		INSERT INTO grailMethodologyTypeFields(id, "name", sortorder) VALUES (4,'Desk Research/Advanced Analytics',4);
+		INSERT INTO grailMethodologyTypeFields(id, "name", sortorder) VALUES (5,'Neuroscience',5);
+		]]>
+	</sql>
+</schema>

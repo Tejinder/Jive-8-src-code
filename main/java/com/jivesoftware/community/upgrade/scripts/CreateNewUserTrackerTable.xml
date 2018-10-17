@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<!-- Table definition for NewUserTracker Table -->
+<schema name="CreateNewUserTrackerTable">
+    <table name="grailNewUserTracker" description="">
+        <column name="projectID" type="bigint" nullable="false" description=""/>       
+        <column name="userID" type="bigint" nullable="false" description=""/>
+        <index type="normal" name="grailNewUserTracker_Idx" column="projectID,userID"/>
+    </table>
+</schema>

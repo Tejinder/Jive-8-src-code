@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<schema name="CreateProjectCostFieldsTable">
+    <table name="grailprojectcostfields" description="">
+        <column name="id" type="bigint" nullable="false" description=""/>
+        <column name="projectId" type="bigint" nullable="false" description=""/>
+        <column name="endmarketId" type="bigint" nullable="false" description=""/>
+        <column name="ismultimarket" type="bigint" nullable="false" description=""/>
+        <column name="isAboveMarket" type="bigint" nullable="true" description=""/>
+        <column name="investmentType" type="bigint" nullable="true" description=""/>
+        <column name="spiContact" type="bigint" nullable="true" description=""/>
+        <column name="projectOwner" type="bigint" nullable="true" description=""/>
+
+        <column name="stage" type="bigint" nullable="false" description=""/>
+        <column name="projectStartDate" type="bigint" nullable="true" description=""/>
+        <column name="projectEndDate" type="bigint" nullable="true" description=""/>
+        <column name="estimatedCost" type="decimal" nullable="true" description=""/>
+        <column name="estimatedCostCurrency" type="bigint" nullable="true" description=""/>
+        <column name="latestEstimatedCost" type="decimal" nullable="true" description=""/>
+        <column name="latestEstimatedCostCurrency" type="bigint" nullable="true" description=""/>
+
+
+
+        <column name="agency1" type="bigint" nullable="true" description=""/>
+        <column name="agency1optional" type="bigint" nullable="true" description=""/>
+        <column name="agency2" type="bigint" nullable="true" description=""/>
+        <column name="agency2optional" type="bigint" nullable="true" description=""/>
+        <column name="agency3" type="bigint" nullable="true" description=""/>
+        <column name="agency3optional" type="bigint" nullable="true" description=""/>
+
+        <column name="agency1dept" type="varchar" size="255" nullable="true" description=""/>
+        <column name="agency2dept" type="varchar" size="255" nullable="true" description=""/>
+        <column name="agency3dept" type="varchar" size="255" nullable="true" description=""/>
+
+        <column name="awardedagency" type="bigint" nullable="true" description=""/>
+
+        <column name="propTotalCost" type="decimal" nullable="true" description=""/>
+        <column name="propTotalCostCurrency" type="bigint" nullable="true" description=""/>
+        <column name="propInlMgmtCost" type="decimal" nullable="true" description=""/>
+        <column name="propInlMgmtCostCurrency" type="bigint" nullable="true" description=""/>
+        <column name="propLocalMgmtCost" type="decimal" nullable="true" description=""/>
+        <column name="propLocalMgmtCostCurrency" type="bigint" nullable="true" description=""/>
+        <column name="propFieldworkCost" type="decimal" nullable="true" description=""/>
+        <column name="propFieldworkCostCurrency" type="bigint" nullable="true" description=""/>
+        <column name="propOperHubCost" type="decimal" nullable="true" description=""/>
+        <column name="propOperHubCostCurrency" type="bigint" nullable="true" description=""/>
+        <column name="propOtherCost" type="decimal" nullable="true" description=""/>
+        <column name="propOtherCostCurrency" type="bigint" nullable="true" description=""/>
+
+        <column name="psOriginalCost" type="decimal" nullable="true" description=""/>
+        <column name="psOriginalCostCurrency" type="bigint" nullable="true" description=""/>
+        <column name="psFinalCost" type="decimal" nullable="true" description=""/>
+        <column name="psFinalCostCurrency" type="bigint" nullable="true" description="" />
+        <column name="totalProjectCost" type="decimal" nullable="true" description=""/>
+        <column name="totalProjectCostCurrency" type="bigint" nullable="true" description=""/>
+        <column name="latestProjectCost" type="decimal" nullable="true" description=""/>
+        <column name="latestProjectCostCurrency" type="bigint" nullable="true" description=""/>
+        <column name="tenderingCost" type="decimal" nullable="true" description=""/>
+        <column name="tenderingCostCurrency" type="bigint" nullable="true" description=""/>
+        <column name="datacollection" type="varchar" size="255" nullable="true" description=""/>
+        <column name="capturedDateTime" type="bigint" nullable="false" description=""/>
+        <column name="projectStatus" type="bigint" nullable="false" description=""/>
+    </table>
+</schema>

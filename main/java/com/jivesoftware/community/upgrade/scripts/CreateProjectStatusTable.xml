@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+
+<!-- Table definition for Projects -->
+<schema name="CreateProjectStatusTable">
+    <table name="grailProjectStatus" description="Project Status Table">
+        <column name="projectID" type="bigint" nullable="false" description="Project ID"/>       
+		<column name="endMarketID" type="bigint" nullable="false" description="End Market ID"/>
+		<column name="status" type="bigint" nullable="false" description="Project Status"/>		
+        <index type="normal" name="grailProjectStatus_Idx" column="projectID, endMarketID"/>
+    </table>
+</schema>

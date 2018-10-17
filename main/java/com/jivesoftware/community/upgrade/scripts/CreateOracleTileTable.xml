@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+
+<!-- Table definition for OSP ORACLE New Requirements -->
+
+<schema name="CreateOracleTileTable">
+    <table name="grailOracleTile" description="New OSP ORACLE Tile Table">
+        <column name="tileId" type="bigint" nullable="false" description="Tile ID"/>
+        <column name="tileName" type="varchar" size="255" nullable="false" description="Tile name"/>
+        <column name="tileImageURL" type="varchar" size="5000" nullable="true" description="Tile Image URL"/>
+        <column name="isActive" type="int" nullable="true" description="Is the Tile Active"/>
+        <column name="creationBy" type="bigint" nullable="false" description="Author ID who created the content"/>
+        <column name="modificationBy" type="bigint" nullable="false" description="Author who modified the content"/>
+        <column name="creationDate" type="bigint" nullable="false" description="Creation date"/>
+        <column name="modificationDate" type="bigint" nullable="false" description="Modification date"/>
+        <index type="normal" name="grailOracleTile_Idx" column="tileId"/>
+    </table>
+
+</schema>

@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+
+<!-- Table definition for Projects -->
+<schema name="CreateProposalSpecsTable">
+
+    <table name="grailProjectSpecs" description="">
+        <column name="projectID" type="bigint" nullable="false" description=""/>
+        <column name="endMarketID" type="bigint" nullable="false" description=""/>
+        <column name="bizQuestion" type="varchar" size="1000" nullable="true" description=""/>
+        <column name="researchObjective" type="varchar" size="1000" nullable="true" description=""/>
+        <column name="actionStandard" type="varchar" size="1000" nullable="true" description=""/>
+        <column name="researchDesign" type="varchar" size="5000" nullable="true" description=""/>
+        <column name="sampleProfile" type="varchar" size="1000" nullable="true" description=""/>
+        <column name="stimulusMaterial" type="varchar" size="1000" nullable="true" description=""/>
+        <column name="stimulusMaterialShipped" type="varchar" size="1000" nullable="true" description=""/>
+        <column name="stimuliDate" type="bigint" nullable="true" description=""/>
+         
+        <column name="screener" type="varchar" size="1000" nullable="true" description=""/>
+        <column name="consumerCCAgreement" type="varchar" size="1000" nullable="true" description=""/>
+        <column name="questionnaire" type="varchar" size="1000" nullable="true" description=""/>
+        <column name="discussionGuide" type="varchar" size="1000" nullable="true" description=""/>
+        <column name="others" type="varchar" size="1000" nullable="true" description=""/>
+        
+        <column name="brand" type="bigint" nullable="false" description="Project Specs SPI Brand ID"/>
+        <column name="projectOwner" type="bigint" nullable="false" description="Project Specs SPI Owner ID"/>
+        <column name="spiContact" type="bigint" nullable="false" description="Project Specs SPI Contact ID"/>
+        <column name="proposedMethodology" type="bigint" nullable="true" description="Project Specs Proposed Methodology ID"/> 
+        <column name="startDate" type="bigint" nullable="false" description="Project Specs Start Date"/>
+		<column name="endDate" type="bigint" nullable="false" description="Project Specs End Date"/>		
+		<column name="methodologyType" type="bigint" nullable="false" description="Project Specs Methodology Type"/>
+		<column name="methodologyGroup" type="bigint" nullable="false" description="Project Specs Methodology Group ID"/>
+		<column name="projectDesc" type="varchar" size="2000" nullable="true" description=""/>
+		<column name="poNumber" type="varchar" size="1000" nullable="true" description=""/>
+		<column name="status" type="int" nullable="false" description="Status of Project Specs"/>
+		
+		<column name="isScreenerCCApproved" type="int" nullable="true" description=""/>
+		<column name="isQDGApproved" type="int" nullable="true" description=""/>
+		<column name="isApproved" type="int" nullable="true" description=""/>
+		<column name="screenerCCApprovedDate" type="bigint" nullable="true" description=""/>
+		<column name="qdgApprovedDate" type="bigint" nullable="true" description=""/>
+		<column name="approvedDate" type="bigint" nullable="true" description=""/>
+		<column name="screenerCCApprover" type="bigint" nullable="true" description=""/>
+		<column name="approver" type="bigint" nullable="true" description=""/>
+		<column name="qdgApprover" type="bigint" nullable="true" description=""/>
+		<column name="isSendForApproval" type="int" nullable="true" description=""/>
+		 <column name="isReqClariModification" type="int" nullable="true" description="Is the Project Specs requested for clarification"/>
+		
+		<column name="legalApprovalStimulus" type="int" nullable="true" description=""/>
+		<column name="legalApproverStimulus" type="varchar" size="1000" nullable="true" description=""/>
+        <column name="legalApprovalScreener" type="int" nullable="true" description=""/>
+		<column name="legalApproverScreener" type="varchar" size="1000" nullable="true" description=""/>
+        <column name="legalApprovalQuestionnaire" type="int" nullable="true" description=""/>
+		<column name="legalApproverQuestionnaire" type="varchar" size="1000" nullable="true" description=""/>
+        <column name="legalApprovalDG" type="int" nullable="true" description=""/>
+		<column name="legalApproverDG" type="varchar" size="1000" nullable="true" description=""/>
+		<column name="legalApprovalCCCA" type="int" nullable="true" description=""/>
+		<column name="legalApproverCCCA" type="varchar" size="1000" nullable="true" description=""/>
+        
+        
+        <column name="npiReferenceNo" type="varchar" size="1000" nullable="true" description=""/>
+         <column name="deviationFromSM" type="int" nullable="true" description="Deviation from Standard Methodology"/>
+        
+        <!-- Audit fields -->
+        <column name="creationBy" type="bigint" nullable="false" description="Author who created the content"/>
+        <column name="modificationBy" type="bigint" nullable="false" description="Author who modified the content"/>
+        <column name="creationDate" type="bigint" nullable="false" description="Creation date"/>
+        <column name="modificationDate" type="bigint" nullable="false" description="Modification date"/>
+        <column name="caprating" type="bigint" nullable="true" description="CAP Rating"/>
+        <index type="normal" name="grailProjectSpecs_Idx" column="projectID,endMarketID"/>
+
+    </table>
+
+</schema>

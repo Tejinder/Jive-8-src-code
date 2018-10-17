@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<schema name="CreateKantarBriefTemplateTable">
+    <table name="grailkantarbrieftemplate" description="">
+        <column name="id" type="bigint" nullable="false" description=""/>
+        <column name="researchneedspriorities" type="text" nullable="true" index_none="true" unicode="true" description=""/>
+        <column name="hypothesesbusinessneeds" type="text" nullable="true" index_none="true" unicode="true" description=""/>
+        <column name="markets" type="varchar" size="255" nullable="true" description=""/>
+        <column name="products" type="varchar" size="255" nullable="true" description=""/>
+        <column name="brands" type="varchar" size="255" nullable="true" description=""/>
+        <column name="categories" type="varchar" size="255" nullable="true" description=""/>
+        <column name="deliverydatetime" type="bigint" nullable="true" description=""/>
+        <column name="outputformat" type="bigint" nullable="true" description=""/>
+        <column name="captureddatetime" type="bigint" nullable="false" description=""/>
+        <column name="recipientemail" type="varchar" size="255" nullable="false" description=""/>
+        <column name="sender" type="bigint" nullable="false" description=""/>
+        <column name="isdraft" type="bigint" nullable="false" default="0" description=""/>
+        <index type="primary" name="kantarbrieftemplate_Idx" column="id"/>
+        <constraint type="foreignkey" name="kantarbrieftemplate_user_fk" column="sender" reftable="jiveUser" deferred="true"/>
+    </table>
+</schema>

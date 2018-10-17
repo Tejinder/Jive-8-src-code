@@ -1,0 +1,2524 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (C) 1999-2015 Jive Software. All rights reserved.
+  ~
+  ~ This software is the proprietary information of Jive Software. Use is subject to license terms.
+  -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="
+http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd
+http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd 
+http://www.directwebremoting.org/schema/spring-dwr http://www.directwebremoting.org/schema/spring-dwr-2.0.xsd" 
+default-autowire="no" default-init-method="init" default-destroy-method="destroy">
+
+    <!-- ********************************************************************************************** -->
+    <!-- Authentication configuration                                                                                                 -->
+    <!-- ********************************************************************************************** -->
+
+    <!-- This bean is the main entry point of the Spring Security Filter and a critical configuration point.
+            Filters referenced here are defined below. -->
+    <bean id="springSecurityFilterChain" class="org.springframework.security.web.FilterChainProxy">
+        <constructor-arg><util:list>
+            <security:filter-chain pattern="/upgrade/**"
+                                   filters="pluginPreFilterChain,
+                                   securityContextPersistenceFilter,
+                                   pluginPostSessionContextFilterChain,
+                                   upgradeAuthenticationFilter,
+                                   upgradeExceptionTranslationFilter,
+                                   pluginPostFilterChain"/>
+
+            <security:filter-chain pattern="/post-upgrade/**"
+                                   filters="pluginPreFilterChain,
+                                   securityContextPersistenceFilter,
+                                   pluginPostSessionContextFilterChain,
+                                   postUpgradeAuthenticationFilter,
+                                   postUpgradeExceptionTranslationFilter,
+                                   pluginPostFilterChain"/>
+
+            <security:filter-chain pattern="/verify/**"
+                                   filters="pluginPreFilterChain,
+                                   securityContextPersistenceFilter,
+                                   pluginPostSessionContextFilterChain,
+                                   verifierAuthenticationFilter,
+                                   verifierExceptionTranslationFilter,
+                                   pluginPostFilterChain"/>
+
+            <security:filter-chain pattern="/dwr/call/plaincall/passwordstrength**"
+                                   filters="nodeFailoverTestModeFilter,
+                                   pluginPreFilterChain,
+                                   securityContextPersistenceFilter,
+                                   pluginPostSessionContextFilterChain,
+                                   pluginPostFilterChain"/>
+
+            <security:filter-chain pattern="/dwr/**"
+                                   filters="nodeFailoverTestModeFilter,
+                                   pluginPreFilterChain,
+                                   securityContextPersistenceFilter,
+                                   pluginPostSessionContextFilterChain,
+                                   denyGuestAccessFilter,
+                                   pluginPostFilterChain"/>
+
+            <!-- legacy rpc cruft -->
+            <security:filter-chain pattern="/rpc/bridging/**" filters="blockServices"/>
+            <security:filter-chain pattern="/rpc/mobile/**" filters="blockServices"/>
+            <security:filter-chain pattern="/rpc/api/**" filters="blockServices"/>
+            <security:filter-chain pattern="/rpc/openclient/**" filters="blockServices"/>
+            <security:filter-chain pattern="/rpc/connects/**" filters="blockServices"/>
+            <security:filter-chain pattern="/rpc/xmlrpc"
+                                   filters="pluginPreFilterChain, wsRequireSSLFilter, securityContextPersistenceFilter, pluginPostSessionContextFilterChain, basicAuthenticationFilter, wsExceptionTranslator, jiveAuthenticationTranslationFilter, wsAccessTypeCheckFilter, pluginPostFilterChain"/>
+            <security:filter-chain pattern="/rpc/rest/**"
+                                   filters="pluginPreFilterChain, wsRequireSSLFilter, securityContextPersistenceFilter, pluginPostSessionContextFilterChain, basicAuthenticationFilter, wsExceptionTranslator, jiveAuthenticationTranslationFilter, wsAccessTypeCheckFilter, pluginPostFilterChain"/>
+            <security:filter-chain pattern="/rpc/soap/**"
+                                   filters="pluginPreFilterChain, wsRequireSSLFilter, securityContextPersistenceFilter, pluginPostSessionContextFilterChain, jiveAuthenticationTranslationFilter, pluginPostFilterChain"/>
+
+            <!-- legacy service urls -->
+            <security:filter-chain pattern="/__services" filters="blockServices"/>
+            <security:filter-chain pattern="/__services/" filters="blockServices"/>
+            <security:filter-chain pattern="/__services/xmlrpc" filters="blockServices"/>
+            <security:filter-chain pattern="/__services/rest/**" filters="blockServices"/>
+            <security:filter-chain pattern="/__services/soap/**" filters="blockServices"/>
+            <security:filter-chain pattern="/__services/api/**" filters="blockServices"/>
+            <security:filter-chain pattern="/__services/openclient/**" filters="blockServices"/>
+            <security:filter-chain pattern="/__services/connects/**" filters="blockServices"/>
+            <security:filter-chain pattern="/__services/v1/office/rss/**" filters="none"/>
+            <security:filter-chain pattern="/__services/v1/outlook/rss/**" filters="none"/>
+            <security:filter-chain pattern="/__services/v1/office/systeminfo" filters="enterpriseSolutionsPublicFilterChain"/>
+            <security:filter-chain pattern="/__services/v1/outlook/systeminfo" filters="enterpriseSolutionsPublicFilterChain"/>
+            <security:filter-chain pattern="/__services/v1/office/**" filters="enterpriseSolutionsFilterChain"/>
+            <security:filter-chain pattern="/__services/v1/outlook/**" filters="enterpriseSolutionsFilterChain"/>
+            <security:filter-chain pattern="/__services/v1/realtime/**" filters="enterpriseSolutionsFilterChain"/>
+            <security:filter-chain pattern="/__services/mobile/**" filters="blockServices"/>
+
+            <!-- service urls actually used in the app -->
+            <security:filter-chain pattern="/__services/bridging/**"
+                                   filters="nodeFailoverTestModeFilter,
+                                   pluginPreFilterChain,
+                                   bridgeRequireSSLFilter,
+                                   securityContextPersistenceFilter,
+                                   pluginPostSessionContextFilterChain,
+                                   basicAuthenticationFilter,
+                                   restExceptionTranslator,
+                                   wsBridgingAccessCheckFilter,
+                                   pluginPostFilterChain"/>
+            <security:filter-chain pattern="/__services/v2/rest/**"
+                                   filters="nodeFailoverTestModeFilter,
+                                   pluginPreFilterChain,
+                                   securityContextPersistenceFilter,
+                                   pluginPostSessionContextFilterChain,
+                                   rememberMeProcessingFilter,
+                                   restExceptionTranslator,
+                                   pluginPostFilterChain"/>
+
+            <security:filter-chain pattern="/__services/**"
+                                   filters="nodeFailoverTestModeFilter,
+                                   pluginPreFilterChain,
+                                   securityContextPersistenceFilter,
+                                   pluginPostSessionContextFilterChain,
+                                   basicAuthenticationFilter,
+                                   wsExceptionTranslator,
+                                   pluginPostFilterChain"/>
+
+            <security:filter-chain pattern="/api/binary/v1/data/**"
+                                   filters="pluginPreFilterChain,
+                                   pluginPostSessionContextFilterChain,
+                                   binaryAPIAuthenticationFilter,
+                                   requestResponseAuditServletFilter,
+                                   pluginPostFilterChain"/>
+
+            <security:filter-chain pattern="/api/binary/v1/token/**"
+                                   filters="pluginPreFilterChain, securityContextPersistenceFilter, pluginPostSessionContextFilterChain, rememberMeProcessingFilter, apiExceptionTranslator, jiveAuthenticationTranslationFilter, requestResponseAuditServletFilter, pluginPostFilterChain"/>
+            <security:filter-chain pattern="/api/binary/v1/**"
+                                   filters="pluginPreFilterChain, securityContextPersistenceFilter, pluginPostSessionContextFilterChain, rememberMeProcessingFilter, apiExceptionTranslator, jiveAuthenticationTranslationFilter, requestResponseAuditServletFilter, pluginPostFilterChain"/>
+            <security:filter-chain pattern="/api/binary/**"
+                                   filters="pluginPreFilterChain, securityContextPersistenceFilter, pluginPostSessionContextFilterChain, rememberMeProcessingFilter, apiExceptionTranslator, jiveAuthenticationTranslationFilter, requestResponseAuditServletFilter, pluginPostFilterChain"/>
+            <security:filter-chain pattern="/api/dev/**"
+                                   filters="pluginPreFilterChain, securityContextPersistenceFilter, pluginPostSessionContextFilterChain, basicAuthenticationFilter, apiExceptionTranslator, jiveAuthenticationTranslationFilter, pluginPostFilterChain"/>
+            <security:filter-chain pattern="/api/connects/**"
+                                   filters="pluginPreFilterChain, connectsRequireSSLFilter, securityContextPersistenceFilter, pluginPostSessionContextFilterChain, connectsBasicAuthenticationFilter, restExceptionTranslator, jiveAuthenticationTranslationFilter, connectsAccessTypeCheckFilter, pluginPostFilterChain"/>
+            <security:filter-chain pattern="/api/core/v3/exstorage/**" filters="storageApiFilterChain"/>
+            <security:filter-chain pattern="/api/core/**" filters="noOpFilterChain"/>
+            <security:filter-chain pattern="/api/oauth2/authorize/**" filters="oAuth2AuthorizeChain"/>
+            <security:filter-chain pattern="/api/oauth2/activate/**" filters="oAuth2AuthorizeChain"/>
+            <security:filter-chain pattern="/api/oauth2/unlock/**" filters="oAuth2AuthorizeChain"/>
+            <!-- oauth2 used my mobile, uses pretty old draft2 impl from spring -->
+            <security:filter-chain pattern="/api/oauth2/**"
+                                   filters="nodeFailoverTestModeFilter,
+                                   pluginPreFilterChain,
+                                   securityContextPersistenceFilter,
+                                   pluginPostSessionContextFilterChain,
+                                   oAuth2FilterChain,
+                                   wsExceptionTranslator,
+                                   pluginPostFilterChain"/>
+            <!-- filter chain to handle oauth2 authorization server endpoints as per final proposal of oauth2 standard -->
+            <security:filter-chain pattern="/oauth2/**"
+                                   filters="nodeFailoverTestModeFilter,
+                                   pluginPreFilterChain,
+                                   securityContextPersistenceFilter,
+                                   pluginPostSessionContextFilterChain,
+                                   wsExceptionTranslator,
+                                   pluginPostFilterChain"/>
+            <security:filter-chain pattern="/thirdparty/**"
+                                   filters="none"/>
+
+            <!--TODO: change once we have proper oauth for storage service-->
+            <security:filter-chain pattern="/api/jivelinks/v1/exstorage/**" filters="storageApiFilterChain"/>
+
+            <security:filter-chain pattern="/api/**"
+                                   filters="nodeFailoverTestModeFilter,
+                                   pluginPreFilterChain,
+                                   securityContextPersistenceFilter,
+                                   pluginPostSessionContextFilterChain,
+                                   basicAuthenticationFilter,
+                                   oAuth2ServerProtectedResourceFilter,
+                                   clientIDContextFilter,
+                                   wsExceptionTranslator,
+                                   pluginPostFilterChain"/>
+
+            <security:filter-chain pattern="/social/**"
+                                   filters="pluginPreFilterChain, shindigAuthenticationTranslationFilter, requestResponseAuditServletFilter, pluginPostFilterChain"/>
+            <security:filter-chain pattern="/gadgets/ifr"
+                                   filters="pluginPreFilterChain, shindigAuthenticationTranslationFilter, shindigGadgetRenderingFilter, pluginPostFilterChain"/>
+            <security:filter-chain pattern="/gadgets/makeRequest"
+                                   filters="pluginPreFilterChain, shindigAuthenticationTranslationFilter, requestResponseAuditServletFilter, pluginPostFilterChain"/>
+            <security:filter-chain pattern="/gadgets/api/rpc/**"
+                                   filters="pluginPreFilterChain, shindigAuthenticationTranslationFilter, requestResponseAuditServletFilter, pluginPostFilterChain"/>
+            <security:filter-chain pattern="/gadgets/api/rest/**"
+                                   filters="pluginPreFilterChain, shindigAuthenticationTranslationFilter, requestResponseAuditServletFilter, pluginPostFilterChain"/>
+            <security:filter-chain pattern="/admin/**"
+                                   filters="nodeFailoverTestModeFilter,
+                                   pluginPreFilterChain,
+                                   securityContextPersistenceFilter,
+                                   pluginPostSessionContextFilterChain,
+                                   ssoFilterChain,
+                                   adminAuthenticationFilter,
+                                   adminExceptionTranslationFilter,
+                                   pluginPostFilterChain"/>
+
+            <security:filter-chain pattern="/opensearch.xml" filters="pluginPreFilterChain, pluginPostSessionContextFilterChain, pluginPostFilterChain"/>
+
+             <security:filter-chain pattern="/login.jspa**"
+                                   filters="nodeFailoverTestModeFilter,
+                                   mobileRedirectFilter,
+                                   pluginPreFilterChain,
+                                   securityContextPersistenceFilter,
+                                   pluginPostSessionContextFilterChain,
+                                   formAuthenticationFilter,
+                                   loginPopupFormAuthenticationFilter,
+                                   rememberMeProcessingFilter,
+                                   ssoFilterChain,
+                                   basicAuthenticationFilter,
+                                   oAuth2ServerProtectedResourceFilter,
+                                   exceptionTranslationFilter,
+                                   partnerUserCheckFilter,
+                                   contextOptimizationFilter,
+                                   termsAndConditionsAcceptanceFilter,
+                                   customRedirectFilter,
+                                   pluginPostFilterChain"/>
+								   
+			<security:filter-chain pattern="/**"
+                                   filters="nodeFailoverTestModeFilter,
+                                   mobileRedirectFilter,
+                                   pluginPreFilterChain,
+                                   securityContextPersistenceFilter,
+                                   pluginPostSessionContextFilterChain,
+                                   formAuthenticationFilter,
+                                   loginPopupFormAuthenticationFilter,
+                                   rememberMeProcessingFilter,
+                                   ssoFilterChain,
+                                   basicAuthenticationFilter,
+                                   oAuth2ServerProtectedResourceFilter,
+                                   exceptionTranslationFilter,
+                                   partnerUserCheckFilter,
+                                   contextOptimizationFilter,
+                                   termsAndConditionsAcceptanceFilter,
+                                   customRedirectFilter,
+                                   pluginPostFilterChain,
+								   grailPageViewFilter"/>
+            </util:list></constructor-arg>
+    </bean>
+
+    <!-- Filter chain that is processed before any of the other filters -->
+    <bean id="noOpFilterChain" class="org.springframework.security.web.FilterChainProxy">
+        <constructor-arg><security:filter-chain pattern="do-not-filter-stub" filters="none"/></constructor-arg>
+    </bean>
+
+
+    <!-- Filter chain hooks for Plug-ins.
+     Plugin-developers can add their own filter-chain instances to these chains programmatically
+    -->
+
+    <!-- Filter chain that is processed before any of the other filters -->
+    <bean id="pluginPreFilterChain" class="com.jivesoftware.community.aaa.util.spring.MergeableFilterChainProxy">
+        <constructor-arg><security:filter-chain pattern="do-not-filter-stub" filters="none"/></constructor-arg>
+    </bean>
+
+    <!-- Filter chain that is processed right after the httpSessionContextIntegrationFilter has been processed -->
+    <bean id="pluginPostSessionContextFilterChain" class="com.jivesoftware.community.aaa.util.spring.MergeableFilterChainProxy">
+        <constructor-arg><security:filter-chain pattern="do-not-filter-stub" filters="none"/></constructor-arg>
+    </bean>
+
+    <!-- Filter chain that is processed after all other filters have been processed -->
+    <bean id="pluginPostFilterChain" class="com.jivesoftware.community.aaa.util.spring.MergeableFilterChainProxy">
+        <constructor-arg><security:filter-chain pattern="do-not-filter-stub" filters="none"/></constructor-arg>
+    </bean>
+
+    <!-- End Plugin filter chain hooks -->
+
+    <bean id="postAuthenticationSetupStrategy" class="com.jivesoftware.community.aaa.DefaultPostAuthenticationSetupStrategy">
+        <property name="jiveAuthenticationTranslationFilter" ref="jiveAuthenticationTranslationFilter" />
+        <property name="authenticationTranslationHelper" ref="authenticationTranslationHelper" />
+        <property name="updateLastLoggedInTime" value="true"/>
+    </bean>
+
+    <bean id="authenticationTranslationHelper"
+          class="com.jivesoftware.community.aaa.JiveAuthenticationTranslationHelper">
+        <property name="userManager" ref="userManagerImpl"/>
+        <property name="authProvider" ref="authenticationProvider"/>
+    </bean>
+
+    <bean id="jiveAuthenticationTranslationFilter"
+          class="com.jivesoftware.community.aaa.JiveAuthenticationTranslationFilter">
+        <property name="userManager" ref="userManagerImpl"/>
+        <property name="banManager" ref="banManagerImpl"/>
+        <property name="authenticationTranslationHelper" ref="authenticationTranslationHelper"/>
+    </bean>
+
+    <!-- This filter attaches a session to the security context holder, the thread local that
+            proxies and ACL voters look at. -->
+    <bean id="securityContextPersistenceFilter"
+          class="org.springframework.security.web.context.SecurityContextPersistenceFilter">
+        <constructor-arg ref="cookieSessionSecurityContextRepository"/>
+    </bean>
+
+    <bean id="securityContextRepositoryHelper" class="com.jivesoftware.community.aaa.SecurityContextRepositoryHelper" />
+
+    <bean id="sessionSecurityContextRepository" class="com.jivesoftware.community.aaa.JiveHttpSessionSecurityContextRepository">
+        <property name="allowSessionCreation" value="false" />
+        <property name="securityContextRepositoryHelper" ref="securityContextRepositoryHelper" />
+    </bean>
+
+    <bean id="contextOptimizationFilter" class="com.jivesoftware.community.lifecycle.spring.ContextOptimizationFilter">
+        <!-- Overridden by JivePropertyOverrideMap -->
+        <property name="enabled" value="true"/>
+    </bean>
+
+    <!-- Wires a custom holder strategy so we can universally use our security context.-->
+    <bean id="jiveSecurityContextHolderStrategy"
+          class="com.jivesoftware.community.aaa.JiveSecurityContextHolderStrategy"
+          lazy-init="false" init-method="init"/>
+
+    <!-- AuthenticationExceptions punt to the auth entry point. If a user is not authenticated
+            by a filter in the chain, they will be redirected to the entry point configured
+            here. -->
+    <bean id="exceptionTranslationFilter" class="org.springframework.security.web.access.ExceptionTranslationFilter">
+        <constructor-arg ref="formAuthenticationEntryPoint"/>
+    </bean>
+
+    <!-- Upgrade AuthenticationExceptions punt to the auth entry point. If a user is not authenticated
+             by a filter in the chain, they will be redirected to the entry point configured
+            here. -->
+    <bean id="upgradeExceptionTranslationFilter"
+          class="org.springframework.security.web.access.ExceptionTranslationFilter">
+        <constructor-arg ref="upgradeAuthenticationEntryPoint"/>
+    </bean>
+
+    <!-- Upgrade AuthenticationExceptions punt to the auth entry point. If a user is not authenticated
+    by a filter in the chain, they will be redirected to the entry point configured
+   here. -->
+    <bean id="postUpgradeExceptionTranslationFilter"
+          class="org.springframework.security.web.access.ExceptionTranslationFilter">
+        <constructor-arg ref="postUpgradeAuthenticationEntryPoint"/>
+    </bean>
+
+    <!-- Verifier AuthenticationExceptions punt to the auth entry point. If a user is not authenticated
+             by a filter in the chain, they will be redirected to the entry point configured
+            here. -->
+    <bean id="verifierExceptionTranslationFilter"
+          class="org.springframework.security.web.access.ExceptionTranslationFilter">
+        <constructor-arg ref="verifierAuthenticationEntryPoint"/>
+    </bean>
+
+    <!-- Upgrade AuthenticationExceptions punt to the auth entry point. If a user is not authenticated
+             by a filter in the chain, they will be redirected to the entry point configured
+            here. -->
+    <bean id="adminExceptionTranslationFilter"
+          class="org.springframework.security.web.access.ExceptionTranslationFilter">
+        <constructor-arg ref="adminAuthenticationEntryPoint"/>
+    </bean>
+
+    <!-- Jive User Details Service -->
+    <bean id="jiveUserDetailsService" class="com.jivesoftware.community.aaa.JiveCommunityUserDetailsService">
+        <!-- Do not inject a proxy here, we won't be able to get the password hash -->
+        <property name="userManager" ref="userManagerImpl"/>
+    </bean>
+
+    <!-- Authentication providers -->
+    <!-- This config loads users with our custom details service and does a SALT-appended SHA1 hash
+         of user passwords. -->
+    <bean id="daoAuthenticationProvider" class="com.jivesoftware.community.aaa.JiveDaoAuthenticationProvider">
+        <property name="userDetailsService" ref="jiveUserDetailsService"/>
+        <property name="passwordEncoder" ref="passwordEncoder"/>
+        <property name="userManager" ref="userManagerImpl"/>
+        <property name="authProvider" ref="authenticationProvider"/>
+        <property name="licenseManager" ref="licenseManager"/>
+    </bean>
+
+    <!-- Legacy auth provider that does auth checks against legacy password encodings -->
+    <bean id="jiveLegacyAuthenticationProvider" class="com.jivesoftware.community.aaa.JiveLegacyAuthenticationProvider">
+        <property name="saltSource" ref="saltSource"/>
+        <property name="legacySaltSource" ref="usernameSaltSource"/>
+        <property name="legacyShaPasswordEncoder" ref="sha256PasswordEncoder"/>
+        <property name="passwordEncoder" ref="passwordEncoder"/>
+        <property name="userDetailsService" ref="jiveUserDetailsService"/>
+        <property name="userManager" ref="userManagerImpl"/>
+        <property name="authProvider" ref="authenticationProvider"/>
+        <property name="licenseManager" ref="licenseManager"/>
+    </bean>
+
+    <!-- This task is scheduled in spring-taskContext.xml -->
+    <bean id="jiveLegacyAuthMigrationRunnable" class="com.jivesoftware.community.aaa.JiveLegacyAuthMigrationTask">
+        <property name="dataSource">
+            <util:property-path path="dataSourceFactory.dataSource"/>
+        </property>
+        <property name="passwordEncoder" ref="passwordEncoder" />
+    </bean>
+
+    <!-- The password encoder and salt source to use for password management -->
+    <bean id="passwordEncoder" class="com.jivesoftware.community.aaa.JiveBCryptPasswordEncoder">
+        <property name="jiveProperties" ref="jiveProperties"/>
+    </bean>
+
+    <bean id="sha256PasswordEncoder" class="org.springframework.security.authentication.encoding.ShaPasswordEncoder">
+        <constructor-arg value="256"/>
+    </bean>
+
+    <bean id="usernameSaltSource" class="org.springframework.security.authentication.dao.ReflectionSaltSource">
+        <property name="userPropertyToUse" value="getUsername"/>
+    </bean>
+
+    <bean id="creationDateSaltSource" class="org.springframework.security.authentication.dao.ReflectionSaltSource">
+        <property name="userPropertyToUse" value="getCreationDate"/>
+    </bean>
+
+    <alias name="creationDateSaltSource" alias="saltSource"/>
+
+    <!-- Basic authentication. -->
+    <bean id="basicAuthenticationFilter" class="com.jivesoftware.community.aaa.JiveBasicAuthenticationFilter">
+        <constructor-arg index="0" ref="basicAuthenticationManager"/>
+        <constructor-arg index="1" ref="basicAuthenticationEntryPoint"/>
+        <property name="postAuthenticationSetupStrategy" ref="postAuthenticationSetupStrategy" />
+        <property name="authenticationProvider" ref="authenticationProvider" />
+        <property name="banHelper" ref="banHelper" />
+        <property name="userManager" ref="userManagerImpl" />
+    </bean>
+
+    <bean id="connectsBasicAuthenticationFilter" parent="basicAuthenticationFilter">
+        <constructor-arg index="0" ref="basicAuthenticationManager"/>
+        <constructor-arg index="1" ref="connectsBasicAuthenticationEntryPoint"/>
+    </bean>
+
+    <bean id="binaryAPIAuthenticationFilter"
+          class="com.jivesoftware.api.binary.filters.BinaryAuthenticationFilter">
+        <property name="accessTokenManager" ref="accessTokenManagerImpl"/>
+    </bean>
+
+    <bean id="mobileBasicAuthenticationFilter" parent="basicAuthenticationFilter"
+          class="com.jivesoftware.community.aaa.JiveBasicAuthenticationFilter">
+        <constructor-arg index="0" ref="mobileAuthenticationManager"/>
+        <constructor-arg index="1" ref="basicAuthenticationEntryPoint"/>
+        <property name="rememberMeServices" ref="mobileRememberMeServices"/>
+    </bean>
+
+    <bean id="basicAuthenticationEntryPoint"
+          class="org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint">
+        <property name="realmName" value="Jive SBS"/>
+    </bean>
+
+    <bean id="connectsBasicAuthenticationEntryPoint"
+          class="com.jivesoftware.api.connects.service.filter.ConnectsBasicAuthenticationEntryPoint">
+        <property name="realmName" value="Jive SBS"/>
+    </bean>
+
+    <bean id="partnerUserCheckFilter" class="com.jivesoftware.community.aaa.PartnerUserCheckFilter">
+   		<property name="sharedGroupManager" ref="sharedGroupManagerImpl"/>
+        <property name="authenticationProvider" ref="authenticationProvider" />
+        <property name="logoutHandlersList" ref="logoutHandlerList"/>
+    </bean>
+
+    <bean id="requestBasedLocalCache" class="com.jivesoftware.community.cache.RequestBasedLocalCache"/>
+
+    <bean id="exceptionMappings" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="properties">
+            <props>
+                <prop key="org.springframework.security.authentication.AuthenticationServiceException">/login.jspa?serviceUnavailable=true</prop>
+                <prop key="com.jivesoftware.community.aaa.UserLoginBannedException">/login.jspa?loginBanned=true</prop>
+                <prop key="org.springframework.security.authentication.LockedException">/login.jspa?accountDisabled=true</prop>
+                <prop key="org.springframework.security.authentication.DisabledException">/login.jspa?accountDisabled=true</prop>
+                <prop key="com.jivesoftware.community.aaa.ApprovalRequiredException">/login.jspa?approvalRequired=true</prop>
+                <prop key="com.jivesoftware.community.aaa.ApprovalRejectedException">/login.jspa?approvalRejected=true</prop>
+                <prop key="com.jivesoftware.community.aaa.LicenseExceededException">/login.jspa?licenseExceeded=true</prop>
+                <prop key="com.jivesoftware.community.aaa.MethodNotSupportedException">/login.jspa</prop>
+                <prop key="com.jivesoftware.community.aaa.PartnerUsersDisabledException">/login.jspa?partnersDisabled=true</prop>
+                <prop key="com.jivesoftware.community.aaa.NonUniqueCredentialsException">/login.jspa?nonUniqueCredentials=true</prop>
+                <prop key="org.springframework.security.authentication.BadCredentialsException">/login.jspa?authnFailed=true</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="userBannedErrorV4" class="com.jivesoftware.api.core.OpenClientErrorInfo">
+        <constructor-arg value="user_banned"/>
+        <constructor-arg value="The user is banned."/>
+    </bean>
+
+    <bean id="partnersDisabledErrorV4" class="com.jivesoftware.api.core.OpenClientErrorInfo">
+	    <constructor-arg value="partners_disabled"/>
+        <constructor-arg value="Partners users are disabled."/>
+    </bean>
+
+    <bean id="userLockedErrorV4" class="com.jivesoftware.api.core.OpenClientErrorInfo">
+        <constructor-arg value="user_locked"/>
+        <constructor-arg value="The user is locked."/>
+    </bean>
+
+    <bean id="userDisabledErrorV4" class="com.jivesoftware.api.core.OpenClientErrorInfo">
+        <constructor-arg value="user_disabled"/>
+        <constructor-arg value="The user is disabled."/>
+    </bean>
+
+    <bean id="userNotApprovedErrorV4" class="com.jivesoftware.api.core.OpenClientErrorInfo">
+        <constructor-arg value="user_not_approved"/>
+        <constructor-arg value="The user account is pending approval."/>
+    </bean>
+
+    <bean id="userRegRejectedErrorV4" class="com.jivesoftware.api.core.OpenClientErrorInfo">
+        <constructor-arg value="user_account_rejected"/>
+        <constructor-arg value="The registration for the user account was rejected."/>
+    </bean>
+
+    <bean id="licenseExceededErrorV4" class="com.jivesoftware.api.core.OpenClientErrorInfo">
+        <constructor-arg value="license_exceeded"/>
+        <constructor-arg value="The license has been exceeded."/>
+    </bean>
+
+    <bean id="methodNotSupportedErrorV4" class="com.jivesoftware.api.core.OpenClientErrorInfo">
+        <constructor-arg value="method_not_supported"/>
+        <constructor-arg value="The HTTP method used is not supported for authentication."/>
+    </bean>
+
+    <bean id="loginLimitErrorV4" class="com.jivesoftware.api.core.OpenClientErrorInfo">
+        <constructor-arg value="login_attempts_limit_exceeded"/>
+        <constructor-arg value="You have exceeded the limit for failed logins."/>
+    </bean>
+
+    <bean id="exceptionMappingFailureHandler" class="org.springframework.security.web.authentication.ExceptionMappingAuthenticationFailureHandler">
+        <property name="exceptionMappings" ref="exceptionMappings"/>
+        <property name="defaultFailureUrl" value="/login.jspa?authnFailed=true"/>
+        <property name="redirectStrategy" ref="failedAuthenticationRedirectStrategy" />
+    </bean>
+
+    <bean id="popupExceptionMappingFailureHandler" class="org.springframework.security.web.authentication.ExceptionMappingAuthenticationFailureHandler">
+        <property name="exceptionMappings" ref="exceptionMappings"/>
+        <property name="defaultFailureUrl" value="/loginpopup.jspa?authnFailed=true"/>
+    </bean>
+
+    <!-- session authentication strategy added to authentication processing filters to protect against session fixation attacks -->
+    <bean id="sessionAuthenticationStrategy" class="org.springframework.security.web.authentication.session.SessionFixationProtectionStrategy" />
+
+    <bean id="formAuthenticationManager" class="com.jivesoftware.community.aaa.JiveAuthenticationProviderManager">
+        <property name="providers">
+            <bean class="org.springframework.beans.factory.config.ListFactoryBean">
+                <property name="sourceList">
+                    <list>
+                        <ref bean="jiveLdapAuthenticationProvider"/>
+                        <ref bean="formDelegatedSSOAuthProvider"/>
+                        <ref bean="daoAuthenticationProvider"/>
+                        <ref bean="jiveLegacyAuthenticationProvider"/>
+                        <ref bean="rememberMeAuthenticationProvider"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="jiveProperties" ref="jiveProperties"/>
+    </bean>
+
+    <bean id="jiveWebAuthenticationDetailsSource" class="com.jivesoftware.community.aaa.JiveWebAuthenticationDetailsSource" />
+
+    <bean id="abstractFormAuthenticationFilter" abstract="true" class="com.jivesoftware.community.aaa.JiveAuthenticationProcessingFilter">
+        <property name="userManager" ref="userManagerImpl"/>
+        <property name="banHelper" ref="banHelper" />
+        <property name="allowSessionCreation" value="false" />
+        <property name="authenticationManager" ref="formAuthenticationManager"/>
+    </bean>
+
+    <!-- Form Authentication -->
+    <bean id="formAuthenticationFilter" class="com.jivesoftware.community.aaa.JiveLoginThrottleProcessingFilter" parent="abstractFormAuthenticationFilter">
+        <property name="authenticationSuccessHandler" ref="authenticationSuccessHandler" />
+        <property name="authenticationFailureHandler" ref="exceptionMappingFailureHandler" />
+        <property name="requiresAuthenticationRequestMatcher">
+            <bean class="org.springframework.security.web.util.matcher.AntPathRequestMatcher">
+                <constructor-arg value="/cs_login" />
+            </bean>
+        </property>
+        <property name="rememberMeServices" ref="rememberMeServices"/>
+        <property name="loginThrottle" ref="loginThrottle"/>
+        <!--<property name="sessionAuthenticationStrategy" ref="sessionAuthenticationStrategy" /> -->
+		<property name="sessionAuthenticationStrategy" ref="sas" />
+        <property name="loginThrottledRedirectHandler" ref="loginThrottledRedirectStrategy" />
+        <property name="invalidCaptchaGuessRedirectStrategy" ref="invalidCaptchaGuessRedirectStrategy" />
+        <property name="captcha" ref="captcha" />
+        <property name="authenticationDetailsSource" ref="jiveWebAuthenticationDetailsSource" />
+    </bean>
+	
+	<bean id="grailPageViewFilter" class="com.grail.filter.GrailPageViewFilter">
+        <property name="satelliteManageLinks" ref="satelliteManageLinks"/>
+        <property name="satelliteSettingsLinks" ref="satelliteSettingsLinks"/>
+    </bean>
+	
+	 <bean id="sas" class="org.springframework.security.web.authentication.session.ConcurrentSessionControlStrategy">
+        <constructor-arg name="sessionRegistry" ref="sessionRegistry" />
+        <property name="maximumSessions" value="1" />
+    </bean>
+
+    <bean id="sessionRegistry" class="org.springframework.security.core.session.SessionRegistryImpl" />
+    <!-- Concurrent session definitions start -->
+
+
+
+   <!-- Event Analytics Beans Start -->
+   <bean id="eventAnalyticsDAO" class="com.grail.custom.analytics.dao.EventAnalyticsDAO">
+        <property name="sequenceDAO" ref="sequenceDAO"/>
+        <property name="dataSource">
+            <util:property-path path="dataSourceFactory.dataSource"/>
+        </property>
+    </bean>
+
+    <bean id="globalEventListener" class="com.grail.custom.analytics.GlobalEventListener">
+        <property name="analyticsListenerConfiguration" ref="analyticsListenerConfiguration"/>
+        <property name="eventAnalyticsDAO" ref="eventAnalyticsDAO"/>
+    </bean>
+
+    <bean id="documentEventListener" class="com.grail.custom.analytics.DocumentRateEventListener">
+        <property name="activityManager" ref="oldActivityManagerImpl"/>
+        <property name="objectTypeManager" ref="objectTypeManagerImpl"/>
+        <property name="eventAnalyticsDAO" ref="eventAnalyticsDAO"/>
+    </bean>
+
+    <!-- DWR Configuration -->
+    <bean id="eventAnalyticsAction" class="com.grail.custom.analytics.action.EventAnalyticsAction">
+        <property name="eventAnalyticsDAO" ref="eventAnalyticsDAO"/>
+        <dwr:remote javascript="EventAnalyticsDWR">
+            <!-- Method to log the event end-time -->
+            <dwr:include method="updateEventEndTime"/>
+            <!-- Method to fetch the user-report data : returns HTML -->
+            <dwr:include method="paginatedUserReport"/>
+            <!-- Total items for User drill down report -->
+            <dwr:include method="getUserReportDrillDownCount" />
+            <!-- Method to fetch the document-report data : returns HTML -->
+            <dwr:include method="paginatedDocumentReport"/>
+            <!-- Total items for Documents drill down report -->
+            <!--  <dwr:include method="getDocumentReportDrillDownCount" /> -->
+
+        </dwr:remote>
+    </bean>
+
+    <bean id="eventAnalyticsDWRAction" class="com.grail.custom.analytics.action.EventAnalyticsDWRAction">
+        <property name="eventAnalyticsDAO" ref="eventAnalyticsDAO"/>
+    </bean>
+   <!-- Event Analytics Beans End -->
+   
+   
+   <bean id="dwrDocCart" class="com.grail.dwr.service.DocumentCartService">
+        <property name="userManager" ref="userManagerImpl"/>
+        <property name="attachmentUtil" ref="attachmentUtil"/>
+        <property name="documentManager" ref="documentManagerImpl"/>
+        <!--   <property name="attachmentManager" ref="attachmentManagerImpl"/>     -->
+        <dwr:remote javascript="DocumentCartService">
+            <dwr:include method="addToCart"/>
+            <dwr:include method="addContentAndAttachmentsToCart"/>
+            <dwr:include method="undoFromCart"/>
+            <dwr:include method="uncheckFromCart"/>
+            <dwr:include method="uncheckContentAndAttachmentsFromCart"/>
+            <dwr:include method="removeFromCart"/>
+            <dwr:include method="clearCart"/>
+            <dwr:include method="hasDownloadCompleted"/>
+            <dwr:include method="getCartItemsCount"/>
+        </dwr:remote>
+    </bean>
+
+    <bean id="attachmentUtil" class="com.grail.cart.util.AttachmentUtil">
+        <property name="documentManager" ref="documentManagerImpl"/>
+        <property name="attachmentManager" ref="attachmentManagerImpl"/>
+        <property name="renderManager" ref="globalRenderManager"/>
+    </bean>
+
+    <bean id="downloadCartAction" class="com.grail.cart.action.DownloadCartAction">
+        <property name="attachmentUtil" ref="attachmentUtil"/>
+    </bean>
+    
+   <bean id="jiveObjectItemBeanRateInfoProvider" class="com.jivesoftware.community.browse.rest.impl.JiveObjectRatingInfoProviderImpl">
+        <property name="acclaimManager" ref="acclaimManagerImpl"/>
+        <property name="objectTypeManager" ref="objectTypeManagerImpl"/>
+        <property name="ratingManager" ref="ratingManagerImpl"/>
+    </bean>
+    
+    
+    <bean id="contentObjectItemBeanBuilderProviders" class="com.jivesoftware.community.util.spring.MergeableCollection">
+        <property name="source">
+            <util:list value-type="com.jivesoftware.community.browse.rest.ItemBeanPropertyProvider">
+                <ref bean="jiveObjectItemBeanActivityInfoProvider"/>
+                <ref bean="contentObjectItemBeanBodySnippetProvider"/>
+                <ref bean="contentObjectItemBeanBinaryPreviewProvider"/>
+                <ref bean="jiveObjectItemBeanFollowInfoProvider"/>
+                <ref bean="jiveObjectItemBeanShareInfoProvider"/>
+                <ref bean="contentObjectItemBeanBookmarkInfoProvider"/>
+                <ref bean="jiveObjectItemBeanPrivacyInfoProvider"/>
+                <ref bean="jiveObjectItemBeanAttachmentProvider"/>
+                <ref bean="jiveObjectLastActivityDateProvider"/>
+                <ref bean="discussionReadTrackProviderImpl"/>
+                <ref bean="jiveObjectViewCountProvider"/>
+                <ref bean="jiveObjectAuthorProviderImpl"/>
+                <ref bean="jiveObjectPlaceProviderImpl"/>
+                <ref bean="jiveObjectIsOriginalAuthorProviderImpl"/>
+                <ref bean="jiveObjectIsVisibleToPartnerProviderImpl"/>
+                <ref bean="jiveContentObjectContentPlaceRelCountProvider"/>
+                 <ref bean="jiveObjectItemBeanRateInfoProvider"/>
+            </util:list>
+        </property>
+    </bean>
+    
+    <bean id="loginThrottledRedirectStrategy" class="com.jivesoftware.community.aaa.LoginThrottledRedirectStrategy" />
+
+    <bean id="invalidCaptchaGuessRedirectStrategy" class="com.jivesoftware.community.aaa.InvalidCaptchaGuessRedirectStrategy" />
+
+    <bean id="authenticationSuccessHandler" class="com.jivesoftware.community.aaa.authz.DefaultURLAuthenticationSuccessHandler">
+        <!--default redirect strategy is for form authentication, but can be overridden with a default url-->
+        <property name="redirectStrategy" ref="formAuthenticationRedirectStrategy" />
+        <property name="postAuthenticationSetupStrategy" ref="postAuthenticationSetupStrategy" />
+        <property name="targetUrlParameter" value="successURL" />
+        <property name="refererHelper" ref="refererHelper" />
+    </bean>
+
+    <bean id="formAuthenticationRedirectStrategy" class="com.jivesoftware.community.aaa.authz.FormAuthenticationRedirectStrategy">
+        <property name="authenticationProvider" ref="authenticationProvider" />
+        <property name="trialViewHelper" ref="trialViewHelper" />
+        <property name="invitationManager" ref="invitationManager" />
+        <property name="globalResourceResolver" ref="globalResourceResolver" />
+        <property name="accessManager" ref="accessManager" />
+    </bean>
+
+    <bean id="failedAuthenticationRedirectStrategy" class="com.jivesoftware.community.aaa.authz.FailedAuthenticationRedirectStrategy" />
+
+    <bean id="loginPopupFormAuthenticationFilter" parent="abstractFormAuthenticationFilter" p:filterProcessesUrl="/cs_loginpopup">
+        <property name="authenticationManager" ref="authenticationManager"/>
+        <property name="authenticationSuccessHandler">
+            <bean parent="authenticationSuccessHandler">
+                <property name="defaultTargetUrl" value="/loginpopup.jspa"/>
+            </bean>
+        </property>
+        <property name="authenticationFailureHandler" ref="popupExceptionMappingFailureHandler" />
+        <property name="rememberMeServices" ref="rememberMeServices"/>
+        <property name="userManager" ref="userManagerImpl"/>
+        <property name="authenticationDetailsSource" ref="jiveWebAuthenticationDetailsSource" />
+    </bean>
+
+    <bean id="formAuthenticationEntryPoint"
+          class="com.jivesoftware.community.aaa.JiveAuthenticationProcessingFilterEntryPoint">
+        <property name="loginFormUrl" value="/login.jspa?authnFailed=true"/>
+        <property name="forceHttps" value="false"/>
+        <property name="exceptionMappings" ref="exceptionMappings"/>
+    </bean>
+
+    <bean id="loginThrottle" class="com.jivesoftware.community.aaa.JiveLoginThrottle">
+        <property name="delay" value="10"/>
+        <property name="maxContinuousAttempts" value="3"/>
+    </bean>
+
+    <!-- Upgrade Form Authentication -->
+    <bean id="upgradeAuthenticationFilter" parent="abstractFormAuthenticationFilter">
+        <property name="authenticationSuccessHandler">
+            <bean parent="authenticationSuccessHandler">
+                <property name="defaultTargetUrl" value="/upgrade/index.jspa"/>
+            </bean>
+        </property>
+        <property name="authenticationFailureHandler">
+            <bean class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler">
+                <property name="defaultFailureUrl" value="/upgrade/login.jsp?roleError=true"/>
+            </bean>
+        </property>
+        <property name="filterProcessesUrl" value="/upgrade/upgrade_login"/>
+    </bean>
+    <bean id="upgradeAuthenticationEntryPoint"
+          class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
+        <property name="loginFormUrl" value="/upgrade/login.jsp"/>
+        <property name="forceHttps" value="false"/>
+    </bean>
+
+    <!-- Post Upgrade Form Authentication -->
+    <bean id="postUpgradeAuthenticationFilter" parent="abstractFormAuthenticationFilter">
+        <property name="authenticationSuccessHandler">
+            <bean parent="authenticationSuccessHandler">
+                <property name="defaultTargetUrl" value="/post-upgrade/index.jspa"/>
+            </bean>
+        </property>
+        <property name="authenticationFailureHandler">
+            <bean class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler">
+                <property name="defaultFailureUrl" value="/post-upgrade/login.jsp?unauth=true"/>
+            </bean>
+        </property>
+        <property name="filterProcessesUrl" value="/post-upgrade/upgrade_login"/>
+    </bean>
+    <bean id="postUpgradeAuthenticationEntryPoint"
+          class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
+        <property name="loginFormUrl" value="/post-upgrade/login.jsp"/>
+        <property name="forceHttps" value="false"/>
+    </bean>
+
+    <!-- Verifier Form Authentication -->
+    <bean id="verifierAuthenticationFilter" parent="abstractFormAuthenticationFilter">
+        <property name="authenticationSuccessHandler">
+            <bean parent="authenticationSuccessHandler">
+                <property name="defaultTargetUrl" value="/verify/index.jspa"/>
+            </bean>
+        </property>
+        <property name="authenticationFailureHandler">
+            <bean class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler">
+                <property name="defaultFailureUrl" value="/verify/login.jsp?roleError=true"/>
+            </bean>
+        </property>
+        <property name="filterProcessesUrl" value="/verify/verify_login"/>
+    </bean>
+
+    <bean id="verifierAuthenticationEntryPoint"
+          class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
+        <property name="loginFormUrl" value="/verify/login.jsp"/>
+        <property name="forceHttps" value="false"/>
+    </bean>
+
+    <!-- Admin Form Authentication -->
+    <bean id="adminAuthenticationFilter" parent="abstractFormAuthenticationFilter">
+        <property name="authenticationSuccessHandler">
+            <bean parent="authenticationSuccessHandler">
+                <property name="targetUrlParameter" value="url" />
+                <property name="defaultTargetUrl" value="/admin/main.jsp"/>
+                <property name="redirectStrategy">
+                    <bean class="com.jivesoftware.community.aaa.authz.AdminAuthenticationRedirectStrategy" />
+                </property>
+            </bean>
+        </property>
+        <property name="authenticationFailureHandler">
+            <bean class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler">
+                <property name="defaultFailureUrl" value="/admin/login.jsp?unauth=true"/>
+            </bean>
+        </property>
+        <property name="filterProcessesUrl" value="/admin/admin_login"/>
+        <property name="userManager" ref="userManagerImpl"/>
+        <property name="sessionAuthenticationStrategy" ref="sessionAuthenticationStrategy" />
+    </bean>
+    <bean id="adminAuthenticationEntryPoint"
+          class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
+        <property name="loginFormUrl" value="/admin/login.jsp"/>
+        <property name="forceHttps" value="false"/>
+    </bean>
+
+    <!-- Delegated SSO Authentication -->
+    <bean id="delegatedSSOManager" class="com.jivesoftware.community.aaa.delegatedsso.DelegatedSSOManager">
+        <property name="httpClientManager" ref="httpClientManagerImpl"/>
+        <property name="profileFieldManager" ref="profileFieldManager"/>
+    </bean>
+
+    <bean id="formDelegatedSSOAuthProvider"
+          class="com.jivesoftware.community.aaa.delegatedsso.DelegatedSSOAuthProvider">
+        <property name="userDetailsService" ref="jiveUserDetailsService"/>
+        <property name="userManager" ref="userManagerImpl"/>
+        <property name="authProvider" ref="authenticationProvider"/>
+        <property name="licenseManager" ref="licenseManager"/>
+        <property name="delegatedSSOManager" ref="delegatedSSOManager"/>
+        <property name="profileManager" ref="profileManagerImpl"/>
+        <property name="jiveEventDispatcher" ref="jiveEventDispatcher"/>
+        <property name="profileFieldManager" ref="profileFieldManager"/>
+        <property name="registrationManager" ref="registrationManagerImpl"/>
+        <property name="service" value="WEB_INTERFACE"/>
+    </bean>
+
+    <bean id="mobileDelegatedSSOAuthProvider"
+          class="com.jivesoftware.community.aaa.delegatedsso.DelegatedSSOAuthProvider">
+        <property name="userDetailsService" ref="jiveUserDetailsService"/>
+        <property name="userManager" ref="userManagerImpl"/>
+        <property name="authProvider" ref="authenticationProvider"/>
+        <property name="licenseManager" ref="licenseManager"/>
+        <property name="delegatedSSOManager" ref="delegatedSSOManager"/>
+        <property name="profileManager" ref="profileManagerImpl"/>
+        <property name="jiveEventDispatcher" ref="jiveEventDispatcher"/>
+        <property name="profileFieldManager" ref="profileFieldManager"/>
+        <property name="registrationManager" ref="registrationManagerImpl"/>
+        <property name="service" value="MOBILE"/>
+    </bean>
+
+    <bean id="mobileAuthenticationManager" class="com.jivesoftware.community.aaa.JiveAuthenticationProviderManager">
+        <property name="providers" ref="mobileAuthenticationProviderList"/>
+        <property name="jiveProperties" ref="jiveProperties" />
+    </bean>
+
+    <bean id="mobileAuthenticationProviderList" class="org.springframework.beans.factory.config.ListFactoryBean">
+        <property name="sourceList">
+            <list>
+                <ref bean="jiveLdapAuthenticationProvider"/>
+                <ref bean="kerberosServiceAuthenticationProvider" />
+                <ref bean="mobileDelegatedSSOAuthProvider"/>
+                <ref bean="daoAuthenticationProvider"/>
+                <ref bean="jiveLegacyAuthenticationProvider"/>
+                <ref bean="rememberMeAuthenticationProvider"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="basicDelegatedSSOAuthProvider"
+          class="com.jivesoftware.community.aaa.delegatedsso.DelegatedSSOAuthProvider">
+        <property name="userDetailsService" ref="jiveUserDetailsService"/>
+        <property name="userManager" ref="userManagerImpl"/>
+        <property name="authProvider" ref="authenticationProvider"/>
+        <property name="licenseManager" ref="licenseManager"/>
+        <property name="delegatedSSOManager" ref="delegatedSSOManager"/>
+        <property name="profileManager" ref="profileManagerImpl"/>
+        <property name="jiveEventDispatcher" ref="jiveEventDispatcher"/>
+        <property name="profileFieldManager" ref="profileFieldManager"/>
+        <property name="registrationManager" ref="registrationManagerImpl"/>
+        <property name="service" value="WEB_SERVICES"/>
+    </bean>
+
+    <bean id="basicAuthenticationManager" class="org.springframework.security.authentication.ProviderManager">
+        <property name="providers" ref="basicAuthenticationProviderList"/>
+    </bean>
+
+    <bean id="basicAuthenticationProviderList" class="org.springframework.beans.factory.config.ListFactoryBean">
+        <property name="sourceList">
+            <list>
+                <ref bean="jiveLdapAuthenticationProvider"/>
+                <ref bean="basicDelegatedSSOAuthProvider"/>
+                <ref bean="daoAuthenticationProvider"/>
+                <ref bean="jiveLegacyAuthenticationProvider"/>
+                <ref bean="rememberMeAuthenticationProvider"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- List of logout handlers to be called when a user explicitly logs out of the system. -->
+    <bean id="logoutHandlerList" class="org.springframework.beans.factory.config.ListFactoryBean">
+        <property name="sourceList">
+            <list>
+                <ref bean="documentEditLogoutHandler"/>
+                <ref bean="rememberMeServices"/>
+                <ref bean="baseLogoutHandler" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- A list of authentication sources that will be consulted when attempting to
+            authenticate the user. Each is consulted in order until a provider does
+            *not* return null. This allows us to chain multiple providers together
+            until one decides it can handle the user. -->
+    <!-- Still used by BaseAPIHandler -->
+    <bean id="authenticationManager" class="com.jivesoftware.community.aaa.JiveAPIAuthenticationProviderManager">
+        <property name="providers" ref="authenticationProviderList"/>
+        <property name="authenticationTranslationHelper" ref="authenticationTranslationHelper"/>
+        <property name="jiveProperties" ref="jiveProperties" />
+    </bean>
+
+    <!-- List of authentication providers used by the authentication manager beans.
+            Customized authentication providers can override this bean and re-define
+            this list as needed.-->
+    <bean id="authenticationProviderList" class="org.springframework.beans.factory.config.ListFactoryBean">
+        <property name="sourceList">
+            <list>
+                <ref bean="jiveLdapAuthenticationProvider"/>
+                <ref bean="kerberosServiceAuthenticationProvider"/>
+                <ref bean="daoAuthenticationProvider"/>
+                <ref bean="jiveLegacyAuthenticationProvider"/>
+                <ref bean="rememberMeAuthenticationProvider"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- An LDAP authentication provider is always configured. If the admin didn't
+            do an LDAP setup, it will turn itself off and become transparent in
+            the authentication provider chain. -->
+
+    <bean id="jiveLdapAuthenticationProvider" class="com.jivesoftware.community.aaa.JiveLdapAuthenticationProvider"
+          init-method="init">
+        <constructor-arg index="0" ref="ldapManager"/>
+        <constructor-arg index="1" ref="ldapSearchManagerImpl"/>
+        <constructor-arg index="2" ref="userManagerImpl"/>
+        <constructor-arg index="3" ref="jiveUserDetailsService"/>
+        <constructor-arg index="4" ref="authenticationProvider"/>
+        <property name="directoryProfileSynchronizer" ref="directoryProfileSynchronizer"/>
+        <property name="licenseManager" ref="licenseManager"/>
+        <property name="ldapWhitelistHelper" ref="ldapWhitelistHelper"/>
+        <property name="presenceManager" ref="chatPresenceManagerImpl"/>
+        <property name="directoryUserExternalIdentityAdapter" ref="ldapExternalIdentityAdapter"/>
+    </bean>
+
+    <bean id="ldapWhitelistHelper" class="com.jivesoftware.ldap_fix.LdapWhitelistHelper"/>
+
+    <bean id="ldapExternalIdentityAdapter" class="com.jivesoftware.community.aaa.sso.ldap.LdapExternalIdentityAdapter" init-method="init">
+        <property name="externalIdentityManager" ref="externalIdentityManager"/>
+        <property name="ldapManager" ref="ldapManager"/>
+    </bean>
+
+    <bean id="authenticationProvider" class="com.jivesoftware.base.aaa.SecurityContextAuthenticationProviderImpl">
+        <property name="permissionsManager" ref="permissionsManager"/>
+        <property name="entitlementProvider" ref="entitlementProviderImpl"/>
+    </bean>
+
+    <bean id="rememberMeProcessingFilter" class="com.jivesoftware.community.aaa.JiveRememberMeAuthenticationFilter">
+        <property name="rememberMeServices" ref="rememberMeServices"/>
+        <property name="authenticationManager" ref="formAuthenticationManager"/>
+        <property name="postAuthenticationSetupStrategy" ref="postAuthenticationSetupStrategy" />
+        <property name="authenticationProvider" ref="authenticationProvider" />
+    </bean>
+
+    <bean id="cookieSaltSource" class="com.jivesoftware.community.aaa.CookieSaltSource"/>
+
+    <bean id="rememberMeServices" class="com.jivesoftware.community.aaa.JiveTokenBasedRememberMeServices">
+        <property name="userDetailsService" ref="jiveUserDetailsService"/>
+        <property name="key">
+            <util:property-path path="cookieSaltSource.salt"/>
+        </property>
+        <property name="parameter" value="autoLogin"/>
+        <property name="tokenValiditySeconds" value="2628000"/>
+    </bean>
+
+    <bean id="mobileRememberMeProcessingFilter"
+          class="org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationFilter">
+        <property name="rememberMeServices" ref="mobileRememberMeServices"/>
+        <property name="authenticationManager" ref="mobileAuthenticationManager"/>
+    </bean>
+
+    <bean id="mobileRememberMeServices" class="com.jivesoftware.community.aaa.MobileTokenBasedRememberMeServices">
+        <property name="userDetailsService" ref="jiveUserDetailsService"/>
+        <property name="key">
+            <util:property-path path="cookieSaltSource.salt"/>
+        </property>
+        <property name="alwaysRemember" value="true"/>
+    </bean>
+
+    <bean id="rememberMeAuthenticationProvider"
+          class="org.springframework.security.authentication.RememberMeAuthenticationProvider">
+        <property name="key">
+            <util:property-path path="cookieSaltSource.salt"/>
+        </property>
+    </bean>
+
+    <bean id="loginEventDispatcher" class="com.jivesoftware.community.aaa.UserEventBridge" lazy-init="false" />
+
+    <bean id="defaultEncryptionKeyProvider" class="com.jivesoftware.base.credentials.impl.DefaultEncryptionKeyProvider" primary="true" />
+
+    <bean id="eaeEncryptionKeyProvider" class="com.jivesoftware.community.eae.connection.EAEEncryptionKeyProvider" parent="defaultEncryptionKeyProvider" />
+
+    <bean id="defaultEncryptionProvider" class="com.jivesoftware.base.credentials.impl.DefaultEncryptionProvider" primary="true">
+        <property name="encryptionKeyProvider" ref="defaultEncryptionKeyProvider"/>
+    </bean>
+
+    <!-- WS Filters -->
+
+    <bean id="wsAccessTypeCheckFilter" class="com.jivesoftware.community.webservices.server.WSAccessTypeCheckFilter">
+        <property name="accessRestrictedAPI" ref="coreWebServicesSDK"/>
+    </bean>
+
+    <bean id="connectsAccessTypeCheckFilter"
+          class="com.jivesoftware.community.webservices.server.WSAccessTypeCheckFilter">
+        <property name="accessRestrictedAPI" ref="connectsAPIConfig"/>
+    </bean>
+
+    <bean id="wsRequireSSLFilter" class="com.jivesoftware.community.webservices.server.RequireSSLFilter">
+        <property name="apiConfig" ref="coreWebServicesSDK"/>
+    </bean>
+
+    <bean id="bridgeRequireSSLFilter" class="com.jivesoftware.community.webservices.server.RequireSSLFilter">
+        <property name="apiConfig" ref="bridgeAPIConfig"/>
+    </bean>
+
+    <bean id="connectsRequireSSLFilter" class="com.jivesoftware.community.webservices.server.RequireSSLFilter">
+        <property name="apiConfig" ref="connectsAPIConfig"/>
+    </bean>
+
+    <bean id="blockServices" class="com.jivesoftware.community.webservices.server.BlockServicesFilter"/>
+
+    <bean id="wsExceptionTranslator" class="com.jivesoftware.community.webservices.WSExceptionTranslatorFilter">
+        <constructor-arg index="0" ref="basicAuthenticationEntryPoint"/>
+        <property name="presenceManager" ref="chatPresenceManagerImpl"/>
+        <property name="coreWebServicesSDK" ref="coreWebServicesSDK"/>
+    </bean>
+
+    <bean id="restExceptionTranslator" class="com.jivesoftware.community.webservices.RestExceptionTranslatorFilter"/>
+
+    <util:map id="failureErrorMap">
+        <entry key="com.jivesoftware.community.aaa.UserLoginBannedException" value-ref="userBannedErrorV4"/>
+        <entry key="org.springframework.security.authentication.LockedException" value-ref="userLockedErrorV4"/>
+        <entry key="org.springframework.security.authentication.DisabledException" value-ref="userDisabledErrorV4"/>
+        <entry key="com.jivesoftware.community.aaa.ApprovalRequiredException" value-ref="userNotApprovedErrorV4"/>
+        <entry key="com.jivesoftware.community.aaa.ApprovalRejectedException" value-ref="userRegRejectedErrorV4"/>
+        <entry key="com.jivesoftware.community.aaa.LicenseExceededException" value-ref="licenseExceededErrorV4"/>
+        <entry key="com.jivesoftware.community.aaa.MethodNotSupportedException" value-ref="methodNotSupportedErrorV4"/>
+        <entry key="com.jivesoftware.community.aaa.UserLoginThrottledException" value-ref="loginLimitErrorV4"/>
+        <entry key="com.jivesoftware.community.aaa.PartnerUsersDisabledException" value-ref="partnersDisabledErrorV4"/>
+    </util:map>
+
+    <bean id="apiExceptionMappingFailureHandler"
+          class="com.jivesoftware.api.common.filters.ApiAuthenticationFailureHandler">
+        <property name="realmName" value="Jive SBS"/>
+        <property name="failureErrorMap" ref="failureErrorMap"/>
+    </bean>
+
+    <bean id="apiExceptionTranslator" class="com.jivesoftware.api.common.filters.ApiExceptionTranslatorFilter">
+        <property name="authenticationFailureHandler" ref="apiExceptionMappingFailureHandler"/>
+    </bean>
+
+    <bean id="wsBridgingAccessCheckFilter"
+          class="com.jivesoftware.community.webservices.bridge.impl.WSBridgingAccessCheckFilter">
+        <property name="bridgeManager" ref="bridgeManagerImpl"/>
+        <property name="userManager" ref="userManagerImpl"/>
+        <property name="banManager" ref="banManagerImpl"/>
+        <property name="setupServices">
+            <list>
+                <value>.*/__services/bridging/bridges(:?/|$).*</value>
+                <value>.*/__services/bridging/contents/remoteimages/.*</value>
+                <value>.*/__services/bridging/contents/remoteavatars/.*</value>
+                <value>.*/__services/bridging/widgets/[^/]*</value>
+            </list>
+        </property>
+        <property name="consumerServices">
+            <list>
+                <value>.*/__services/bridging/contents/originalcontents/[^/]*/[^/]*/metainfo</value>
+                <value>.*/__services/bridging/widgets/[^/]*</value>
+                <value>.*/__services/bridging/widgets/[^/]*/[^/]*/renderinfo</value>
+                <value>.*/__services/bridging/widgets/[^/]*/[^/]*/properties</value>
+                <value>.*/__services/bridging/widgets/containers/.*</value>
+                <value>.*/__services/bridging/contents/remote/.*</value>
+            </list>
+        </property>
+        <property name="providerServices">
+            <list>
+                <value>.*/__services/bridging/contents(:?/|$)[^/]*</value>
+                <value>.*/__services/bridging/contents/[^/]*/image</value>
+                <value>.*/__services/bridging/contents/[^/]*/avatars</value>
+                <value>.*/__services/bridging/contents/[^/]*/attachment</value>
+                <value>.*/__services/bridging/contents/containers/.*</value>
+                <value>.*/__services/bridging/contents/[^/]*/replies/count</value>
+                <value>.*/__services/bridging/contents/[^/]*/replies</value>
+                <value>.*/__services/bridging/contents/[^/]*/replies/meta</value>
+                <value>.*/__services/bridging/contents/images/.*</value>
+                <value>.*/__services/bridging/contents/avatars/.*</value>
+                <value>.*/__services/bridging/contents/tags/.*</value>
+                <value>.*/__services/bridging/contents/tagsets/.*</value>
+                <value>.*/__services/bridging/contents/jiveproperty/.*</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="termsAndConditionsAcceptanceFilter"
+          class="com.jivesoftware.community.user.registration.TermsAndConditionsAcceptanceFilter">
+        <property name="registrationManager" ref="registrationManagerImpl"/>
+        <property name="termsAndConditionsHelper" ref="termsAndConditionsHelper"/>
+        <property name="userManager" ref="userManagerImpl"/>
+    </bean>
+
+    <bean id="denyGuestAccessFilter" class="com.jivesoftware.community.web.filter.DenyGuestAccessFilter">
+        <property name="authProvider" ref="authenticationProvider"/>
+        <property name="accessManager" ref="accessManager" />
+    </bean>
+
+    <!-- Start OpenSocial Services -->
+
+    <bean id="shindigBlobCrypter" lazy-init="true"
+          class="com.jivesoftware.community.opensocial.aaa.ShindigBlobCrypter">
+        <constructor-arg ref="defaultEncryptionKeyProvider"/>
+    </bean>
+
+    <bean id="shindigBlogCrypterBeanProvider"
+          class="com.jivesoftware.community.lifecycle.spring.impl.BeanProviderImpl">
+        <property name="objectTypeBean" value="shindigBlobCrypter"/>
+    </bean>
+
+    <bean id="basicSecurityTokenCodec" lazy-init="true"
+          class="org.apache.shindig.auth.BasicSecurityTokenCodec"/>
+
+    <bean id="securityTokenBuilder" lazy-init="true" init-method="init"
+          class="com.jivesoftware.community.opensocial.aaa.impl.DefaultSecurityTokenBuilder">
+        <!-- Provider to Lazy-init blobCrypter as it depends upon some cluster reosurces that may not be around
+        at startup (and we may never need it if running without secure tokens) -->
+        <property name="blobCrypter" ref="shindigBlogCrypterBeanProvider" />
+        <property name="properties" ref="jiveProperties"/>
+        <property name="basicSecurityTokenCodec" ref="basicSecurityTokenCodec"/>
+    </bean>
+
+    <bean id="shindigAuthenticationTranslationFilter" class="com.jivesoftware.community.opensocial.aaa.ShindigAuthenticationTranslationFilter">
+        <property name="appInstanceManager" ref="appInstanceManagerImpl"/>
+        <property name="appsMarketManager" ref="appsMarketManager"/>
+        <property name="userManager" ref="userManagerImpl"/>
+        <property name="banManager" ref="banManagerImpl"/>
+        <property name="gadgetUrlTransformFactory" ref="gadgetUrlTransformFactory"/>
+        <property name="securityTokenBuilder" ref="securityTokenBuilder"/>
+        <property name="appManager" ref="appManager"/>
+        <property name="oAuth2ClientManager" ref="jiveOAuth2ClientManager"/>
+        <property name="syntheticAppURIResolver" ref="syntheticAppURIResolver"/>
+    </bean>
+
+    <bean id="shindigGadgetRenderingFilter" class="com.jivesoftware.community.opensocial.aaa.GadgetRenderingFilter">
+        <property name="appInstanceManager" ref="appInstanceManagerImpl"/>
+        <property name="appsMarketManager" ref="appsMarketManager"/>
+        <property name="gadgetUrlTransformFactory" ref="gadgetUrlTransformFactory"/>
+        <property name="syntheticAppURIResolver" ref="syntheticAppURIResolver"/>
+    </bean>
+
+    <!-- End OpenSocial Services -->
+
+    <bean id="storageServiceContextFilter" scope="prototype" class="com.jivesoftware.api.core.v3.services.storage.filters.ExStorageServiceContextFilter">
+    </bean>
+
+    <!-- logging filter to capture the request and response; configured for individual users -->
+
+    <bean id="requestResponseAuditServletFilter" class="com.jivesoftware.api.audit.RequestResponseAuditServletFilter">
+        <property name="captureLimit" value="2048"/>
+        <property name="watchedUsernames" value=""/>
+    </bean>
+
+    <bean id="requestResponseAuditOverrideConfigure" lazy-init="false" init-method="init"
+          class="com.jivesoftware.community.lifecycle.spring.JivePropertyOverrideConfigurer">
+        <property name="jivePropertyMappings" ref="requestResponseAuditPropertyMappings"/>
+    </bean>
+
+    <util:map id="requestResponseAuditPropertyMappings">
+        <entry key="requestResponseAuditServletFilter.watchedUsernames" value="webservices.rest.audit.usernames"/>
+    </util:map>
+
+    <bean id="accessManager" lazy-init="true"
+          class="com.jivesoftware.community.aaa.impl.AccessManagerImpl" />
+
+    <!-- List of filters that will be used for Enterprise Solutions APIs -->
+    <bean id="enterpriseSolutionsFilterChain" class="com.jivesoftware.community.aaa.util.spring.MergeableFilterChainProxy">
+        <constructor-arg><security:filter-chain pattern="do-not-filter-stub" filters="none"/></constructor-arg>
+    </bean>
+
+    <!-- List of filters that will be used for Enterprise Solutions public API calls (should ne be authenticated) -->
+    <bean id="enterpriseSolutionsPublicFilterChain" class="com.jivesoftware.community.aaa.util.spring.MergeableFilterChainProxy">
+        <constructor-arg><security:filter-chain pattern="do-not-filter-stub" filters="none"/></constructor-arg>
+    </bean>
+
+    <!-- List of filters that will be used for External Storage Framework's incoming API calls -->
+    <bean id="storageApiFilterChain" class="org.springframework.security.web.FilterChainProxy">
+        <constructor-arg><security:filter-chain pattern="/**" filters="storageServiceContextFilter"/></constructor-arg>
+    </bean>
+
+    <bean id="customRedirectFilter" class="com.jivesoftware.community.redirect.CustomRedirectFilter" >
+        <property name="customRedirectDAO" ref="customRedirectDAO"/>
+    </bean>
+
+    <bean id="customRedirectDAO" class="com.jivesoftware.community.redirect.dao.CustomRedirectDAO">
+        <property name="dataSource">
+            <util:property-path path="dataSourceFactory.dataSource"/>
+        </property>
+        <property name="sequenceDAO" ref="sequenceDAO"/>
+    </bean>
+    
+    <!-- SYNCHRO BEANS STARTS -->
+    
+    <bean id="synchroUrlMapping" scope="prototype" class="com.grail.community.web.struts.mapping.SynchroURLMapping" />
+
+    <util:map id="urlMappingEntries">
+        <entry key="/actions" value-ref="actionsUrlMapping"/>
+        <entry key="/activity" value-ref="activityUrlMapping"/>
+        <entry key="/apps" value-ref="appUrlMapping"/>
+        <entry key="/people" value-ref="peopleUrlMapping"/>
+        <entry key="/blogs" value-ref="blogUrlMapping"/>
+        <entry key="/docs" value-ref="docUrlMapping"/>
+        <entry key="/community" value-ref="communityUrlMapping"/>
+        <entry key="/thread" value-ref="threadUrlMapping"/>
+        <entry key="/message" value-ref="messageUrlMapping"/>
+        <entry key="/projects" value-ref="projectUrlMapping"/>
+        <entry key="/tasks" value-ref="taskUrlMapping"/>
+        <entry key="/groups" value-ref="groupUrlMapping"/>
+        <entry key="/tags" value-ref="tagUrlMapping"/>
+        <entry key="/search" value-ref="searchUrlMapping"/>
+        <entry key="/opensearch.xml" value-ref="searchUrlMapping"/>
+        <entry key="/feeds" value-ref="feedUrlMapping"/>
+        <entry key="/skinfile" value-ref="skinUrlMapping"/>
+        <entry key="/bookmarks" value-ref="bookmarkUrlMapping"/>
+        <entry key="/status" value-ref="wallEntryUrlMapping"/>
+        <entry key="/polls" value-ref="pollUrlMapping"/>
+        <entry key="/streamentry" value-ref="streamEntryUrlMapping"/>
+        <entry key="/content" value-ref="contentUrlMapping"/>
+        <entry key="/places" value-ref="placesUrlMapping"/>
+        <entry key="/orgchart" value-ref="orgchartUrlMapping"/>
+        <entry key="/communications" value-ref="communicationsUrlMapping"/>
+        <entry key="/welcome" value-ref="welcomeUrlMapping"/>
+        <entry key="/synchro" value-ref="synchroUrlMapping"/>
+        <entry key="/portals" value-ref="synchroUrlMapping"/>
+    </util:map>
+
+    <bean id="synchroGlobal" class="com.grail.synchro.SynchroGlobal" />
+
+    <!-- DAO Bean definitions -->
+    <bean id="synchroProjectDAO" class="com.grail.synchro.dao.impl.ProjectDAOImpl">
+        <property name="dataSource">
+            <util:property-path path="dataSourceFactory.dataSource"/>
+        </property>
+        <property name="synchroDAOUtil" ref="synchroDAOUtil"/>
+        <property name="communityManager" ref="communityManagerImpl"/>
+    </bean>
+    
+    <bean id="synchroProjectDAONew" class="com.grail.synchro.dao.impl.ProjectDAOImplNew">
+        <property name="dataSource">
+            <util:property-path path="dataSourceFactory.dataSource"/>
+        </property>
+        <property name="synchroDAOUtil" ref="synchroDAOUtil"/>
+        <property name="communityManager" ref="communityManagerImpl"/>
+    </bean>
+
+    <bean id="endMarketDetailDAO" class="com.grail.synchro.dao.impl.EndMarketDetailDAOImpl">
+        <property name="dataSource">
+            <util:property-path path="dataSourceFactory.dataSource"/>
+        </property>
+    </bean>
+
+    <bean id="synchroReadTrackerDAO" class="com.grail.synchro.dao.impl.ReadTrackerDAOImpl">
+        <property name="dataSource">
+            <util:property-path path="dataSourceFactory.dataSource"/>
+        </property>
+    </bean>
+
+
+    <bean id="synchroReportDAO" class="com.grail.synchro.dao.impl.SynchroReportDAOImpl">
+        <property name="dataSource">
+            <util:property-path path="dataSourceFactory.dataSource"/>
+        </property>
+        <property name="synchroDAOUtil" ref="synchroDAOUtil"/>
+    </bean>
+
+	<bean id="synchroReportDAONew" class="com.grail.synchro.dao.impl.SynchroReportDAOImplNew">
+        <property name="dataSource">
+            <util:property-path path="dataSourceFactory.dataSource"/>
+        </property>
+        <property name="synchroDAOUtil" ref="synchroDAOUtil"/>
+    </bean>
+    
+    <bean id="synchroMetaFieldDAO" class="com.grail.synchro.dao.impl.SynchroMetaFieldDAOImpl">
+        <property name="dataSource">
+            <util:property-path path="dataSourceFactory.dataSource"/>
+        </property>
+        <property name="synchroDAOUtil" ref="synchroDAOUtil"/>
+    </bean>
+
+    <bean id="stageDAO" class="com.grail.synchro.dao.impl.StageDAOImpl">
+        <property name="dataSource">
+            <util:property-path path="dataSourceFactory.dataSource"/>
+        </property>
+        <property name="userDAO" ref="userDAO"/>
+    </bean>
+
+    <bean id="pibDAO" class="com.grail.synchro.dao.impl.PIBDAOImpl">
+        <property name="dataSource">
+            <util:property-path path="dataSourceFactory.dataSource"/>
+        </property>
+        <property name="synchroDAOUtil" ref="synchroDAOUtil"/>
+        <property name="projectWaiverDAO" ref="projectWaiverDAO"/>
+    </bean>
+
+    <bean id="proposalDAO" class="com.grail.synchro.dao.impl.ProposalDAOImpl">
+        <property name="dataSource">
+            <util:property-path path="dataSourceFactory.dataSource"/>
+        </property>
+        <property name="synchroDAOUtil" ref="synchroDAOUtil"/>
+    </bean>
+
+    <bean id="projectSpecsDAO" class="com.grail.synchro.dao.impl.ProjectSpecsDAOImpl">
+        <property name="dataSource">
+            <util:property-path path="dataSourceFactory.dataSource"/>
+        </property>
+        <property name="synchroDAOUtil" ref="synchroDAOUtil"/>
+    </bean>
+
+    <bean id="reportSummaryDAO" class="com.grail.synchro.dao.impl.ReportSummaryDAOImpl">
+        <property name="dataSource">
+            <util:property-path path="dataSourceFactory.dataSource"/>
+        </property>
+    </bean>
+
+    <bean id="projectEvaluationDAO" class="com.grail.synchro.dao.impl.ProjectEvaluationDAOImpl">
+        <property name="dataSource">
+            <util:property-path path="dataSourceFactory.dataSource"/>
+        </property>
+    </bean>
+    
+    <bean id="pibDAONew" class="com.grail.synchro.dao.impl.PIBDAOImplNew">
+        <property name="dataSource">
+            <util:property-path path="dataSourceFactory.dataSource"/>
+        </property>
+        <property name="synchroDAOUtil" ref="synchroDAOUtil"/>
+        <property name="projectWaiverDAO" ref="projectWaiverDAO"/>
+    </bean>
+
+    <bean id="proposalDAONew" class="com.grail.synchro.dao.impl.ProposalDAOImplNew">
+        <property name="dataSource">
+            <util:property-path path="dataSourceFactory.dataSource"/>
+        </property>
+        <property name="synchroDAOUtil" ref="synchroDAOUtil"/>
+    </bean>
+
+    <bean id="projectSpecsDAONew" class="com.grail.synchro.dao.impl.ProjectSpecsDAOImplNew">
+        <property name="dataSource">
+            <util:property-path path="dataSourceFactory.dataSource"/>
+        </property>
+        <property name="synchroDAOUtil" ref="synchroDAOUtil"/>
+    </bean>
+
+    <bean id="reportSummaryDAONew" class="com.grail.synchro.dao.impl.ReportSummaryDAOImplNew">
+        <property name="dataSource">
+            <util:property-path path="dataSourceFactory.dataSource"/>
+        </property>
+    </bean>
+
+    <bean id="projectEvaluationDAONew" class="com.grail.synchro.dao.impl.ProjectEvaluationDAOImplNew">
+        <property name="dataSource">
+            <util:property-path path="dataSourceFactory.dataSource"/>
+        </property>
+    </bean>
+    
+    <bean id="tpdSummaryDAO" class="com.grail.synchro.dao.impl.TPDSummaryDAOImpl">
+        <property name="dataSource">
+            <util:property-path path="dataSourceFactory.dataSource"/>
+        </property>
+        <property name="synchroDAOUtil" ref="synchroDAOUtil"/>
+    </bean>
+    
+    <bean id="qprSnapshotDAO" class="com.grail.synchro.dao.impl.QPRSnapshotDAOImpl">
+        <property name="dataSource">
+            <util:property-path path="dataSourceFactory.dataSource"/>
+        </property>
+        <property name="synchroDAOUtil" ref="synchroDAOUtil"/>
+    </bean>
+
+    <bean id="activityLogDAO" class="com.grail.synchro.dao.impl.ActivityLogDAOImpl">
+        <property name="dataSource">
+            <util:property-path path="dataSourceFactory.dataSource"/>
+        </property>
+    </bean>
+
+    <!-- Utils definitions -->
+    <bean id="synchroUtils" class="com.grail.synchro.util.SynchroUtils" init-method="init">
+        <property name="communityManager" ref="communityManager"/>
+        <property name="groupManager" ref="groupManagerImpl"/>
+        <property name="userManager" ref="userManager"/>
+        <property name="profileManager" ref="profileManager"/>
+        <property name="synchroProjectManager" ref="synchroProjectManager" />
+        <property name="pibManager" ref="pibManager" />
+        <property name="proposalManager" ref="proposalManager" />
+        <property name="reportSummaryManager" ref="reportSummaryManager" />
+        <property name="projectSpecsManager" ref="projectSpecsManager"/>
+
+    </bean>
+
+    <bean id="synchroDAOUtil" class="com.grail.synchro.dao.util.SynchroDAOUtil">
+        <property name="dataSource">
+            <util:property-path path="dataSourceFactory.dataSource"/>
+        </property>
+    </bean>
+
+    <!-- Manager definitions -->
+
+    <bean id="synchroProjectManager" class="com.grail.synchro.manager.impl.ProjectManagerImpl">
+        <property name="projectDAO" ref="synchroProjectDAO" />
+        <property name="endMarketDetailDAO" ref="endMarketDetailDAO" />
+        <property name="stageManager" ref="stageManager" />
+    </bean>
+    
+     <bean id="synchroProjectManagerNew" class="com.grail.synchro.manager.impl.ProjectManagerImplNew">
+        <property name="projectDAONew" ref="synchroProjectDAONew" />
+        <property name="endMarketDetailDAO" ref="endMarketDetailDAO" />
+        <property name="stageManager" ref="stageManager" />
+    </bean>
+
+    <bean id="projectCurrentStatusManger" class="com.grail.synchro.manager.impl.ProjectCurrentStatusManagerImpl" >
+        <property name="userManager" ref="userManager"/>
+        <property name="synchroProjectManager" ref="synchroProjectManager" />
+        <property name="pibManager" ref="pibManager" />
+        <property name="proposalManager" ref="proposalManager" />
+        <property name="projectSpecsManager" ref="projectSpecsManager" />
+        <property name="synchroUtils" ref="synchroUtils"/>
+        <property name="reportSummaryManager" ref="reportSummaryManager" />
+        <property name="projectEvaluationManager" ref="projectEvaluationManager" />
+        <property name="stageManager" ref="stageManager" />
+
+    </bean>
+
+    <bean id="permissionManager" class="com.grail.synchro.manager.impl.PermissionManagerImpl" lazy-init="true">
+        <property name="synchroUtils" ref="synchroUtils"/>
+        <property name="groupManager" ref="groupManagerImpl"/>
+        <property name="authenticationProvider" ref="authenticationProvider"/>
+    </bean>
+
+    <bean id="synchroReportManager" class="com.grail.synchro.manager.impl.SynchroReportManagerImpl" lazy-init="true">
+        <property name="synchroReportDAO" ref="synchroReportDAO"/>
+    </bean>
+    
+     <bean id="synchroReportManagerNew" class="com.grail.synchro.manager.impl.SynchroReportManagerImplNew" lazy-init="true">
+        <property name="synchroReportDAONew" ref="synchroReportDAONew"/>
+    </bean>
+
+    <bean id="synchroMetaFieldManager" class="com.grail.synchro.manager.impl.SynchroMetaFieldManagerImpl" lazy-init="true">
+        <property name="synchroMetaFieldDAO" ref="synchroMetaFieldDAO"/>
+    </bean>
+
+
+    <bean id="stageManager" class="com.grail.synchro.manager.impl.StageManagerImpl" >
+        <property name="stageDAO" ref="stageDAO"/>
+        <property name="synchroUtils" ref="synchroUtils"/>
+        <property name="userManager" ref="userManagerImpl" />
+        <property name="projectDAO" ref="synchroProjectDAO" />
+        <property name="emailManager" ref="emailManagerImpl" />
+        <property name="pibDAO" ref="pibDAO"/>
+        <property name="proposalDAO" ref="proposalDAO"/>
+        <property name="projectSpecsDAO" ref="projectSpecsDAO"/>
+        <property name="reportSummaryDAO" ref="reportSummaryDAO"/>
+        <property name="synchroProjectManager" ref="synchroProjectManager" />
+        <property name="proposalManager" ref="proposalManager" />
+        <property name="attachmentManager" ref="attachmentManagerImpl"/>
+
+
+    </bean>
+
+    <bean id="synchroReadTrackerManager" class="com.grail.synchro.manager.impl.ReadTrackerManagerImpl">
+        <property name="synchroReadTrackerDAO" ref="synchroReadTrackerDAO"/>
+    </bean>
+
+    <bean id="synchroAttachmentProxy" class="com.grail.synchro.proxy.SynchroAttachmentProxy">
+    </bean>
+
+    <bean id="synchroAttachmentEntitlementCheckProvider" scope="singleton" lazy-init="true" parent="baseEntitlementProvider" class="com.grail.synchro.objecttype.SynchroAttachmentEntitlementCheckProvider">
+    </bean>
+
+    <bean id="synchroAttachmentObjectType" class="com.grail.synchro.objecttype.SynchroAttachmentObjectType">
+        <property name="entitlementCheckProvider" ref="synchroAttachmentEntitlementCheckProvider"/>
+    </bean>
+
+    <bean id="pibManager" class="com.grail.synchro.manager.impl.PIBManagerImpl">
+        <property name="pibDAO" ref="pibDAO"/>
+        <property name="attachmentHelper" ref="attachmentHelper"/>
+        <property name="attachmentManager" ref="attachmentManagerImpl"/>
+        <property name="synchroProjectManager" ref="synchroProjectManager" />
+    </bean>
+
+    <bean id="proposalManager" class="com.grail.synchro.manager.impl.ProposalManagerImpl">
+        <property name="proposalDAO" ref="proposalDAO"/>
+        <property name="projectSpecsDAO" ref="projectSpecsDAO"/>
+        <property name="projectSpecsManager" ref="projectSpecsManager"/>
+        <property name="attachmentHelper" ref="attachmentHelper"/>
+        <property name="attachmentManager" ref="attachmentManagerImpl"/>
+        <property name="pibDAO" ref="pibDAO"/>
+        <property name="synchroProjectManager" ref="synchroProjectManager" />
+    </bean>
+
+    <bean id="projectSpecsManager" class="com.grail.synchro.manager.impl.ProjectSpecsManagerImpl">
+        <property name="projectSpecsDAO" ref="projectSpecsDAO"/>
+        <property name="attachmentHelper" ref="attachmentHelper"/>
+        <property name="attachmentManager" ref="attachmentManagerImpl"/>
+        <property name="pibDAO" ref="pibDAO"/>
+    </bean>
+
+    <bean id="reportSummaryManager" class="com.grail.synchro.manager.impl.ReportSummaryManagerImpl">
+        <property name="reportSummaryDAO" ref="reportSummaryDAO"/>
+        <property name="attachmentHelper" ref="attachmentHelper"/>
+        <property name="attachmentManager" ref="attachmentManagerImpl"/>
+        <property name="pibDAO" ref="pibDAO"/>
+        <property name="synchroUtils" ref="synchroUtils"/>
+        <property name="userManager" ref="userManagerImpl"/>
+        <property name="profileManager" ref="profileManager"/>
+
+    </bean>
+
+    <bean id="projectEvaluationManager" class="com.grail.synchro.manager.impl.ProjectEvaluationManagerImpl">
+        <property name="projectEvaluationDAO" ref="projectEvaluationDAO"/>
+    </bean>
+    
+    
+    <bean id="pibManagerNew" class="com.grail.synchro.manager.impl.PIBManagerImplNew">
+        <property name="pibDAONew" ref="pibDAONew"/>
+        <property name="attachmentHelper" ref="attachmentHelper"/>
+        <property name="attachmentManager" ref="attachmentManagerImpl"/>
+        <property name="synchroProjectManagerNew" ref="synchroProjectManagerNew" />
+    </bean>
+
+    <bean id="proposalManagerNew" class="com.grail.synchro.manager.impl.ProposalManagerImplNew">
+        <property name="proposalDAONew" ref="proposalDAONew"/>
+        <property name="projectSpecsDAONew" ref="projectSpecsDAONew"/>
+        <property name="projectSpecsManagerNew" ref="projectSpecsManagerNew"/>
+        <property name="attachmentHelper" ref="attachmentHelper"/>
+        <property name="attachmentManager" ref="attachmentManagerImpl"/>
+        <property name="pibDAONew" ref="pibDAONew"/>
+        <property name="synchroProjectManagerNew" ref="synchroProjectManagerNew" />
+    </bean>
+
+    <bean id="projectSpecsManagerNew" class="com.grail.synchro.manager.impl.ProjectSpecsManagerImplNew">
+        <property name="projectSpecsDAONew" ref="projectSpecsDAONew"/>
+        <property name="attachmentHelper" ref="attachmentHelper"/>
+        <property name="attachmentManager" ref="attachmentManagerImpl"/>
+        <property name="pibDAONew" ref="pibDAONew"/>
+    </bean>
+
+    <bean id="reportSummaryManagerNew" class="com.grail.synchro.manager.impl.ReportSummaryManagerImplNew">
+        <property name="reportSummaryDAONew" ref="reportSummaryDAONew"/>
+        <property name="attachmentHelper" ref="attachmentHelper"/>
+        <property name="attachmentManager" ref="attachmentManagerImpl"/>
+        <property name="pibDAONew" ref="pibDAONew"/>
+        <property name="synchroUtils" ref="synchroUtils"/>
+        <property name="userManager" ref="userManagerImpl"/>
+        <property name="profileManager" ref="profileManager"/>
+
+    </bean>
+
+    <bean id="projectEvaluationManagerNew" class="com.grail.synchro.manager.impl.ProjectEvaluationManagerImplNew">
+        <property name="projectEvaluationDAONew" ref="projectEvaluationDAONew"/>
+    </bean>
+    
+    <bean id="tpdSummaryManager" class="com.grail.synchro.manager.impl.TPDSummaryManagerImpl">
+        <property name="tpdSummaryDAO" ref="tpdSummaryDAO"/>
+    </bean>
+    
+    <bean id="qprSnapshotManager" class="com.grail.synchro.manager.impl.QPRSnapshotManagerImpl">
+        <property name="qprSnapshotDAO" ref="qprSnapshotDAO"/>
+        <property name="projectDAONew" ref="synchroProjectDAONew" />
+    </bean>
+
+    <!-- Action definitions -->
+
+    <bean id="synchroDashboardPaginationAction" class="com.grail.synchro.action.DashboardPaginationAction">
+        <property name="synchroProjectManager" ref="synchroProjectManager" />
+    </bean>
+
+    <bean id="synchroDashboardLogPaginationAction" class="com.grail.synchro.action.DashboardLogPaginationAction">
+        <property name="activityLogManager" ref="activityLogManager" />
+        <property name="synchroProjectManager" ref="synchroProjectManager" />
+    </bean>
+
+
+    <bean id="synchroHistoryPaginationAction" class="com.grail.synchro.action.ProjectHistoryPaginationAction">
+        <property name="synchroReadTrackerManager" ref="synchroReadTrackerManager" />
+        <property name="synchroProjectManager" ref="synchroProjectManager" />
+    </bean>
+
+    <bean id="synchroProjectPendingActivityAction" class="com.grail.synchro.action.ProjectPendingActivityPaginationAction">
+        <property name="synchroProjectManager" ref="synchroProjectManager" />
+        <property name="stageManager" ref="stageManager" />
+    </bean>
+
+    <bean id="synchroDashboardEndMarketAction" class="com.grail.synchro.action.DashboardEndMarketAction">
+        <property name="synchroProjectManager" ref="synchroProjectManager" />
+    </bean>
+
+
+    <bean id="projectStatusAction" class="com.grail.synchro.action.ProjectStatusAction">
+        <property name="synchroProjectManager" ref="synchroProjectManager" />
+        <property name="stageManager" ref="stageManager" />
+        <property name="proposalManager" ref="proposalManager" />
+    </bean>
+
+
+    <!-- DWR definitions -->
+     <dwr:configuration>
+        <dwr:create type="new" javascript="ProjectReadTracker" class="com.grail.synchro.rest.ReadTrackerUtilAction">
+            <dwr:include method="setReadTrackInfo"/>
+        </dwr:create>
+    </dwr:configuration>
+
+    <dwr:configuration>
+        <dwr:create type="new" javascript="SynchroLogUtil" class="com.grail.synchro.rest.SynchroLogUtilAction">
+            <dwr:include method="addLogActivity"/>
+            <dwr:include method="addEMLogActivity"/>
+        </dwr:create>
+    </dwr:configuration>
+
+    <dwr:configuration>
+        <dwr:create type="new" javascript="FieldMappingUtil" class="com.grail.synchro.rest.FieldMappingUtilAction">
+            <dwr:include method="getCategoryBrandMapping"/>
+            <dwr:include method="getMethodlogyMapping"/>
+            <dwr:include method="getMethodlogyNames"/>
+            <dwr:include method="getAreaByEndMarkets"/>
+            <dwr:include method="getRegionByEndMarkets"/>
+            <dwr:include method="getDataCollections"/>
+            <dwr:include method="getCollectionNames"/>
+            <dwr:include method="getDefaultBrandID"/>
+            <dwr:include method="getDefaultProposedMethodologyID"/>
+            <dwr:include method="getProposedMethodology"/>
+            <dwr:include method="getRegionByEndMarket"/>
+            <dwr:include method="getAreaByEndMarket"/>
+            <dwr:include method="getMethodologyTypeByMethodology"/>
+        </dwr:create>
+    </dwr:configuration>
+
+    <dwr:configuration>
+        <dwr:create type="new" javascript="MetaFieldUtil" class="com.grail.synchro.rest.MetaFieldUtilAction">
+            <dwr:include method="addEndMarket"/>
+            <dwr:include method="updateEndMarket"/>
+            <dwr:include method="deleteEndMarket"/>
+            <dwr:include method="sortEndMarketField"/>
+            <dwr:include method="addMethodology"/>
+            <dwr:include method="updateMethodology"/>
+            <dwr:include method="deleteMethodology"/>
+            <dwr:include method="sortMethodology"/>
+            <dwr:include method="addMethodologyGroup"/>
+            <dwr:include method="updateMethodologyGroup"/>
+            <dwr:include method="deleteMethodologyGroup"/>
+            <dwr:include method="sortMethodologyGroup"/>
+            <dwr:include method="addProduct"/>
+            <dwr:include method="updateProduct"/>
+            <dwr:include method="deleteProduct"/>
+            <dwr:include method="sortProduct"/>
+            <dwr:include method="addBrand"/>
+            <dwr:include method="updateBrand"/>
+            <dwr:include method="deleteBrand"/>
+            <dwr:include method="sortBrand"/>
+            <dwr:include method="addSupplierGroup"/>
+            <dwr:include method="updateSupplierGroup"/>
+            <dwr:include method="addSupplier"/>
+            <dwr:include method="updateSupplier"/>
+            <dwr:include method="addFwSupplierGroup"/>
+            <dwr:include method="updateFwSupplierGroup"/>
+            <dwr:include method="addFwSupplier"/>
+            <dwr:include method="updateFwSupplier"/>
+            <dwr:include method="addCurrency"/>
+            <dwr:include method="updateCurrency"/>
+            <dwr:include method="deleteCurrency"/>
+            <dwr:include method="sortCurrency"/>
+            <dwr:include method="addTAgency"/>
+            <dwr:include method="updateTAgency"/>
+            <dwr:include method="addDataCollection"/>
+            <dwr:include method="updateDataCollection"/>
+            <dwr:include method="deleteDataCollection"/>
+            <dwr:include method="sortDataCollection"/>
+            <dwr:include method="addMethodologyType"/>
+            <dwr:include method="updateMethodologyType"/>
+            <dwr:include method="deleteMethodologyType"/>
+            <dwr:include method="sortMethodologyType"/>
+            <dwr:include method="updateDefaultValue"/>
+            <dwr:include method="addRegion"/>
+            <dwr:include method="updateRegion"/>
+            <dwr:include method="deleteRegion"/>
+            <dwr:include method="sortRegion"/>
+            <dwr:include method="addArea"/>
+            <dwr:include method="updateArea"/>
+            <dwr:include method="deleteArea"/>
+            <dwr:include method="sortArea"/>
+            <dwr:include method="addJobTitle"/>
+            <dwr:include method="updateJobTitle"/>
+            <dwr:include method="deleteJobTitle"/>
+            <dwr:include method="sortJobTitle"/>
+            <dwr:include method="setCountryCurrencyMapping"/>
+            <dwr:include method="addGrailResearchAgencyGroup"/>
+            <dwr:include method="updateGrailResearchAgencyGroup"/>
+            <dwr:include method="addGrailResearchAgency"/>
+            <dwr:include method="updateGrailResearchAgency"/>
+            <dwr:include method="sortGrailResearchAgencyField"/>
+            <dwr:include method="deleteResearchAgency"/>
+            <dwr:include method="deleteResearchAgencyGroup"/>
+
+            <dwr:include method="addKantarButtonMethodologyType"/>
+            <dwr:include method="deleteKantarButtonMethodologyType"/>
+            <dwr:include method="updateKantarButtonMethodologyType"/>
+            <dwr:include method="sortKantarButtonMethodologyTypes"/>
+
+            <dwr:include method="addGrailButtonMethodologyType"/>
+            <dwr:include method="deleteGrailButtonMethodologyType"/>
+            <dwr:include method="updateGrailButtonMethodologyType"/>
+            <dwr:include method="sortGrailButtonMethodologyTypes"/>
+
+            <dwr:include method="addDocumentRepositoryReportType"/>
+            <dwr:include method="getDocumentRepositoryReportType"/>
+            <dwr:include method="deleteDocumentRepositoryReportType"/>
+            <dwr:include method="updateDocumentRepositoryReportType"/>
+            <dwr:include method="sortDocumentRepositoryReportTypes"/>
+
+        </dwr:create>
+    </dwr:configuration>
+
+    <dwr:configuration>
+        <dwr:create type="new" javascript="ExchangeRateTracker" class="com.grail.synchro.rest.ExchangeRateUtilAction">
+            <dwr:include method="setExchangeRate"/>
+        </dwr:create>
+    </dwr:configuration>
+
+    <!--<dwr:configuration>-->
+    <!--<dwr:create type="new" javascript="InviteUserUtil" class="com.grail.synchro.rest.InviteUserUtil">-->
+    <!--<dwr:include method="addInvite"/>-->
+    <!--<dwr:include method="removeInvite"/>-->
+    <!--<dwr:include method="getInviteIdByEmail"/>-->
+    <!--<dwr:include method="sendNotification"/>-->
+    <!--<dwr:include method="validateEmail"/>-->
+    <!--<dwr:include method="validateEmailRegex"/>-->
+    <!--<dwr:include method="getInvitedUsers"/>-->
+    <!--<dwr:convert class="com.grail.synchro.beans.InvitedUser" type="bean"/>-->
+    <!--</dwr:create>-->
+    <!--</dwr:configuration>-->
+    <bean id="inviteUserUtilBean" class="com.grail.synchro.rest.InviteUserUtil">
+        <property name="authenticationProvider" ref="authenticationProvider"/>
+        <dwr:remote javascript="InviteUserUtil">
+            <dwr:include method="addInvite"/>
+            <dwr:include method="removeInvite"/>
+            <dwr:include method="getInviteIdByEmail"/>
+            <dwr:include method="sendNotification"/>
+            <dwr:include method="validateEmail"/>
+            <dwr:include method="validateEmailRegex"/>
+            <dwr:include method="getInvitedUsers"/>
+            <dwr:convert class="com.grail.synchro.beans.InvitedUser" type="bean"/>
+        </dwr:remote>
+    </bean>
+
+    <bean id="dwrReadTrackerUtilAction" class="com.grail.synchro.rest.ReadTrackerUtilAction">
+        <property name="synchroReadTrackerManager" ref="synchroReadTrackerManager"/>
+    </bean>
+ 
+    <bean id="synchroGroupEventListener" class="com.grail.synchro.events.SynchroGroupEventListener" lazy-init="true">
+        <property name="groupManager" ref="groupManagerImpl"/>
+        <property name="synchroUtils" ref="synchroUtils" />
+        <property name="profileSearchIndexManager" ref="profileSearchIndexManagerImpl"/>
+    </bean>
+
+    <bean id="synchroUserEventListener" class="com.grail.synchro.events.SynchroUserEventListener" lazy-init="true">
+        <property name="userManager" ref="userManagerImpl"/>
+        <property name="synchroUtils" ref="synchroUtils" />
+        <property name="profileSearchIndexManager" ref="profileSearchIndexManagerImpl"/>
+    </bean>
+ 
+    <bean id="communityOptions" class="com.grail.synchro.action.CommunityOptions">
+        <property name="permissionManager" ref="permissionManager"/>
+    </bean>
+
+    <!-- PIB Related -->
+    <bean id="pibAction" class="com.grail.synchro.action.PIBAction">
+        <property name="pibManager" ref="pibManager"/>
+        <property name="synchroProjectManager" ref="synchroProjectManager"/>
+    </bean>
+
+
+    <!-- Project Status Dashboard -->
+    <bean id="synchroDashboardAction" class="com.grail.synchro.action.DashboardAction">
+        <property name="synchroProjectManager" ref="synchroProjectManager" />
+        <property name="permissionManager" ref="permissionManager"/>
+    </bean>
+
+    <bean id="synchroProjectStatusPaginationDashboardAction" class="com.grail.synchro.action.ProjectStatusPaginationAction">
+        <property name="synchroProjectManager" ref="synchroProjectManager" />
+    </bean>
+
+
+    <bean id="synchroDashboardLogAction" class="com.grail.synchro.action.DashboardLogAction">
+        <property name="permissionManager" ref="permissionManager"/>
+        <property name="synchroProjectManager" ref="synchroProjectManager" />
+    </bean>
+
+    <!--  Reports beans -->
+    <bean id="projectSummaryPaginationReportAction" class="com.grail.synchro.action.reports.ProjectSummaryPaginationReportAction">
+        <property name="synchroProjectManager" ref="synchroProjectManager" />
+    </bean>
+
+    <bean id="projectFinancialPaginationReportAction" class="com.grail.synchro.action.reports.ProjectFinancialPaginationReportAction">
+        <property name="synchroProjectManager" ref="synchroProjectManager" />
+    </bean>
+
+    <bean id="projectResearchCycleReportAction" class="com.grail.synchro.action.reports.ProjectResearchCycleReportAction">
+        <property name="synchroReportManager" ref="synchroReportManager" />
+    </bean>
+
+    <bean id="agencyEvaluationReportAction" class="com.grail.synchro.action.reports.AgencyEvaluationReportAction">
+        <property name="synchroReportManager" ref="synchroReportManager" />
+        <property name="synchroProjectManager" ref="synchroProjectManager" />
+    </bean>
+
+    <bean id="exchangeRateReportAction" class="com.grail.synchro.action.reports.ExchangeRateReportAction">
+        <property name="synchroReportManager" ref="synchroReportManager" />
+    </bean>
+
+    <bean id="projectWaiverManager" class="com.grail.synchro.manager.impl.ProjectWaiverManagerImpl">
+        <property name="projectWaiverDAO" ref="projectWaiverDAO"/>
+        <property name="attachmentHelper" ref="attachmentHelper"/>
+        <property name="attachmentManager" ref="attachmentManagerImpl"/>
+    </bean>
+
+    <bean id="projectWaiverDAO" class="com.grail.synchro.dao.impl.ProjectWaiverDAOImpl">
+        <property name="dataSource">
+            <util:property-path path="dataSourceFactory.dataSource"/>
+        </property>
+        <property name="synchroDAOUtil" ref="synchroDAOUtil"/>
+    </bean>
+    
+     <bean id="processWaiverManagerNew" class="com.grail.synchro.manager.impl.ProcessWaiverManagerImplNew">
+        <property name="processWaiverDAONew" ref="processWaiverDAONew"/>
+        <property name="attachmentHelper" ref="attachmentHelper"/>
+        <property name="attachmentManager" ref="attachmentManagerImpl"/>
+    </bean>
+
+    <bean id="processWaiverDAONew" class="com.grail.synchro.dao.impl.ProcessWaiverDAOImplNew">
+        <property name="dataSource">
+            <util:property-path path="dataSourceFactory.dataSource"/>
+        </property>
+        <property name="synchroDAOUtil" ref="synchroDAOUtil"/>
+    </bean>
+
+    <!-- Bean creations for My Library Starts here -->
+    <bean id="myLibraryDocumentProxy" class="com.grail.synchro.proxy.MyLibraryDocumentProxy">
+    </bean>
+    <bean id="myLibraryDocumentEntitlementCheckProvider" scope="singleton" lazy-init="true" parent="baseEntitlementProvider" class="com.grail.synchro.objecttype.MyLibraryDocumentEntitlementCheckProvider">
+    </bean>
+    <bean id="myLibraryDocumentObjectType" class="com.grail.synchro.objecttype.MyLibraryDocumentObjectType">
+        <property name="myLibraryManager" ref="myLibraryManager"/>
+        <property name="documentEntitlementCheckProvider" ref="myLibraryDocumentEntitlementCheckProvider"/>
+    </bean>
+    <bean id="myLibraryManager" class="com.grail.synchro.manager.impl.MyLibraryManagerImpl">
+        <property name="myLibraryDAO" ref="myLibraryDAO"/>
+        <property name="attachmentHelper" ref="attachmentHelper"/>
+        <property name="attachmentManager" ref="attachmentManagerImpl"/>
+    </bean>
+    <bean id="myLibraryDAO" class="com.grail.synchro.dao.impl.MyLibraryDAOImpl">
+        <property name="dataSource">
+            <util:property-path path="dataSourceFactory.dataSource"/>
+        </property>
+        <property name="synchroDAOUtil" ref="synchroDAOUtil"/>
+    </bean>
+    <!-- Bean creations for My Library ends here -->
+ 
+   <!-- <bean id="objectTypeManagerImpl" class="com.jivesoftware.community.objecttype.impl.ObjectTypeManagerImpl">
+        <property name="jiveProxyObjectLoader" ref="jiveObjectLoader"/>
+        <property name="jiveObjectLoader" ref="jiveObjectLoaderImpl"/>
+        <property name="licenseManager" ref="licenseManager"/>
+        <property name="objectTypeDAO" ref="objectTypeDAO"/>
+        <property name="upgradeManager" ref="upgradeManager"/>
+        <property name="initialContentTypes">
+            <util:list>
+                <ref bean="announcementContentType"/>
+                <ref bean="attachmentContentType"/>
+                <ref bean="binaryBodyContentType"/>
+                <ref bean="favoriteObjectType"/>
+                <ref bean="blogContentType"/>
+                <ref bean="blogPostContentType"/>
+                <ref bean="commentContentType"/>
+                <ref bean="communityContentType"/>
+                <ref bean="documentBackChannelContentType"/>
+                <ref bean="documentContentType"/>
+                <ref bean="documentVersionContentType"/>
+                <ref bean="externalUrlObjectType"/>
+                <ref bean="formattedTextObjectType"/>
+                <ref bean="forumMessageContentType"/>
+                <ref bean="forumThreadContentType"/>
+                <ref bean="groupObjectType"/>
+                <ref bean="imageContentType"/>
+                <ref bean="permissionLevelObjectType"/>
+                <ref bean="pollContentType"/>
+                <ref bean="pollOptionContentType"/>
+                <ref bean="projectContentType"/>
+                <ref bean="projectStatusObjectType"/>
+                <ref bean="privateMessageContentType"/>
+                <ref bean="taskContentType"/>
+                <ref bean="testConvertibleObjectType"/>
+                <ref bean="userContentType"/>
+                <ref bean="userContainerType"/>
+                <ref bean="systemContainerType"/>
+                <ref bean="userStatusObjectType"/>
+                <ref bean="socialGroupContentType"/>
+                <ref bean="privateSocialGroupObjectType"/>
+                <ref bean="bridgedContentObjectType"/>
+                <ref bean="bridgedContentMessageContentType"/>
+                <ref bean="remoteBridgedContentObjectType"/>
+                <ref bean="iphoneObjectType"/>
+                <ref bean="profileImageContentType"/>
+                <ref bean="wallEntryObjectType"/>
+                <ref bean="acclaimObjectType"/>
+                <ref bean="voteObjectType"/>
+                <ref bean="widgetFrameObjectType"/>
+                <ref bean="tagObjectType"/>
+                <ref bean="userRelationshipObjectType"/>
+                <ref bean="connectsServiceObjectType"/>
+                <ref bean="connectsAuthStyleObjectType"/>
+                <ref bean="connectsTagObjectType"/>
+                <ref bean="connectsConnectionObjectType"/>
+                <ref bean="connectsCredentialsTypeObjectType"/>
+                <ref bean="connectsHeaderObjectType"/>
+                <ref bean="connectsPropertyObjectType"/>
+                <ref bean="connectsOwnerObjectType"/>
+                <ref bean="appObjectType"/>
+                <ref bean="appDashboardInstanceObjectType"/>
+                <ref bean="appInstanceObjectType"/>
+                <ref bean="appAlertObjectType"/>
+                <ref bean="appInstanceAlertObjectType"/>
+                <ref bean="appDashboardObjectType"/>
+                <ref bean="appsDevSettingsObjectType"/>
+                <ref bean="apiEntitlementObjectType"/>
+                <ref bean="appDataObjectType"/>
+                <ref bean="appsMarketObjectType"/>
+                <ref bean="jiveSoftwareObjectType"/>
+                <ref bean="streamChannelObjectType"/>
+                <ref bean="streamEntryObjectType"/>
+                <ref bean="mentionObjectType"/>
+                <ref bean="eaeAcclaimObjectType"/>
+                <ref bean="latestLikesObjectType"/>
+                <ref bean="socialNewsObjectType"/>
+                <ref bean="statusLevelObjectType"/>
+                <ref bean="invitationObjectType"/>
+                <ref bean="directMessageObjectType"/>
+                <ref bean="testConvertibleObjectType"/>
+                <ref bean="inboxEntryObjectType"/>
+                <ref bean="shareObjectType"/>
+                <ref bean="jiveOAuthTokenObjectType"/>
+                <ref bean="oauthPairingObjectType"/>
+                <ref bean="deletedObjectType"/>
+                <ref bean="myLibraryDocumentObjectType"/>
+                <ref bean="synchroAttachmentObjectType"/>
+                <ref bean="defaultTemplateObjectType"/>
+                <ref bean="kantarAttachmentObjectType"/>
+                <ref bean="grailEmailQueryAttachmentObjectType"/>
+                <ref bean="grailAttachmentObjectType"/>
+            </util:list>
+        </property>
+    </bean>
+	-->
+	
+	<!-- This bean objectTypeManagerImpl is taken from spring-managerContext.xml file from Jive 8 -->
+	
+	<bean id="objectTypeManagerImpl" class="com.jivesoftware.community.objecttype.impl.ObjectTypeManagerImpl">
+        <property name="jiveObjectLoader" ref="jiveObjectLoaderImpl"/>
+        <property name="licenseManager" ref="licenseManager"/>
+        <property name="objectTypeDAO" ref="objectTypeDAO"/>
+        <property name="upgradeManager" ref="upgradeManager"/>
+        <property name="initialContentTypes">
+            <util:list>
+                <ref bean="acclaimObjectType"/>
+                <ref bean="activityGeneratorObjectType"/>
+                <ref bean="announcementContentType"/>
+                <ref bean="apiEntitlementObjectType"/>
+                <ref bean="appActionObjectType"/>
+                <ref bean="appAlertObjectType"/>
+                <ref bean="appDashboardInstanceObjectType"/>
+                <ref bean="appDashboardObjectType"/>
+                <ref bean="appDataObjectType"/>
+                <ref bean="appInstanceAlertObjectType"/>
+                <ref bean="appInstanceObjectType"/>
+                <ref bean="appObjectType"/>
+                <ref bean="appsDevSettingsObjectType"/>
+                <ref bean="appSecurityGroupAssocObjectType"/>
+                <ref bean="appsMarketObjectType"/>
+                <ref bean="associationObjectType"/>
+                <ref bean="attachmentContentType"/>
+                <ref bean="avatarObjectType"/>
+                <ref bean="binaryBodyContentType"/>
+                <ref bean="blogContentType"/>
+                <ref bean="blogPostContentType"/>
+                <ref bean="bridgedContentMessageContentType"/>
+                <ref bean="bridgedContentObjectType"/>
+                <ref bean="carouselContainerObjectType"/>
+                <ref bean="collaborationObjectType"/>
+                <ref bean="commentContentType"/>
+                <ref bean="communityContentType"/>
+                <ref bean="connectsAuthStyleObjectType"/>
+                <ref bean="connectsConnectionObjectType"/>
+                <ref bean="connectsCredentialsTypeObjectType"/>
+                <ref bean="connectsHeaderObjectType"/>
+                <ref bean="connectsOwnerObjectType"/>
+                <ref bean="connectsPropertyObjectType"/>
+                <ref bean="connectsServiceObjectType"/>
+                <ref bean="connectsTagObjectType"/>
+                <ref bean="contentPlaceRelationshipObjectType"/>
+                <ref bean="deletedObjectType"/>
+                <ref bean="directMessageObjectType"/>
+                <ref bean="documentBackChannelContentType"/>
+                <ref bean="documentContentType"/>
+                <ref bean="documentVersionContentType"/>
+                <ref bean="eaeAcclaimObjectType"/>
+                <ref bean="eaeProfileObjectType" />
+                <ref bean="eaeWelcomeObjectType"/>
+                <ref bean="endorsementObjectType" />
+                <ref bean="expertiseTagObjectType" />
+                <ref bean="exStorageAttachmentObjectType" />
+                <ref bean="exStorageCommentObjectType" />
+                <ref bean="exStorageContainerMemberObjectType" />
+                <ref bean="exStorageContainerObjectType"/>
+                <ref bean="exStorageDefinitionObjectType"/>
+                <ref bean="exStorageFileObjectType"/>
+                <ref bean="exStorageFileVersionObjectType"/>
+                <ref bean="exStorageInstanceObjectType"/>
+                <ref bean="exStoragePreviewObjectType" />
+                <ref bean="extendedInvitationObjectType"/>
+                <ref bean="extensionObjectType"/>
+                <ref bean="externalCommentObjectType"/>
+                <ref bean="externalUrlObjectType"/>
+                <ref bean="extPropsObjectType"/>
+                <ref bean="favoriteObjectType"/>
+                <ref bean="formattedTextObjectType"/>
+                <ref bean="forumMessageContentType"/>
+                <ref bean="forumThreadContentType"/>
+                <ref bean="globalAttachFilePermissionObjectType"/>
+                <ref bean="globalInsertImagePermissionObjectType"/>
+                <ref bean="groupObjectType"/>
+                <ref bean="imageContentType"/>
+                <ref bean="inboxCategoryObjectType"/>
+                <ref bean="inboxEntryObjectType"/>
+                <ref bean="interactionObjectType"/>
+                <ref bean="interactionPeriodObjectType"/>
+                <ref bean="invitationObjectType"/>
+                <ref bean="jiveOAuth2ClientObjectType" />
+                <ref bean="jiveOAuth2CodeObjectType" />
+                <ref bean="jiveOAuthTokenObjectType"/>
+                <ref bean="jiveSoftwareObjectType"/>
+                <ref bean="latestLikesObjectType"/>
+                <ref bean="mentionObjectType"/>
+                <ref bean="oauthPairingObjectType"/>
+                <ref bean="outcomeObjectType"/>
+                <ref bean="permissionLevelObjectType"/>
+                <ref bean="pollContentType"/>
+                <ref bean="pollOptionContentType"/>
+                <ref bean="privatePropsObjectType"/>
+                <ref bean="privateSocialGroupObjectType"/>
+                <ref bean="profileImageContentType"/>
+                <ref bean="profileFieldObjectType"/>
+                <ref bean="projectContentType"/>
+                <ref bean="projectStatusObjectType"/>
+                <ref bean="publicationObjectType"/>
+                <ref bean="recommendationContainerObjectType"/>
+                <ref bean="remoteBridgedContentObjectType"/>
+                <ref bean="sharedSocialGroupObjectType"/>
+                <ref bean="shareObjectType"/>
+                <ref bean="skinPaletteObjectType"/>
+                <ref bean="slideObjectType"/>
+                <ref bean="socialGroupContentType"/>
+                <ref bean="socialNewsObjectType"/>
+                <ref bean="staticObjectType"/>
+                <ref bean="statusLevelObjectType"/>
+                <ref bean="stepProgressObjectType"/>
+                <ref bean="streamChannelObjectType"/>
+                <ref bean="streamEntryObjectType"/>
+                <ref bean="streamObjectType"/>
+                <ref bean="subscriberObjectType"/>
+                <ref bean="subscriptionObjectType"/>
+                <ref bean="systemContainerType"/>
+                <ref bean="tagObjectType"/>
+                <ref bean="taskContentType"/>
+                <ref bean="templateCategoryObjectType"/>
+                <ref bean="templateObjectType"/>
+                <ref bean="termsAndConditionsObjectType"/>
+                <ref bean="testConvertibleObjectType"/>
+                <ref bean="testConvertibleObjectType"/>
+                <ref bean="tileCategoryObjectType"/>
+                <ref bean="tileInstanceObjectType"/>
+                <ref bean="tileObjectType"/>
+                <ref bean="tilePageObjectType"/>
+                <ref bean="tileStreamEntryObjectType"/>
+                <ref bean="userContainerType"/>
+                <ref bean="userContentType"/>
+                <ref bean="userRelationshipObjectType"/>
+                <ref bean="userStatusObjectType"/>
+                <ref bean="voteObjectType"/>
+                <ref bean="wallEntryObjectType"/>
+                <ref bean="webhookObjectType"/>
+                <ref bean="webhookQueueEntryObjectType"/>
+                <ref bean="widgetFrameObjectType"/>
+				<ref bean="myLibraryDocumentObjectType"/>
+                <ref bean="synchroAttachmentObjectType"/>
+                <ref bean="defaultTemplateObjectType"/>
+                <ref bean="kantarAttachmentObjectType"/>
+                <ref bean="grailEmailQueryAttachmentObjectType"/>
+                <ref bean="grailAttachmentObjectType"/>
+            </util:list>
+        </property>
+    </bean>
+
+
+    <!-- Phase 4 -->
+    <bean id="synchroProjectCreateAction"  class="com.grail.synchro.action.ProjectCreateAction">
+        <property name="synchroProjectManager" ref="synchroProjectManager" />
+        <property name="emailManager" ref="emailManagerImpl" />
+        <property name="stageManager" ref="stageManager" />
+    </bean>
+
+    <bean id="synchroProjectTemplateAction"  class="com.grail.synchro.action.ProjectTemplateAction">
+        <property name="synchroProjectManager" ref="synchroProjectManager" />
+    </bean>
+
+    <!-- SYNCHRO BEANS ENDS -->
+
+
+    <bean id="profileSearchFieldsDataCollator" class="com.jivesoftware.community.impl.search.user.ProfileSearchFieldsDataCollator">
+        <property name="profileFieldManager" ref="profileFieldManagerImpl"/>
+        <property name="profileSecurityManager" ref="profileSecurityManagerImpl"/>
+        <property name="statusLevelManager" ref="statusLevelManagerImpl"/>
+        <property name="groupManager" ref="groupManagerImpl"/> 
+    </bean>
+
+    <!-- Auto-save related beans -->
+    <bean id="autoSaveDAO" class="com.grail.synchro.dao.impl.AutoSaveDAOImpl">
+        <property name="dataSource">
+            <util:property-path path="dataSourceFactory.dataSource"/>
+        </property>
+        <property name="synchroDAOUtil" ref="synchroDAOUtil"/>
+    </bean>
+
+    <bean id="autoSaveManager" class="com.grail.synchro.manager.impl.AutoSaveManagerImpl">
+        <property name="autoSaveDAO" ref="autoSaveDAO"/>
+    </bean>
+
+    <bean id="activityLogManager" class="com.grail.synchro.manager.impl.ActivityLogManagerImpl">
+        <property name="activityLogDAO" ref="activityLogDAO"/>
+    </bean>
+
+    <!-- Auto-save related beans -->
+    <bean id="emailNotificationDAO" class="com.grail.synchro.dao.impl.EmailNotificationDAOImpl">
+        <property name="dataSource">
+            <util:property-path path="dataSourceFactory.dataSource"/>
+        </property>
+        <property name="synchroDAOUtil" ref="synchroDAOUtil"/>
+    </bean>
+
+    <bean id="emailNotificationManager" class="com.grail.synchro.manager.impl.EmailNotificationManagerImpl">
+        <property name="emailNotificationDAO" ref="emailNotificationDAO"/>
+    </bean>
+
+
+    <bean id="autoSaveService" class="com.grail.synchro.dwr.service.AutoSaveService">
+        <property name="autoSaveManager" ref="autoSaveManager"/>
+        <dwr:remote javascript="AutoSaveService">
+            <dwr:include method="saveDetails"/>
+            <dwr:include method="getDetails"/>
+            <dwr:include method="deleteDetails"/>
+        </dwr:remote>
+    </bean>
+
+    <bean id="synchroPermissionHelperService" class="com.grail.synchro.dwr.service.ProjectStageNavigatorHelperService">
+        <dwr:remote javascript="ProjectStageNavigatorHelperService">
+            <dwr:include method="hasAccess"/>
+            <dwr:include method="hasProposalAwardedAccess"/>
+            <dwr:include method="canChangeProjectStatus"/>
+            <dwr:include method="getStages"/>
+            <dwr:convert class="com.grail.synchro.beans.ProjectStage" type="bean" javascript="ProjectStage"/>
+        </dwr:remote>
+      
+    </bean>
+
+
+
+    <!--<bean id="dateEditor"-->
+    <!--class="com.grail.synchro.beans.propertyeditors.SynchroDatePropertyEditor">-->
+    <!--<constructor-arg>-->
+    <!--<bean class="java.text.SimpleDateFormat">-->
+    <!--<constructor-arg value="dd/MM/yyyy" />-->
+    <!--</bean>-->
+    <!--</constructor-arg>-->
+    <!--</bean>-->
+
+    <!--<bean id="synchroPropertyEditorRegistrar" class="com.grail.synchro.beans.SynchroPropertyEditorRegistrar">-->
+    <!--</bean>-->
+
+    <bean id="customEditProfileAction" class="com.jivesoftware.community.action.EditProfile" lazy-init="true">
+        <property name="groupManager" ref="groupManagerImpl"/>
+        <property name="profileSearchIndexManager" ref="profileSearchIndexManagerImpl"/>
+    </bean>
+
+    <bean id="customViewProfileAction" class="com.jivesoftware.community.action.ViewProfile" lazy-init="true">
+        <property name="groupManager" ref="groupManagerImpl"/>
+    </bean>
+
+    <!-- Project costs capturing bean definitions -->
+    <bean id="projectCostsCaptureTask" class="com.grail.synchro.scheduling.quartz.ProjectCostsCaptureTask"></bean>
+
+   <!-- <bean id="projectCostsCaptureJob" class="org.springframework.scheduling.quartz.JobDetailBean"> -->
+   <bean id="projectCostsCaptureJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+        <property name="jobClass" value="com.grail.synchro.scheduling.quartz.ProjectCostsCaptureJob"/>
+        <property name="jobDataAsMap">
+            <map>
+                <entry key="projectCostsCaptureTask" value-ref="projectCostsCaptureTask"/>
+            </map>
+        </property>
+		<property name="durability" value="true" />
+    </bean>
+
+   <!-- <bean id="projectCostsCaptureCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">-->
+    <bean id="projectCostsCaptureCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="projectCostsCaptureJob"/>
+        <property name="cronExpression" value="0 0 1 * * ?"/>
+	 <!--  <property name="cronExpression" value="0 0/5 * 1/1 * ? *"/>-->
+	   
+    </bean>
+
+    <bean id="projectCostsCaptureScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="jobDetails">
+            <list>
+                <ref bean="projectCostsCaptureJob"/>
+            </list>
+        </property>
+        <property name="triggers">
+            <list>
+                <ref bean="projectCostsCaptureCronTrigger"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="projectCostsCaptureDAO" class="com.grail.synchro.dao.impl.ProjectCostsCaptureDAOImpl">
+        <property name="dataSource">
+            <util:property-path path="dataSourceFactory.dataSource"/>
+        </property>
+        <property name="synchroDAOUtil" ref="synchroDAOUtil"/>
+    </bean>
+
+
+    <bean id="projectCostsCaptureManager" class="com.grail.synchro.manager.impl.ProjectCostsCaptureManagerImpl">
+        <property name="projectCostsCaptureDAO" ref="projectCostsCaptureDAO"/>
+    </bean>
+
+
+    <!-- User Departments realted definitions -->
+    <bean id="userDepartmentsDAO" class="com.grail.synchro.dao.impl.UserDepartmentsDAOImpl">
+        <property name="dataSource">
+            <util:property-path path="dataSourceFactory.dataSource"/>
+        </property>
+        <property name="synchroDAOUtil" ref="synchroDAOUtil"/>
+    </bean>
+
+    <bean id="userDepartmentsManager" class="com.grail.synchro.manager.impl.UserDepartmentsManagerImpl">
+        <property name="userDepartmentsDAO" ref="userDepartmentsDAO"/>
+    </bean>
+
+     <bean id="userDepartmentsService" class="com.grail.synchro.dwr.service.UserDepartmentsService">
+        <property name="userDepartmentsManager" ref="userDepartmentsManager"/>
+        <dwr:remote javascript="UserDepartmentsService">
+            <dwr:include method="save"/>
+            <dwr:include method="getAll"/>
+            <dwr:include method="get"/>
+            <dwr:include method="deleteDepartment"/>
+            <dwr:include method="getByName"/>
+            <dwr:convert class="com.grail.synchro.beans.UserDepartment" type="bean" javascript="UserDepartment"/>
+        </dwr:remote>
+    </bean>
+
+
+    <!-- Default Templates bean definitions -->
+    <bean id="defaultTemplateProxy" class="com.grail.synchro.proxy.DefaultTemplateProxy">
+    </bean>
+    <bean id="defaultTemplateEntitlementCheckProvider" scope="singleton" lazy-init="true" parent="baseEntitlementProvider"
+          class="com.grail.synchro.objecttype.DefaultTemplateEntitlementCheckProvider">
+    </bean>
+    <bean id="defaultTemplateObjectType" class="com.grail.synchro.objecttype.DefaultTemplateObjectType">
+        <property name="defaultTemplateManager" ref="defaultTemplateManager"/>
+        <property name="defaultTemplateEntitlementCheckProvider" ref="defaultTemplateEntitlementCheckProvider"/>
+    </bean>
+    <bean id="defaultTemplateDAO" class="com.grail.synchro.dao.impl.DefaultTemplateDAOImpl">
+        <property name="dataSource">
+            <util:property-path path="dataSourceFactory.dataSource"/>
+        </property>
+    </bean>
+
+    <bean id="defaultTemplateManager" class="com.grail.synchro.manager.impl.DefaultTemplateManagerImpl">
+        <property name="attachmentHelper" ref="attachmentHelper"/>
+        <property name="attachmentManager" ref="attachmentManagerImpl"/>
+        <property name="defaultTemplateDAO" ref="defaultTemplateDAO"/>
+    </bean>
+
+
+    <bean id="rawExtractService" class="com.grail.synchro.dwr.service.RawExtractService">
+        <dwr:remote javascript="RawExtractService">
+            <dwr:include method="update"/>
+        </dwr:remote>
+    </bean>
+
+    <!-- Grail Brief Template related beans -->
+    <bean id="grailBriefTemplateDAO" class="com.grail.dao.impl.GrailBriefTemplateDAOImpl">
+        <property name="dataSource">
+            <util:property-path path="dataSourceFactory.dataSource"/>
+        </property>
+        <property name="synchroDAOUtil" ref="synchroDAOUtil"/>
+    </bean>
+
+    <bean id="grailBriefTemplateManager" class="com.grail.manager.impl.GrailBriefTemplateManagerImpl">
+        <property name="grailBriefTemplateDAO" ref="grailBriefTemplateDAO"/>
+        <property name="attachmentHelper" ref="attachmentHelper"/>
+        <property name="attachmentManager" ref="attachmentManagerImpl"/>
+    </bean>
+    
+   <bean id="GrailBriefTemplateAutoSaveService" class="com.grail.dwr.service.GrailBriefTemplateAutoSaveService">
+        <dwr:remote javascript="GrailBriefTemplateAutoSaveService">
+            <dwr:include method="getDraftTemplate"/>
+            <dwr:include method="saveDraftTemplate"/>
+            <dwr:include method="deleteDraftTemplate"/>
+            <dwr:convert class="com.grail.beans.GrailBriefTemplate" type="bean"/>
+        </dwr:remote>
+    </bean>
+
+    <!-- Kantar Brief Template related beans -->
+    <bean id="kantarAttachmentProxy" class="com.grail.kantar.proxy.KantarAttachmentProxy">
+    </bean>
+    <bean id="kantarAttachmentEntitlementCheckProvider" scope="singleton" lazy-init="true" parent="baseEntitlementProvider" class="com.grail.kantar.objecttype.KantarAttachmentEntitlementCheckProvider">
+    </bean>
+    <bean id="kantarAttachmentObjectType" class="com.grail.kantar.objecttype.KantarAttachmentObjectType">
+        <property name="kantarAttachmentEntitlementCheckProvider" ref="kantarAttachmentEntitlementCheckProvider"/>
+    </bean>
+
+
+    <bean id="kantarBriefTemplateDAO" class="com.grail.kantar.dao.impl.KantarBriefTemplateDAOImpl">
+        <property name="dataSource">
+            <util:property-path path="dataSourceFactory.dataSource"/>
+        </property>
+        <property name="synchroDAOUtil" ref="synchroDAOUtil"/>
+    </bean>
+
+    <bean id="kantarBriefTemplateManager" class="com.grail.kantar.manager.impl.KantarBriefTemplateManagerImpl">
+        <property name="kantarBriefTemplateDAO" ref="kantarBriefTemplateDAO"/>
+        <property name="attachmentHelper" ref="attachmentHelper"/>
+        <property name="attachmentManager" ref="attachmentManagerImpl"/>
+    </bean>
+    <bean id="KantarBriefTemplateAutoSaveService" class="com.grail.kantar.dwr.service.KantarBriefTemplateAutoSaveService">
+        <dwr:remote javascript="KantarBriefTemplateAutoSaveService">
+            <dwr:include method="getDraftTemplate"/>
+            <dwr:include method="saveDraftTemplate"/>
+            <dwr:include method="deleteDraftTemplate"/>
+            <dwr:convert class="com.grail.kantar.beans.KantarBriefTemplate" type="bean"/>
+        </dwr:remote>
+    </bean>
+
+    <bean id="grailEmailQueriesDAO" class="com.grail.dao.impl.GrailEmailQueriesDAOImpl">
+        <property name="dataSource">
+            <util:property-path path="dataSourceFactory.dataSource"/>
+        </property>
+        <property name="synchroDAOUtil" ref="synchroDAOUtil"/>
+    </bean>
+
+    <bean id="grailEmailQueriesManager" class="com.grail.manager.impl.GrailEmailQueryManagerImpl">
+        <property name="grailEmailQueriesDAO" ref="grailEmailQueriesDAO"/>
+        <property name="attachmentHelper" ref="attachmentHelper"/>
+        <property name="attachmentManager" ref="attachmentManagerImpl"/>
+        <property name="emailManager" ref="emailManager"/>
+    </bean>
+
+    <!-- Synchro User Manager bean definitions -->
+    <!-- Kantar Brief Template related beans -->
+    <bean id="synchroUserDAO" class="com.grail.synchro.dao.impl.SynchroUserDAOImpl">
+        <property name="dataSource">
+            <util:property-path path="dataSourceFactory.dataSource"/>
+        </property>
+        <property name="synchroDAOUtil" ref="synchroDAOUtil"/>
+    </bean>
+
+    <bean id="synchroUserManager" class="com.grail.synchro.manager.impl.SynchroUserManagerImpl">
+        <property name="synchroUserDAO" ref="synchroUserDAO"/>
+    </bean>
+
+    <!-- Kantar Report bean definitions -->
+    <bean id="kantarReportDAO" class="com.grail.kantar.dao.impl.KantarReportDAOImpl">
+        <property name="dataSource">
+            <util:property-path path="dataSourceFactory.dataSource"/>
+        </property>
+        <property name="synchroDAOUtil" ref="synchroDAOUtil"/>
+    </bean>
+
+    <bean id="kantarReportManager" class="com.grail.kantar.manager.impl.KantarReportManagerImpl">
+        <property name="kantarReportDAO" ref="kantarReportDAO"/>
+        <property name="attachmentHelper" ref="attachmentHelper"/>
+        <property name="attachmentManager" ref="attachmentManagerImpl"/>
+    </bean>
+
+
+    <bean id="grailEmailQueryAttachmentProxy" class="com.grail.proxy.GrailEmailQueryAttachmentProxy">
+    </bean>
+    <bean id="grailEmailQueryAttachmentEntitlementCheckProvider" scope="singleton" lazy-init="true" parent="baseEntitlementProvider"
+          class="com.grail.objecttype.GrailEmailQueryAttachmentEntitlementCheckProvider">
+    </bean>
+    <bean id="grailEmailQueryAttachmentObjectType" class="com.grail.objecttype.GrailEmailQueryAttachmentObjectType">
+        <property name="grailEmailQueryAttachmentEntitlementCheckProvider" ref="grailEmailQueryAttachmentEntitlementCheckProvider"/>
+    </bean>
+
+
+    <bean id="grailAttachmentProxy" class="com.grail.proxy.GrailAttachmentProxy">
+    </bean>
+    <bean id="grailAttachmentEntitlementCheckProvider" scope="singleton" lazy-init="true" parent="baseEntitlementProvider"
+          class="com.grail.objecttype.GrailAttachmentEntitlementCheckProvider">
+    </bean>
+    <bean id="grailAttachmentObjectType" class="com.grail.objecttype.GrailAttachmentObjectType">
+        <property name="grailAttachmentEntitlementCheckProvider" ref="grailAttachmentEntitlementCheckProvider"/>
+    </bean>
+
+
+    <!-- Synchro Reminder Beans -->
+    <bean id="synchroReminderDAO" class="com.grail.synchro.dao.impl.SynchroReminderDAOImpl">
+        <property name="dataSource">
+            <util:property-path path="dataSourceFactory.dataSource"/>
+        </property>
+        <property name="synchroDAOUtil" ref="synchroDAOUtil"/>
+    </bean>
+
+    <bean id="synchroReminderManager" class="com.grail.synchro.manager.impl.SynchroReminderManagerImpl">
+        <property name="synchroReminderDAO" ref="synchroReminderDAO"/>
+    </bean>
+
+ <bean id="synchroReminderTask" class="com.grail.synchro.scheduling.quartz.SynchroReminderTask"></bean>
+
+  <!--  <bean id="synchroReminderJob" class="org.springframework.scheduling.quartz.JobDetailBean">-->
+ <bean id="synchroReminderJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+    <property name="jobClass" value="com.grail.synchro.scheduling.quartz.SynchroReminderJob"/>
+        <property name="jobDataAsMap">
+            <map>
+                <entry key="synchroReminderTask" value-ref="synchroReminderTask"/>
+            </map>
+        </property>
+		<property name="durability" value="true" />
+    </bean>
+
+    <!--<bean id="synchroReminderCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">-->
+	<bean id="synchroReminderCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="synchroReminderJob"/>
+        <property name="cronExpression" value="0 0 7 * * ?"/>
+    </bean>
+
+    <bean id="synchroReminderScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="jobDetails">
+            <list>
+                <ref bean="synchroReminderJob"/>
+            </list>
+        </property>
+        <property name="triggers">
+            <list>
+                <ref bean="synchroReminderCronTrigger"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="synchroReminderEventListener" class="com.grail.synchro.events.SynchroReminderEventListener"></bean>
+
+    <!-- SYNCHRO BEANS ENDS -->
+    
+    <!-- OSP BEANS START -->
+    
+    <bean id="ospManager" class="com.grail.osp.manager.impl.OSPManagerImpl">
+        <property name="ospDAO" ref="ospDAO"/>
+        <property name="attachmentHelper" ref="attachmentHelper"/>
+        <property name="attachmentManager" ref="attachmentManagerImpl"/>
+    </bean>
+    
+    <bean id="ospDAO" class="com.grail.osp.dao.impl.OSPDAOImpl">
+        <property name="dataSource">
+            <util:property-path path="dataSourceFactory.dataSource"/>
+        </property>
+         <property name="synchroDAOUtil" ref="synchroDAOUtil"/>
+    </bean>
+    
+    <bean id="ospAttachmentProxy" class="com.grail.osp.proxy.OSPAttachmentProxy">
+    </bean>
+
+    <bean id="ospAttachmentEntitlementCheckProvider" scope="singleton" lazy-init="true" parent="baseEntitlementProvider" class="com.grail.osp.objecttype.OSPAttachmentEntitlementCheckProvider">
+    </bean>
+
+    <bean id="ospAttachmentObjectType" class="com.grail.osp.objecttype.OSPAttachmentObjectType">
+        <property name="documentEntitlementCheckProvider" ref="ospAttachmentEntitlementCheckProvider"/>
+    </bean>
+    
+    
+	<!-- OSP BEANS END -->
+	
+</beans>

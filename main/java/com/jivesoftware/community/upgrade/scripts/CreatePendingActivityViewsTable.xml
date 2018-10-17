@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<!-- Table definition for PIBBrandMapping -->
+<schema name="CreatePendingActivityViewsTable">
+
+    <table name="grailPendingActivityViews" description="">
+        <column name="projectId" type="bigint" nullable="false" description=""/>
+        <column name="activityTypeId" type="bigint" nullable="false" description=""/>
+        <column name="userId" type="bigint" nullable="false" description=""/>
+        <column name="viewed" type="bigint" nullable="false" description=""/>
+    </table>
+
+</schema>

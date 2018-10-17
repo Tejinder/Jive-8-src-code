@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+
+<!-- Table definition for Projects -->
+<schema name="CreateProposalTable">
+
+    <table name="grailProposal" description="">
+        <column name="projectID" type="bigint" nullable="false" description=""/>
+        <column name="endMarketID" type="bigint" nullable="false" description=""/>
+        <column name="agencyID" type="bigint" nullable="false" description=""/>
+        <column name="bizQuestion" type="varchar" size="1000" nullable="true" description=""/>
+        <column name="researchObjective" type="varchar" size="1000" nullable="true" description=""/>
+        <column name="actionStandard" type="varchar" size="1000" nullable="true" description=""/>
+        <column name="researchDesign" type="varchar" size="5000" nullable="true" description=""/>
+        <column name="sampleProfile" type="varchar" size="1000" nullable="true" description=""/>
+        <column name="stimulusMaterial" type="varchar" size="1000" nullable="true" description=""/>
+        <column name="stimulusMaterialShipped" type="varchar" size="1000" nullable="true" description=""/>
+        <column name="others" type="varchar" size="1000" nullable="true" description=""/>
+        <column name="proposalCostTemplate" type="varchar" size="2000" nullable="true" description=""/>
+        <column name="stimuliDate" type="bigint" nullable="true" description=""/>
+        <column name="npiReferenceNo" type="varchar" size="1000" nullable="true" description=""/>
+        <column name="isSubmitted" type="int" nullable="true" description="Is the agency proposal submitted"/>
+        <column name="isAwarded" type="int" nullable="true" description="Is the agency proposal awarded"/>
+        <column name="isSendToProjectOwner" type="int" nullable="true" description="Is the proposal send to Project Owner"/>
+        <column name="isReqClariModification" type="int" nullable="true" description="Is the proposal requested for clarification"/>
+        
+        <column name="brand" type="bigint" nullable="false" description="Proposal Agency SPI Brand ID"/>
+        <column name="projectOwner" type="bigint" nullable="false" description="Proposal Agency SPI Owner ID"/>
+        <column name="spiContact" type="bigint" nullable="false" description="Proposal Agency SPI Contact ID"/>
+        <column name="proposedMethodology" type="bigint" nullable="true" description="Proposal Agency Proposed Methodology ID"/> 
+        <column name="startDate" type="bigint" nullable="false" description="Proposal Agency Start Date"/>
+		<column name="endDate" type="bigint" nullable="false" description="Proposal Agency End Date"/>		
+		<column name="methodologyType" type="bigint" nullable="false" description="Proposal Agency Methodology Type"/>
+		<column name="methodologyGroup" type="bigint" nullable="false" description="Proposal Agency Methodology Group ID"/>
+        
+        <!-- Audit fields -->
+        <column name="creationBy" type="bigint" nullable="false" description="Author who created the content"/>
+        <column name="modificationBy" type="bigint" nullable="false" description="Author who modified the content"/>
+        <column name="creationDate" type="bigint" nullable="false" description="Creation date"/>
+        <column name="modificationDate" type="bigint" nullable="false" description="Modification date"/>
+        <column name="status" type="int" nullable="false" description="Status of Proposal"/>
+        <column name="caprating" type="bigint" nullable="true" description="CAP Rating"/>
+        <index type="normal" name="grailProposal_Idx" column="projectID,endMarketID,agencyID"/>
+
+    </table>
+
+</schema>

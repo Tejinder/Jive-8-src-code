@@ -1,0 +1,339 @@
+<?xml version="1.0"?>
+
+<components xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:noNamespaceSchemaLocation="http://www.jivesoftware.com/schemas/clearspace/1_1/ui-components.xsd">
+
+    <!-- BEGIN Changes for Actions related to Discussions (Messages/Threads) -->
+    <component id="thread-actions">
+        <tab id="thread-actions-tab" name="forum.thrd.actions.gtitle">
+            <item id="jive-link-edit" name="thread.edit_thread.link" cssClass="jive-icon-med jive-icon-edit">
+                <when>
+                    <![CDATA[MessagePermHelper.getCanEditMessage(thread.rootMessage)]]></when>
+                <url><![CDATA[<@s.url value='/synchro/message/${thread.rootMessage.ID?c}/synchro-editDiscussion' />]]></url>
+            </item>
+
+            <item id="jive-link-delete" name="thread.delete_thread.link" cssClass="jive-icon-med jive-icon-delete js-link-delete">
+                <when>
+                    <![CDATA[MessagePermHelper.getCanDeleteThread(thread)]]></when>
+                <url>
+                    <![CDATA[<@s.url action='synchro-deleteDiscussion' method='input'><@s.param name='message' value='${thread.rootMessage.ID?c}'/></@s.url>]]></url>
+            </item>
+
+
+            <item id="jive-link-thread-pdf" name="thread.pdf.link" cssClass="jive-icon-med jive-icon-doctype-acrobat">
+                <when>
+                    <![CDATA[user?exists && !user.anonymous && thread.messageCount < JiveGlobals.getJiveIntProperty("thread.allMessageActions.messageLimit", 200)]]></when>
+                <url><![CDATA[<@s.url value='/thread/${thread.ID?c}.pdf'/>]]></url>
+            </item>
+
+            <item id="jive-link-thread-watch" name="thread.start_watch.link"
+                  cssClass="jive-icon-med jive-icon-message-open" url="#">
+                <when>
+                    <![CDATA[user?exists && !user.anonymous && !action.isWatching(thread) && action.isWatchingEnabled()]]></when>
+            </item>
+
+            <item id="jive-link-thread-unwatch" name="thread.stop_watch.link"
+                  cssClass="jive-icon-med jive-icon-message-open" url="#">
+                <when>
+                    <![CDATA[user?exists && !user.anonymous && action.isWatching(thread) && action.isWatchingEnabled()]]></when>
+            </item>
+            <!--
+            <item id="jive-link-thread-print" name="print.preview.link"
+                  cssClass="jive-icon-med jive-icon-print-preview">
+                <when><![CDATA[thread.messageCount < JiveGlobals.getJiveIntProperty("thread.allMessageActions.messageLimit", 200)]]></when>
+                <url><![CDATA[<@s.url value='/thread/${thread.ID?c}?decorator=print&displayFullThread=true'/>]]></url>
+            </item>
+            -->
+            <item id="featured-toggle-unfeature" url="#" onclick="toggleFeatured(); return false;"
+                  name="featuredcontent.unfeature">
+                <cssClass>
+                    jive-icon-med jive-icon-forbidden
+                </cssClass>
+                <when><![CDATA[JiveContainerPermHelper.isContainerAdmin(container)]]></when>
+                <style>
+                    <![CDATA[<#if !action.isFeatureable(thread)>display:none<#elseif !action.isFeatured(thread) >display:none</#if>]]></style>
+
+            </item>
+            <item id="featured-toggle-feature" url="#" onclick="toggleFeatured(); return false;"
+                  name="featuredcontent.feature">
+                <cssClass>
+                    jive-icon-med jive-icon-plus
+                </cssClass>
+                <when><![CDATA[JiveContainerPermHelper.isContainerAdmin(container)]]></when>
+                <style>
+                    <![CDATA[<#if !action.isFeatureable(thread)>display:none<#elseif action.isFeatured(thread) >display:none</#if>]]></style>
+
+            </item>
+            <item id="jive-link-thread-stopTracking" name="global.stop_tracking"
+                  cssClass="jive-icon-med jive-icon-stop-tracking" url="#">
+                <style>
+                    <![CDATA[<#if !action.isTrackable()>display:none<#elseif !action.isTracked() >display:none</#if>]]></style>
+            </item>
+            <item id="jive-link-thread-startTracking" name="global.track" cssClass="jive-icon-med jive-icon-track"
+                  url="#">
+                <style>
+                    <![CDATA[<#if !action.isTrackable()>display:none<#elseif action.isTracked() >display:none</#if>]]></style>
+            </item>
+
+        </tab>
+        <!-- hidden the below actions for discussions -->
+        <hide id="jive-link-unlock"/>
+        <hide id="jive-link-lock"/>
+        <hide id="jive-link-move"/>
+        <hide id="jive-link-wiki"/>
+    </component>
+
+    <!-- END Changes for Actions related to Discussions (Messages/Threads) -->
+
+    <!-- BEGIN Changes for Actions related to Discussions (Messages/Threads) from List View Discussion Page -->
+    <component id="thread-actions-viewAll">
+        <tab id="thread-actions-tab" name="forum.thrd.actions.gtitle">
+            <item id="jive-link-edit" name="thread.edit_thread.link" cssClass="jive-icon-med jive-icon-edit">
+                <when>
+                    <![CDATA[MessagePermHelper.getCanEditMessage(thread.rootMessage)]]></when>
+                <url><![CDATA[<@s.url value='/synchro/message/${thread.rootMessage.ID?c}/synchro-editDiscussion/viewAll' />]]></url>
+            </item>
+
+            <!-- TODO Need to add the Delete action for deleting discussion 
+             <item id="jive-link-delete" name="thread.delete_thread.link"
+                   cssClass="jive-icon-med jive-icon-delete js-link-delete">
+                 <when>
+                     <![CDATA[MessagePermHelper.getCanDeleteThread(thread)]]></when>
+                 <url>
+                     <![CDATA[<@s.url action='synchro-deleteDiscussion' method='input'><@s.param name='message' value='${thread.rootMessage.ID?c}'/></@s.url>]]></url>
+             </item>
+
+            -->
+            <item id="jive-link-thread-pdf" name="thread.pdf.link" cssClass="jive-icon-med jive-icon-doctype-acrobat">
+                <when>
+                    <![CDATA[user?exists && !user.anonymous && thread.messageCount < JiveGlobals.getJiveIntProperty("thread.allMessageActions.messageLimit", 200)]]></when>
+                <url><![CDATA[<@s.url value='/thread/${thread.ID?c}.pdf'/>]]></url>
+            </item>
+
+            <item id="jive-link-thread-watch" name="thread.start_watch.link"
+                  cssClass="jive-icon-med jive-icon-message-open" url="#">
+                <when>
+                    <![CDATA[user?exists && !user.anonymous && !action.isWatching(thread) && action.isWatchingEnabled()]]></when>
+            </item>
+
+            <item id="jive-link-thread-unwatch" name="thread.stop_watch.link"
+                  cssClass="jive-icon-med jive-icon-message-open" url="#">
+                <when>
+                    <![CDATA[user?exists && !user.anonymous && action.isWatching(thread) && action.isWatchingEnabled()]]></when>
+            </item>
+
+            <item id="featured-toggle-unfeature" url="#" onclick="toggleFeatured(); return false;"
+                  name="featuredcontent.unfeature">
+                <cssClass>
+                    jive-icon-med jive-icon-forbidden
+                </cssClass>
+                <when><![CDATA[JiveContainerPermHelper.isContainerAdmin(container)]]></when>
+                <style>
+                    <![CDATA[<#if !action.isFeatureable(thread)>display:none<#elseif !action.isFeatured(thread) >display:none</#if>]]></style>
+
+            </item>
+            <item id="featured-toggle-feature" url="#" onclick="toggleFeatured(); return false;"
+                  name="featuredcontent.feature">
+                <cssClass>
+                    jive-icon-med jive-icon-plus
+                </cssClass>
+                <when><![CDATA[JiveContainerPermHelper.isContainerAdmin(container)]]></when>
+                <style>
+                    <![CDATA[<#if !action.isFeatureable(thread)>display:none<#elseif action.isFeatured(thread) >display:none</#if>]]></style>
+
+            </item>
+            <item id="jive-link-thread-stopTracking" name="global.stop_tracking"
+                  cssClass="jive-icon-med jive-icon-stop-tracking" url="#">
+                <style>
+                    <![CDATA[<#if !action.isTrackable()>display:none<#elseif !action.isTracked() >display:none</#if>]]></style>
+            </item>
+            <item id="jive-link-thread-startTracking" name="global.track" cssClass="jive-icon-med jive-icon-track"
+                  url="#">
+                <style>
+                    <![CDATA[<#if !action.isTrackable()>display:none<#elseif action.isTracked() >display:none</#if>]]></style>
+            </item>
+
+        </tab>
+        <!-- hidden the below actions for discussions -->
+        <hide id="jive-link-unlock"/>
+        <hide id="jive-link-lock"/>
+        <hide id="jive-link-move"/>
+        <hide id="jive-link-wiki"/>
+    </component>
+
+    <!-- END Changes for Actions related to Discussions (Messages/Threads) -->
+
+    <component id="synchro-document-actions">
+        <tab id="document-actions-tab" name="doc.main.actions.gtitle">
+            <item id="jive-link-edit1" cssClass="jive-icon-med jive-icon-edit">
+                <name><![CDATA[<#import "/template/global/include/jive-macros.ftl" as jive><span class="jive-wiki-edit-action-notification"><span class="jive-icon-med jive-icon-edit"></span>
+			<em><@s.text name="settings.currntlyEditedBy.label" /> <@jive.userDisplayNameLink user=document.editUser /></em>
+			</span>]]></name>
+                <when>
+                    <![CDATA[(allowedToEdit && document.textBody) && editStage && (document.documentBeingEdited && !pageUserEditingDocument)]]></when>
+            </item>
+
+            <item id="jive-link-edit2" name="doc.main.edit_document.link" cssClass="jive-icon-med jive-icon-edit">
+                <url>
+                    <![CDATA[<@s.url value='/synchro/${projectID?c}/doc-edit/${document.documentID}/${stageId}'/>]]></url>
+                <when>
+                    <![CDATA[(latestVersion) && (allowedToEdit && document.textBody) && editStage && (!document.documentBeingEdited || pageUserEditingDocument)]]></when>
+            </item>
+
+            <item id="jive-link-edit3" name="doc.ver.edit_docuument.link" cssClass="jive-icon-med jive-icon-edit">
+                <url>
+                    <![CDATA[<@s.url value='/synchro/${projectID?c}/doc-edit/${document.documentID}/${stageId}'/>]]></url>
+                <when>
+                    <![CDATA[(!latestVersion) && (allowedToEdit && document.textBody) && editStage && (!document.documentBeingEdited || pageUserEditingDocument)]]></when>
+            </item>
+
+            <item id="jive-link-edit" name="doc.main.edit_document.link" cssClass="jive-icon-med jive-icon-edit">
+                <url><![CDATA[<@s.url value='/synchro/${projectID?c}/doc-edit/${document.documentID}/${stageId}'/>]]></url>
+                <when><![CDATA[(allowedToEdit && editStage && !document.textBody)]]></when>
+            </item>
+
+
+            <item id="jive-link-manage-versions" name="doc.main.manage_doc.link" cssClass="jive-icon-med jive-icon-document-manage">
+                <url><![CDATA[<@s.url value='/synchro/${projectID?c}/${stageId}/docs/${document.documentID}/version'/>]]></url>
+                <when><![CDATA[allowedToEdit && editStage]]></when>
+            </item>
+
+
+            <item id="jive-link-document-pdf" name="doc.download_as_pdf.link"
+                  cssClass="jive-icon-med jive-icon-doctype-acrobat">
+                <url><![CDATA[<@s.url value='/docs/${document.documentID}.pdf' />]]></url>
+                <when><![CDATA[user?exists && !user.anonymous && document.textBody]]></when>
+            </item>
+        </tab>
+
+        <hide id="jive-link-restore"/>
+        <hide id="jive-link-abuse"/>
+        <hide id="jive-link-move"/>
+        <hide id="jive-link-manage-private-doc-collab"/>
+        <hide id="jive-link-manage-doc-collab"/>
+        <hide id="jive-link-thread-watch"/>
+        <hide id="jive-link-thread-unwatch"/>
+        <hide id="featured-toggle-unfeature"/>
+        <hide id="featured-toggle-feature"/>
+        <hide id="jive-link-document-stopTracking"/>
+        <hide id="jive-link-document-startTracking"/>
+        <hide id="jive-link-delete"/>
+    </component>
+
+    <component id="admin-console">
+        <tab id="event-analytics" name="admin.decorator.menu.session_analytics" url="usersReportInput.jspa"
+             description="admin.decorator.menu.system.description" role="Manage System, Manage Users">
+            <section id="active-users-session" name="admin.decorator.menu.session_analytics.active_sessions"
+                     description="admin.decorator.menu.session_analytics.description">
+                <item id="user-report" name="admin.decorator.menu.session_analytics.user_report"
+                      url="usersReportInput.jspa"
+                      description="admin.decorator.menu.session_analytics.user_report.desc"/>
+                <item id="document-report" name="admin.decorator.menu.session_analytics.document_report"
+                      url="docReportInput.jspa"
+                      description="admin.decorator.menu.session_analytics.document_report.desc"/>
+            </section>
+        </tab>
+
+
+        <!-- SYNCHRO CHANGES STARTS -->
+         <tab id="syn-dashboard" name="admin.decorator.synchro.menu.dashboard" url="synchro-endmarkets.jsp"
+             description="admin.decorator.synchro.menu.dashboard.description"
+             role="Manage System">
+            <section id="synchro-config-list" name="synchro.properties"
+                     description="synchro.properties.desc">
+                <item id="end-market" name="synchro.endMarkets"
+                      url="synchro-endmarkets.jsp"
+                      description="synchro.endMarkets.desc"/>
+                <item id="synchro-region" name="synchro.regions"
+                      url="synchro-region.jsp"
+                      description="synchro.regions.desc"/>
+                <item id="synchro-area" name="synchro.areas"
+                      url="synchro-area.jsp"
+                      description="synchro.areas.desc"/>
+				<item id="research-agency" name="synchro.grail.research.agency"
+                      url="research-agency.jsp"
+                      description="synchro.grail.research.agency.desc"/>
+				<item id="research-agency-group" name="synchro.grail.research.group"
+                      url="research-agency-group.jsp"
+                      description="synchro.grail.research.group.desc"/>
+				<item id="synchro-T20T40" name="synchro.T20T40"
+                      url="synchro-T20T40.jsp"
+                      description="synchro.T20T40.desc"/>
+                <item id="synchro-product" name="synchro.categories"
+                      url="synchro-product.jsp"
+                      description="synchro.categories.desc"/>
+                <item id="synchro-brand" name="synchro.brands"
+                      url="synchro-brand.jsp"
+                      description="synchro.brands.desc"/>
+                <item id="synchro-jobtitle" name="synchro.jobTitle"
+                      url="synchro-jobtitle.jsp"
+                      description="synchro.jobTitle.desc"/>
+                <item id="methodology-type" name="synchro.methType"
+                      url="synchro-methodology-type.jsp"
+                      description="synchro.methType.desc"/>
+                <item id="data-collection" name="synchro.dataCollection"
+                      url="synchro-dcollection.jsp"
+                      description="synchro.dataCollection.desc"/>
+                <item id="methodology-groups" name="synchro.methGroup"
+                      url="synchro-methodology-groups.jsp"
+                      description="synchro.methGroup.desc"/>
+                <item id="proposed-methodology" name="synchro.propMeth"
+                      url="synchro-proposed-methodology.jsp"
+                      description="synchro.propMeth.desc"/>
+                <item id="currency" name="synchro.currency"
+                      url="synchro-currency.jsp"
+                      description="synchro.currency.desc"/>
+                <item id="country-currency" name="synchro.countryCurrency"
+                      url="synchro-country-currency.jsp"
+                      description="synchro.countryCurrency.desc"/>
+                <item id="currency-rates" name="synchro.currencyRate"
+                      url="synchro-currency-rates.jsp"
+                      description="synchro.currencyRate.desc"/>
+                <item id="departments" name="synchro.department"
+                      url="user-departments.jsp"
+                      description="synchro.department.desc"/>
+                <item id="updateRawExtract" name="synchro.rawExtract"
+                      url="update-raw-extract.jsp"
+                      description="synchro.rawExtract.desc"/>
+                      
+                 <item id="downloadRawExtract" name="synchro.download.rawExtract"
+                      url="/new-synchro/downloadRawExtract.jspa"
+                      description="synchro.download.rawExtract.desc"/>      
+
+                <item id="grailBriefTemplatesRawExtract" name="grail.rawExtract"
+                      url="grail-brief-templates-raw-extract.jsp"
+                      description="grail.rawExtract.desc"/>
+
+                <item id="kantarBriefTemplatesRawExtract" name="kantar.rawExtract"
+                      url="kantar-brief-templates-raw-extract.jsp"
+                      description="kantar.rawExtract.desc"/>					  
+				<item id="synchroLogExtract" name="synchro.logDashboard"
+                      url="/new-synchro/log-dashboard.jspa"
+                      description="synchro.logDashboard.desc"/>				
+                <item id="kantar-button-methodology-types" name="kantar.methType"
+                      url="kantar-button-methodology-types.jsp"
+                      description="kantar.methType.desc"/>
+
+                <item id="grail-button-methodology-types" name="grail.methType"
+                      url="grail-button-methodology-types.jsp"
+                      description="grail.methType.desc"/>
+
+                <item id="document-repository-report-types" name="document.repositoryType"
+                      url="document-repository-report-types.jsp"
+                      description="document.repositoryType.desc"/>
+            </section>
+
+        </tab>
+
+        
+        <!-- SYNCHRO CHANGES ENDS -->
+    </component>
+
+    <component id="user-profile-synchro">
+        <tab id="profile" cssClass="jive-icon-sml jive-icon-profile">
+            <name><![CDATA[<@s.text name="profile.tab.profile" />]]></name>
+            <description><![CDATA[<#if viewingSelf><@s.text name="profile.tab.profile.desc" /><#else><@s.text name="profile.tab.profile.other.desc" ><@s.param>${targetUserDisplayName?html}</@s.param></@s.text></#if>]]></description>
+            <url><![CDATA[<@s.url value="/people/${targetUser.username?url}"/>/profile]]></url>
+        </tab>
+    </component>
+</components>

@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+
+<!-- Table definition for Synchro New Requirements -->
+
+<schema name="CreateProjectTPDSummaryTable">
+    <table name="grailProjectTPDSummary" description="New Project TPD Summary Details Table">
+        <column name="projectID" type="bigint" nullable="false" description="Project ID"/>
+        <column name="researchDoneOn" type="int" nullable="true" description="Research Done On"/>
+        <column name="productDescription" type="text"  nullable="true" description="Product Description"/>
+        <column name="productDescriptiontext" type="text"  nullable="true" description="Product Description Text"/>
+        <column name="hasProductModification" type="int" nullable="true"  description="Has Product Modification"/>
+        <column name="tpdModificationDate" type="bigint" nullable="true" description="TPD Modification Date"/>
+        <column name="taoCode" type="varchar" size="1000" nullable="true" description="TAO Code"/>
+        
+        <column name="creationBy" type="bigint" nullable="false" description="Author ID who created the content"/>
+        <column name="modificationBy" type="bigint" nullable="false" description="Author who modified the content"/>
+        <column name="creationDate" type="bigint" nullable="false" description="Creation date"/>
+        <column name="modificationDate" type="bigint" nullable="false" description="Modification date"/>
+        
+        <index type="normal" name="grailProjectTPDSumm_Idx" column="projectID"/>
+    </table>
+
+</schema>

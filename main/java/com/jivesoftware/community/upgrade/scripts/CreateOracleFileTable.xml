@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+
+<!-- Table definition for OSP ORACLE New Requirements -->
+
+<schema name="CreateOracleFileTable">
+    <table name="grailOracleFile" description="New OSP ORACLE File Table">
+        <column name="attachmentId" type="bigint" nullable="false" description="Attachment ID"/>
+        <column name="folderId" type="bigint" nullable="false" description="Folder ID"/>
+        <column name="tileId" type="bigint" nullable="false" description="Tile ID"/>
+        <column name="fileName" type="varchar" size="255" nullable="true" description="File name"/>
+        <column name="fileSize" type="bigint" nullable="true" description="File Size"/>
+        <column name="isActive" type="int" nullable="true" description="Is the File Active"/>
+        <column name="creationBy" type="bigint" nullable="false" description="Author ID who created the content"/>
+        <column name="modificationBy" type="bigint" nullable="false" description="Author who modified the content"/>
+        <column name="creationDate" type="bigint" nullable="false" description="Creation date"/>
+        <column name="modificationDate" type="bigint" nullable="false" description="Modification date"/>
+        <index type="normal" name="grailOracleFile_Idx" column="attachmentId"/>
+    </table>
+
+</schema>

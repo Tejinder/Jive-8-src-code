@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<schema name="CreateBrandFieldTable">
+    <table name="grailBrandFields" description="">
+        <column name="id" type="bigint" nullable="false" description=""/>
+        <column name="name" type="varchar" size="255" nullable="false" description=""/>	
+		<column name="sortOrder" type="bigint" nullable="true" description="Stores the order by which it sorts"/>
+		<column name="isActive" type="int" default="1" nullable="true" description="Property active/inactive state"/>
+        <index type="normal" name="grailBrandFields_Idx" column="id"/>
+    </table>
+	<sql>
+	  <![CDATA[		
+		INSERT INTO grailbrandfields(id, "name", sortorder) VALUES (9, 'Belmont',1);
+		INSERT INTO grailbrandfields(id, "name", sortorder) VALUES (10, 'Benson & Hedges',2);
+		INSERT INTO grailbrandfields(id, "name", sortorder) VALUES (11, 'Carlton',3);
+		INSERT INTO grailbrandfields(id, "name", sortorder) VALUES (12, 'Craven',4);
+		INSERT INTO grailbrandfields(id, "name", sortorder) VALUES (13, 'Derby',5);
+		INSERT INTO grailbrandfields(id, "name", sortorder) VALUES (14, 'du Maurier',6);
+		INSERT INTO grailbrandfields(id, "name", sortorder) VALUES (2, 'Dunhill',7);
+		INSERT INTO grailbrandfields(id, "name", sortorder) VALUES (15, 'Free',8);
+		INSERT INTO grailbrandfields(id, "name", sortorder) VALUES (16, 'Hollywood',9);
+		INSERT INTO grailbrandfields(id, "name", sortorder) VALUES (17, 'Jockey Club',10);
+		INSERT INTO grailbrandfields(id, "name", sortorder) VALUES (18, 'John Player ',11);
+		INSERT INTO grailbrandfields(id, "name", sortorder) VALUES (3, 'Kent',12);
+		INSERT INTO grailbrandfields(id, "name", sortorder) VALUES (19, 'Kool',13);
+		INSERT INTO grailbrandfields(id, "name", sortorder) VALUES (4, 'Lucky Strike',14);
+		INSERT INTO grailbrandfields(id, "name", sortorder) VALUES (20, 'Montana',15);
+		INSERT INTO grailbrandfields(id, "name", sortorder) VALUES (21, 'MS',16);
+		INSERT INTO grailbrandfields(id, "name", sortorder) VALUES (5, 'Pall Mall',17);
+		INSERT INTO grailbrandfields(id, "name", sortorder) VALUES (22, 'Parisienne',18);
+		INSERT INTO grailbrandfields(id, "name", sortorder) VALUES (23, 'Peter Stuyvesant',19);
+		INSERT INTO grailbrandfields(id, "name", sortorder) VALUES (24, 'Prince',20);
+		INSERT INTO grailbrandfields(id, "name", sortorder) VALUES (7, 'Rothmans',21);
+		INSERT INTO grailbrandfields(id, "name", sortorder) VALUES (31, 'Shuangxi',22);
+		INSERT INTO grailbrandfields(id, "name", sortorder) VALUES (25, 'State Express 555',23);
+		INSERT INTO grailbrandfields(id, "name", sortorder) VALUES (26, 'Tekel',24);
+		INSERT INTO grailbrandfields(id, "name", sortorder) VALUES (8, 'Viceroy',25);
+		INSERT INTO grailbrandfields(id, "name", sortorder) VALUES (6, 'Vogue',26);
+		INSERT INTO grailbrandfields(id, "name", sortorder) VALUES (32, 'Vype',27);
+		INSERT INTO grailbrandfields(id, "name", sortorder) VALUES (27, 'Winfield',28);
+		INSERT INTO grailbrandfields(id, "name", sortorder) VALUES (28, 'Yava',29);
+		INSERT INTO grailbrandfields(id, "name", sortorder) VALUES (30, 'Multi-Brand',30);
+		INSERT INTO grailbrandfields(id, "name", sortorder) VALUES (1, 'Non-Brand Related',31);
+		INSERT INTO grailbrandfields(id, "name", sortorder) VALUES (33, 'Other – BAT',32);
+		INSERT INTO grailbrandfields(id, "name", sortorder) VALUES (34, 'Other – Competitor Brand – Marlboro',33);
+		INSERT INTO grailbrandfields(id, "name", sortorder) VALUES (35, 'Other – Competitor Brand – L&M',34);
+		INSERT INTO grailbrandfields(id, "name", sortorder) VALUES (36, 'Other – Competitor Brand – Winston',35);
+		INSERT INTO grailbrandfields(id, "name", sortorder) VALUES (37, 'Other – Competitor Brand - Mevius',36);
+		INSERT INTO grailbrandfields(id, "name", sortorder) VALUES (29, 'Others',37);
+		
+		]]>
+	</sql>
+</schema>

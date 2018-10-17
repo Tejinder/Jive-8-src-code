@@ -1,0 +1,16 @@
+<schema name="CreateKantarButtonMethodologyTypeTable">
+    <table name="grailkantarbtnmethodologytype" description="">
+        <column name="id" type="bigint" nullable="false" description=""/>
+        <column name="name" type="varchar" size="255" nullable="false" description=""/>
+        <column name="sortOrder" type="bigint" nullable="true" description="Stores the order by which it sorts"/>
+        <column name="isActive" type="int" default="1" nullable="true" description="Property active/inactive state"/>
+        <index type="normal" name="grailkantarbtnmethtype_Idx" column="id"/>
+    </table>
+    <sql>
+        INSERT INTO grailkantarbtnmethodologytype(id, name, sortorder, isactive) VALUES (1,'Quantitative Research (on GCS, Track and fieldwork data etc.)',1,1);
+        INSERT INTO grailkantarbtnmethodologytype(id, name, sortorder, isactive) VALUES (2,'Qualitative Research',2,1);
+        INSERT INTO grailkantarbtnmethodologytype(id, name, sortorder, isactive) VALUES (3,'Desk Research',3,1);
+        INSERT INTO grailkantarbtnmethodologytype(id, name, sortorder, isactive) VALUES (4,'Data Extraction / Presentation Support',4,1);
+        INSERT INTO grailkantarbtnmethodologytype(id, name, sortorder, isactive) VALUES (-100,'Others',1000000,1);
+    </sql>
+</schema>

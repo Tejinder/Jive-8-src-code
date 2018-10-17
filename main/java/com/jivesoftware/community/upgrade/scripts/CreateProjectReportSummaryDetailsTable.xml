@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<!-- Table definition for Synchro New Requirements -->
+<schema name="CreateProjectReportSummaryDetailsTable">
+    <table name="grailProjectRepSummaryDetails" description="New Project Report Summary Details Table">
+        <column name="projectID" type="bigint" nullable="false" description="Project ID"/>
+        <column name="reportType" type="int" nullable="true" description="Report Type"/>
+        <column name="reportOrderId" type="bigint" nullable="true" description="Report Order Id"/>
+        <column name="legalApprover" type="varchar" size="1000" nullable="true"  description="Legal Approver"/>
+        <column name="legalApprovalDate" type="bigint" nullable="true" description="Legal Approval Date"/>
+        
+        <index type="normal" name="grailProjectRepSummDet_Idx" column="projectID"/>
+    </table>
+
+</schema>

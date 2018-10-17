@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<schema name="CreateJobTitleFieldTable">
+    <table name="grailJobTitleFields" description="">
+        <column name="id" type="bigint" nullable="false" description=""/>
+        <column name="name" type="varchar" size="255" nullable="false" description=""/>
+		<column name="sortOrder" type="bigint" nullable="true" description="Stores the order by which it sorts"/>
+		<column name="isActive" type="int" default="1" nullable="true" description="Property active/inactive state"/>
+        <index type="normal" name="grailJobTitle_Idx" column="id"/>
+    </table>
+	<sql>
+	  <![CDATA[	  
+	  	INSERT INTO grailJobTitleFields(id, "name", sortorder) VALUES (1, 'Er.',1);
+		INSERT INTO grailJobTitleFields(id, "name", sortorder) VALUES (2, 'Dr.',2);
+		INSERT INTO grailJobTitleFields(id, "name", sortorder) VALUES (3, 'Mr.',3);
+		]]>
+	</sql>
+</schema>

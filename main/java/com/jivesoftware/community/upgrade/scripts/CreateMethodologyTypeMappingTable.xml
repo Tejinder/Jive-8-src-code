@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<schema name="CreateMethodologyTypeMappingTable">
+    <table name="grailMethTypeMappingFields" description="">
+        <column name="methodologytypeid" type="bigint" nullable="false" description=""/>
+        <column name="methodologyid" type="bigint" nullable="false" description=""/>
+       <!--  <index type="normal" name="grailmethtype_mapping_Idx" column="id"/> -->
+    </table>
+</schema>

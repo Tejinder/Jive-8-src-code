@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+
+<!-- Table definition for Projects -->
+<schema name="CreateGrailFieldAttachmentTable">
+
+    <table name="grailFieldAttachment" description="">
+        <column name="projectID" type="bigint" nullable="false" description=""/>
+        <column name="endMarketID" type="bigint" nullable="false" description=""/>
+        <column name="fieldCategoryId" type="bigint" nullable="false" description=""/>
+        <column name="attachmentID" type="bigint" nullable="false" description=""/>
+        <column name="userID" type="bigint" nullable="false" description=""/>
+        
+        <index type="normal" name="grailFieldAttachment_Idx" column="projectID,endMarketID"/>
+
+    </table>
+
+</schema>

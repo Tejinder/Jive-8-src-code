@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<!-- Table definition for Projects -->
+<schema name="CreateStageApproversTable">
+
+    <table name="grailStageApprovers" description="Stage Aprovers">
+        <column name="projectID" type="bigint" nullable="false" description=""/>
+        <column name="stageID" type="bigint" nullable="false" description=""/>
+        <column name="approverID" type="bigint" nullable="true" description=""/>
+        <column name="approvalDate" type="bigint" nullable="false" description="Date on which stage is approved"/>
+        
+        <index type="normal" name="grailStageApprover_Idx" column="projectID,stageID,approverID"/>
+
+    </table>
+
+</schema>

@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<schema name="CreateMethodologyFieldTable">
+    <table name="grailMethodologyFields" description="">
+        <column name="id" type="bigint" nullable="false" description=""/>
+        <column name="name" type="varchar" size="255" nullable="false" description=""/>
+		<column name="sortOrder" type="bigint" nullable="true" description="Stores the order by which it sorts"/>
+		<column name="isActive" type="int" default="1" nullable="true" description="Property active/inactive state"/>
+        <index type="normal" name="grailMethodologyFields_Idx" column="id"/>		
+    </table>
+		<sql>
+	  <![CDATA[
+		INSERT INTO grailmethodologyfields(id, "name", sortorder) VALUES (1,'4-Cast',1);
+		INSERT INTO grailmethodologyfields(id, "name", sortorder) VALUES (8,'4-Cast (Brand Migration)',2);
+		INSERT INTO grailmethodologyfields(id, "name", sortorder) VALUES (2,'4-Real (Ethnography)',3);
+		INSERT INTO grailmethodologyfields(id, "name", sortorder) VALUES (3,'4-Screen',4);
+		INSERT INTO grailmethodologyfields(id, "name", sortorder) VALUES (4,'4-Sight',5);
+		INSERT INTO grailmethodologyfields(id, "name", sortorder) VALUES (5,'4-Tune',6);
+		INSERT INTO grailmethodologyfields(id, "name", sortorder) VALUES (6,'Activity Implementation and Diagnostics (AID)',7);
+		INSERT INTO grailmethodologyfields(id, "name", sortorder) VALUES (7,'Brand Equity Research',8);
+		INSERT INTO grailmethodologyfields(id, "name", sortorder) VALUES (21,'Brand Monitor',9);
+		INSERT INTO grailmethodologyfields(id, "name", sortorder) VALUES (20,'Branded Product Test (BPT)',10);
+		INSERT INTO grailmethodologyfields(id, "name", sortorder) VALUES (47,'CDT',11);
+		INSERT INTO grailmethodologyfields(id, "name", sortorder) VALUES (19,'Choice Based Conjoint (CBC)',12);
+		INSERT INTO grailmethodologyfields(id, "name", sortorder) VALUES (10,'Comms Research - Link Test',13);
+		INSERT INTO grailmethodologyfields(id, "name", sortorder) VALUES (9,'Comms Research (General)',14);
+		INSERT INTO grailmethodologyfields(id, "name", sortorder) VALUES (24,'Consumer Acceptance Test (CAT)',15);
+		INSERT INTO grailmethodologyfields(id, "name", sortorder) VALUES (11,'Consumer Segmentation ',16);
+		INSERT INTO grailmethodologyfields(id, "name", sortorder) VALUES (32,'Customer Voice',17);
+		INSERT INTO grailmethodologyfields(id, "name", sortorder) VALUES (12,'Desk Research/Analysis/Presentation',18);
+		INSERT INTO grailmethodologyfields(id, "name", sortorder) VALUES (25,'Encounter Sessions',19);
+		INSERT INTO grailmethodologyfields(id, "name", sortorder) VALUES (26,'Flavour Vector (FVR)',20);
+		INSERT INTO grailmethodologyfields(id, "name", sortorder) VALUES (13,'General Consumer Survey (GCS)',21);
+		INSERT INTO grailmethodologyfields(id, "name", sortorder) VALUES (33,'Horeca Research',22);
+		INSERT INTO grailmethodologyfields(id, "name", sortorder) VALUES (14,'Illicit Trade Monitor (ITM)',23);
+		INSERT INTO grailmethodologyfields(id, "name", sortorder) VALUES (15,'Key Launch Tracker (KLT) ',24);
+		INSERT INTO grailmethodologyfields(id, "name", sortorder) VALUES (16,'MIX Elements Test',25);
+		INSERT INTO grailmethodologyfields(id, "name", sortorder) VALUES (17,'Omnibus',26);
+		INSERT INTO grailmethodologyfields(id, "name", sortorder) VALUES (45,'Other Brand-Specific Qualitative',27);
+		INSERT INTO grailmethodologyfields(id, "name", sortorder) VALUES (46,'Other Brand-Specific Quantitative',28);
+		INSERT INTO grailmethodologyfields(id, "name", sortorder) VALUES (35,'Other Concept Test',29);
+		INSERT INTO grailmethodologyfields(id, "name", sortorder) VALUES (36,'Other Non-Specific Qualitative',30);
+		INSERT INTO grailmethodologyfields(id, "name", sortorder) VALUES (37,'Other Non-Specific Quantitative',31);
+		INSERT INTO grailmethodologyfields(id, "name", sortorder) VALUES (38,'Other Pricing Research',32);
+		INSERT INTO grailmethodologyfields(id, "name", sortorder) VALUES (39,'Other Product Test/Research',33);
+		INSERT INTO grailmethodologyfields(id, "name", sortorder) VALUES (40,'Other Tracker/Post-launch Monitoring',34);
+		INSERT INTO grailmethodologyfields(id, "name", sortorder) VALUES (41,'Other Trade Research',35);
+		INSERT INTO grailmethodologyfields(id, "name", sortorder) VALUES (42,'Other Usage & Attitude (U&A) Study',36);
+		INSERT INTO grailmethodologyfields(id, "name", sortorder) VALUES (18,'Packaging Research',37);
+		INSERT INTO grailmethodologyfields(id, "name", sortorder) VALUES (34,'POS Effectiveness Research',38);
+		INSERT INTO grailmethodologyfields(id, "name", sortorder) VALUES (43,'Product - Taste Recognition Test (TRT)',39);
+		INSERT INTO grailmethodologyfields(id, "name", sortorder) VALUES (27,'Psychophysical Analysis (PPA)',40);
+		INSERT INTO grailmethodologyfields(id, "name", sortorder) VALUES (29,'Quality - Consumer Physical Quality Evaluation (CPQE)',41);
+		INSERT INTO grailmethodologyfields(id, "name", sortorder) VALUES (30,'Retail Measurement Survey (RSM) - Retail Audit',42);
+		INSERT INTO grailmethodologyfields(id, "name", sortorder) VALUES (31,'Semiotics',43);
+		INSERT INTO grailmethodologyfields(id, "name", sortorder) VALUES (28,'Tobacco Vector (TVR)',44);
+		INSERT INTO grailmethodologyfields(id, "name", sortorder) VALUES (44,'Track',45);
+		INSERT INTO grailmethodologyfields(id, "name", sortorder) VALUES (23,'Unbranded Product Monitor',46);
+		INSERT INTO grailmethodologyfields(id, "name", sortorder) VALUES (22,'Unbranded Product Test (UPT)',47);
+		INSERT INTO grailmethodologyfields(id, "name", sortorder) VALUES (48,'Branded Product Test- G4S',48);
+		INSERT INTO grailmethodologyfields(id, "name", sortorder) VALUES (49,'Unbranded Product Test- G4S',49);
+		]]>
+	</sql>
+</schema>

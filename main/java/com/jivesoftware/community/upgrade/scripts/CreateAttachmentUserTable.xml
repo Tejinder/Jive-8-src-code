@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+
+<!-- Table definition for Attachment Users -->
+<schema name="CreateAttachmentUserTable">
+
+    <table name="grailAttachmentUser" description="">
+        <column name="attachmentId" type="bigint" nullable="false" description=""/>
+        <column name="userID" type="bigint" nullable="false" description=""/>
+        
+        <index type="normal" name="grailAttachmentUser_Idx" column="attachmentId"/>
+
+    </table>
+
+</schema>

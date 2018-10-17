@@ -1,0 +1,359 @@
+.add-prop-header
+{
+    font-weight: bold;
+    margin: 9px 0 4px 1px;
+}
+#add-box
+{
+    background-color:#C9C9C9;
+}
+.table-col-head th
+{
+    background-color: #857878;
+    color: #fefefe;
+}
+
+.column-large
+{
+    width:65%;
+}
+
+.two-column-large
+{
+    width:90%;
+}
+
+.brands-select select{
+    width: 260px !important	;
+    min-height: 130px;
+}
+
+.product-select select{
+    width: 260px !important	;
+    min-height: 130px;
+}
+
+.methodology-select select{
+    width: 260px !important	;
+    min-height: 130px;
+}
+
+.supplier-select select{
+    width: 260px !important	;
+    min-height: 130px;
+}
+
+.supplier-group-select select{
+    width: 260px !important	;
+    min-height: 130px;
+}
+
+.fwsupplier-select select{
+    width: 260px !important	;
+    min-height: 130px;
+}
+
+.fwsupplier-group-select select{
+    width: 260px !important	;
+    min-height: 130px;
+}
+
+
+label{
+    font-weight:bold;
+}
+
+.column-edit{
+    vertical-align: top;
+}
+
+.edit-box-row{
+    background-color:#eee;
+}
+
+/* Synchro Configuration */
+
+.jive-table TR TD {
+    vertical-align: middle;
+}
+
+.form-select_div, .form-select_div_brand{
+    width: 340px;
+    float: left;
+    margin-top: 5px;
+}
+.form-select_div{
+    position: relative;
+}
+.jstree ul.ui-sortable .form-select_div label span.list, .jstree ul.ui-sortable .form-select_div_brand label span.list{
+    margin-left: 0;
+}
+.form-select_div .action_buttons{
+    position: absolute;
+    right: 5px;
+    top: 75px;
+}
+.jstree li
+{
+    margin: 3px 0 5px 0px !important;
+}
+.jstree ul{
+    clear: both;
+}
+.jstree ul span{
+    width: 40%;
+    float: left;
+    word-break: break-word;
+}
+.jstree li li{
+    padding: 6px;
+    overflow: hidden;
+}
+.jstree li li select{
+    float: left;
+}
+.jstree li li a{
+    float: right;
+    margin-right: 50px;
+}
+.jstree li li a.enable-delete-link{
+    position: absolute;
+    right: 0;
+    margin-right: 20px;
+}
+.jstree ul.ui-sortable li ul{
+    margin-left: 0px;
+    margin-top: 24px;
+    overflow: hidden;
+}
+.jstree ul.ui-sortable li span{
+    margin-left: 10px;
+}
+
+.j-form-row textarea,
+.j-form-row input[type=text] {
+    width: 595px;
+}
+
+.set-default-prop
+{
+    width: 90px !important;
+    border: 1px solid #C0C0C0;
+    text-align: center;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    color: #42a3bb;
+    background: none;
+}
+
+.set-default-prop:hover{
+    cursor: pointer;
+    background: #EBEBEB;
+}
+.default-prop
+{
+    width: 90px !important;
+    border: 1px solid #C0C0C0;
+    text-align: center;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    color: #A7A7A7;
+    background: none;
+}
+
+.default-prop:hover{
+    cursor: auto;
+}
+
+.selected-property
+{
+    background: #DADADA !important;
+}
+
+.department-form .j-form-row label{
+    width:40%;
+    display: block;
+}
+.department-form .j-form-row input,
+.department-form .j-form-row textarea{
+    border:1px solid #ddd;
+    padding:5px;
+}
+.department-form .add-prop-header {
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+.department-form .j-form-row {
+    margin: 5px 0;
+}
+
+.department-form.edit .j-form-row {
+    margin-bottom:5px;
+    margin-top: 0px;
+}
+
+.department-form {
+    padding: 10px;
+    background-color: #eee;
+    width:90%;
+}
+.department-form.add {
+    border:1px #bbb solid;
+}
+
+.synchro-user-profile-fields #userDepartments {
+    width:200px;
+}
+
+.synchro-user-profile-fields .form-select_div,
+.synchro-user-profile-fields .form-select_div_brand,
+.synchro-user-profile-fields-portaltype {
+    width: 290px;
+}
+
+.synchro-user-profile-fields .form-select_div label,
+.synchro-user-profile-fields .form-select_div_brand label {
+    display: block;
+}
+
+
+.synchro-user-profile-fields .form-select_div .all,
+.synchro-user-profile-fields .form-select_div_brand .selected{
+    width: 200px;
+}
+
+
+.synchro-user-profile-fields .form-select_div .action_buttons {
+    position: relative;
+    top: 20px;
+    float: right;
+}
+
+.synchro-user-profile-fields-portaltype .label{
+    width: 400px;
+}
+
+.synchro-user-profile-fields .form-select_div, .synchro-user-profile-fields .form-select_div_brand {
+    margin-top: 0px;
+}
+
+.access-type-selection-container {
+    margin: 5px 0;
+}
+
+.access-type-selection-container .selection-left {
+    float: left;
+    position: relative;
+}
+
+.access-type-selection-container .selection-right {
+    float: left;
+    position: relative;
+}
+
+.access-type-selection-container .selection-left label,
+.access-type-selection-container .selection-right label{
+    display: block;
+}
+
+.access-type-selection-container .selection-left select,
+.access-type-selection-container .selection-right select{
+    width: 200px
+}
+
+.access-type-selection-container .selection-right {
+    margin-left: 25px;
+}
+
+
+.synchro-user-profile-fields.configuration-header label,
+.synchro-user-profile-fields span{
+    font-weight: bold;
+}
+.synchro-user-profile-fields.configuration-header {
+    background-color: #e2e2e2;
+    height:30px;
+}
+
+.access-type-container {
+    float: left;
+    width: 100%;
+    margin: 5px 0;
+}
+
+#synchro-department-field,
+.synchro-user-profile-fields.drop-down select{
+    width:96%;
+    padding:2px 0;
+}
+
+
+
+.raw-extract-last-updated {
+    position: relative;
+    left: 65px;
+    top: 19px;
+    color: #666;
+}
+
+
+.update-inprogress-message {
+    padding-top: 10px;
+    color: #666;
+}
+.update-inprogress-message .progress-icon {
+    background: url("../images/working-16x16.gif") no-repeat;
+    width: 16px;
+    height: 16px;
+    float: left;
+    margin-right: 5px;
+}
+
+.raw-extract-update-status {
+    padding: 5px;
+    background: rgba(0, 255, 70, 0.2);
+    border: 1px solid #414141;
+    margin-bottom: 10px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    width:350px;
+}
+.raw-extract-update-status span {
+    color: #000;
+    font-size: 12px;
+}
+
+.raw-extract-update-status.error {
+    background: rgba(255, 0, 25, 0.5);
+}
+
+
+.grail-methodology-type-input,
+.kantar-methodology-type-input {
+    width: 450px;
+    height: 20px;
+    font-size: 13px;
+    padding: 2px;
+}
+
+.methodology-type-children-selection-fieldset {
+    padding: 10px;
+    padding-top: 0px;
+}
+
+.methodology-type-children-selection-fieldset legend{
+    font-weight: bold;
+}
+
+
+
+
+
+
+
+
+
+

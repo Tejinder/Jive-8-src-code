@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<!-- Table definition for End Markets -->
+<schema name="CreateT20T40MappingTable">
+
+    <table name="grailT20T40MappingMetaFields" description="Stores Mapping for T20/T40 and Endmarkets">
+	<column name="tid" type="bigint" nullable="false" description=""/>
+    <column name="eid" type="bigint" nullable="false" description=""/>    
+    </table>
+</schema>

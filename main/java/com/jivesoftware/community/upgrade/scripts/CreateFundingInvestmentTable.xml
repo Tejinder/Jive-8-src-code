@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+
+<!-- Table definition for Projects -->
+<schema name="CreateFundingInvestmentTable">
+    <table name="grailfundinginvestment" description="Investment and Funding Table">
+        <column name="investmentid" type="bigint" nullable="false" description="Investment ID,Primary key"/>
+		<column name="projectid" type="bigint" nullable="false" description="Project ID"/>
+		<column name="isabovemarket" type="int" nullable="false" description="If investment type is above market"/>
+		<column name="investmenttype" type="bigint" nullable="false" description="Investment type from Global/Regional/Area/Country"/>
+        <column name="investmenttypeid" type="bigint" nullable="true" description="(Empty for Global, Region ID for regional, Area ID for Area and again Empty for Country"/>
+		<column name="fieldworkmarketid" type="bigint" nullable="true" description="Fieldwork market ID in case investmenttype is Country"/>
+		<column name="fundingmarketid" type="bigint" nullable="true" description="Funding market ID in case investmenttype is Country"/>
+		<column name="projectcontact" type="bigint" nullable="false" description="Project Contact for the investment"/>
+		<column name="estimatedcost" type="bigint" nullable="false" description="Estimated cost for investment"/>
+		<column name="estimatedcostcurrency" type="bigint" nullable="false" description="Estimated cost currency for investment"/>
+		<column name="isapproved" type="int" nullable="false" description="Investment is approved"/>
+		
+        <index type="normal" name="grailfundinginvestment_Idx" column="investmentid,projectid"/>
+    </table>
+</schema>

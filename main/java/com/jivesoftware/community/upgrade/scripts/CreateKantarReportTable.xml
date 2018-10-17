@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<schema name="CreateKantarReportTable">
+    <table name="grailkantarreport" description="">
+        <column name="id" type="bigint" nullable="false" description=""/>
+        <column name="reportName" type="text" nullable="false" description=""/>
+        <column name="market" type="bigint" nullable="false" description=""/>
+        <column name="reportType" type="bigint" nullable="false" description=""/>
+        <column name="otherReportType" type="text" nullable="true" description=""/>
+        <column name="comments" type="text" nullable="true" description=""/>
+        <column name="creationBy" type="bigint" nullable="false" description="Author ID who created the content"/>
+        <column name="modificationBy" type="bigint" nullable="false" description="Author who modified the content"/>
+        <column name="creationDate" type="bigint" nullable="false" description="Creation date"/>
+        <column name="modificationDate" type="bigint" nullable="false" description="Modification date"/>
+        <index type="primary" name="kantarreport_Idx" column="id"/>
+    </table>
+</schema>

@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!--
+  ~ $Revision: 1.2 $
+  ~ $Date: 2017/11/22 09:05:13 $
+  ~
+  ~ Copyright (C) 1999-2011 Jive Software. All rights reserved.
+  ~
+  ~ This software is the proprietary information of Jive Software. Use is subject to license terms.
+  -->
+
+<decorators defaultdir="/template/decorator">
+
+    <!-- Setup tool tepmlates -->
+    <decorator name="setup" page="setup/template.ftl">
+        <pattern>*/admin/setup/*.jspa</pattern>
+    </decorator>
+    <decorator name="setup" page="setup/template.ftl">
+        <pattern>*/admin/setup/*.jsp</pattern>
+    </decorator>
+
+    <!-- Verification tool tepmlates -->
+    <decorator name="verification" page="verifier/template.ftl">
+        <pattern>*/verify/*.jspa</pattern>
+    </decorator>
+    <decorator name="verification" page="verifier/template.ftl">
+        <pattern>*/verify/*.jsp</pattern>
+    </decorator>
+
+    <!-- Admin console templates -->
+
+    <decorator name="admin" page="admin/template.jsp">
+        <pattern>/admin/*.jspa</pattern>
+    </decorator>
+    <decorator name="admin" page="admin/template.jsp">
+        <pattern>/admin/*.jsp</pattern>
+    </decorator>
+    <decorator name="none" page="admin/none.ftl"/>
+
+    <!-- Default end user UI templates -->
+    <!-- NOTE: we map to both /resource* and /resource/* because of OC4J -->
+    <decorator name="default" page="default/template.ftl">
+        <pattern>/*.jspa</pattern>
+    </decorator>
+    <decorator name="default" page="default/template.ftl">
+        <pattern>/*.jsp</pattern>
+    </decorator>
+    <decorator name="default" page="default/template.ftl">
+        <pattern>/blogs*</pattern>
+    </decorator>
+    <decorator name="default" page="default/template.ftl">
+        <pattern>/blogs/*</pattern>
+    </decorator>
+    <decorator name="default" page="default/template.ftl">
+        <pattern>/docs*</pattern>
+    </decorator>
+    <decorator name="default" page="default/template.ftl">
+        <pattern>/docs/*</pattern>
+    </decorator>
+    <decorator name="default" page="default/template.ftl">
+        <pattern>/community*</pattern>
+    </decorator>
+    <decorator name="default" page="default/template.ftl">
+        <pattern>/community/*</pattern>
+    </decorator>
+    <decorator name="default" page="default/template.ftl">
+        <pattern>/apps*</pattern>
+    </decorator>
+    <decorator name="default" page="default/template.ftl">
+        <pattern>/apps/*</pattern>
+    </decorator>
+    <decorator name="default" page="default/template.ftl">
+        <pattern>/v1-apps*</pattern>
+    </decorator>
+    <decorator name="default" page="default/template.ftl">
+        <pattern>/v1-apps/*</pattern>
+    </decorator>
+    <decorator name="default" page="default/template.ftl">
+        <pattern>/people*</pattern>
+    </decorator>
+    <decorator name="default" page="default/template.ftl">
+        <pattern>/people/*</pattern>
+    </decorator>
+    <decorator name="default" page="default/template.ftl">
+        <pattern>/thread*</pattern>
+    </decorator>
+    <decorator name="default" page="default/template.ftl">
+        <pattern>/thread/*</pattern>
+    </decorator>
+    <decorator name="default" page="default/template.ftl">
+        <pattern>/message*</pattern>
+    </decorator>
+    <decorator name="default" page="default/template.ftl">
+        <pattern>/message/*</pattern>
+    </decorator>
+    <decorator name="default" page="default/template.ftl">
+        <pattern>/tags*</pattern>
+    </decorator>
+    <decorator name="default" page="default/template.ftl">
+        <pattern>/tags/*</pattern>
+    </decorator>
+    <decorator name="default" page="default/template.ftl">
+        <pattern>/search*</pattern>
+    </decorator>
+    <decorator name="default" page="default/template.ftl">
+        <pattern>/search/*</pattern>
+    </decorator>
+    <decorator name="default" page="default/template.ftl">
+        <pattern>/projects*</pattern>
+    </decorator>
+    <decorator name="default" page="default/template.ftl">
+        <pattern>/projects/*</pattern>
+    </decorator>
+    <decorator name="default" page="default/template.ftl">
+        <pattern>/tasks*</pattern>
+    </decorator>
+    <decorator name="default" page="default/template.ftl">
+        <pattern>/tasks/*</pattern>
+    </decorator>
+    <decorator name="default" page="default/template.ftl">
+        <pattern>/groups*</pattern>
+    </decorator>
+    <decorator name="default" page="default/template.ftl">
+        <pattern>/groups/*</pattern>
+    </decorator>
+    <decorator name="default" page="default/template.ftl">
+        <pattern>/video*</pattern>
+    </decorator>
+    <decorator name="default" page="default/template.ftl">
+        <pattern>/video/*</pattern>
+    </decorator>
+    <decorator name="default" page="default/template.ftl">
+        <pattern>/videos/*</pattern>
+    </decorator>
+    <decorator name="default" page="default/template.ftl">
+        <pattern>/bookmarks*</pattern>
+    </decorator>
+    <decorator name="default" page="default/template.ftl">
+        <pattern>/status*</pattern>
+    </decorator>
+    <decorator name="default" page="default/template.ftl">
+        <pattern>/polls*</pattern>
+    </decorator>
+    <decorator name="default" page="default/template.ftl">
+        <pattern>/streamentry*</pattern>
+    </decorator>
+    <decorator name="default" page="default/template.ftl">
+        <pattern>/external*</pattern>
+    </decorator>
+    <decorator name="default" page="default/template.ftl">
+        <pattern>/polls/*</pattern>
+    </decorator>
+    <decorator name="default" page="default/template.ftl">
+        <pattern>/content*</pattern>
+    </decorator>
+    <decorator name="eaeDefault" page="default/template.ftl">
+        <pattern>/connections*</pattern>
+    </decorator>
+    <decorator name="default" page="default/template.ftl">
+        <pattern>/places*</pattern>
+    </decorator>
+    <decorator name="default" page="default/template.ftl">
+        <pattern>/orgchart*</pattern>
+    </decorator>
+    <decorator name="eaeDefault" page="default/template.ftl">
+        <pattern>/inbox*</pattern>
+    </decorator>
+    <decorator name="eaeDefault" page="default/template.ftl">
+        <pattern>/communications*</pattern>
+    </decorator>
+   	<decorator name="eaeDefault" page="default/template.ftl">
+        <pattern>/welcome*</pattern>
+    </decorator>
+    <decorator name="eaeDefault" page="default/template.ftl">
+        <pattern>/home*</pattern>
+    </decorator>
+    <decorator name="eaeDefault" page="default/template.ftl">
+        <pattern>/actions*</pattern>
+    </decorator>
+    <decorator name="eaeDefault" page="default/template.ftl">
+        <pattern>/moderation*</pattern>
+    </decorator>
+    <decorator name="eaeDefault" page="default/template.ftl">
+        <pattern>/get-started*</pattern>
+    </decorator>
+    <decorator name="eaeDefault" page="default/template.ftl">
+        <pattern>/userhome*</pattern>
+    </decorator>
+    <decorator name="terms-and-conditions" page="default/template.ftl">
+        <pattern>/terms-and-conditions!input.jspa*</pattern>
+    </decorator>
+    <!-- Bare-bones decorator that is safe to display in IE6 -->
+
+    <decorator name="unsupported-browser" page="unsupportedbrowser/template.ftl">
+        <pattern>/unsupported-browser*</pattern>
+    </decorator>
+	
+	<!-- Printable UI template for end user UI -->
+
+    <decorator name="print" page="default/print.ftl"/>
+
+    <decorator name="legacy" page="default/template-legacy.ftl"/>
+
+    <decorator name="synchro" page="synchro/template.ftl">
+        <pattern>/synchro*</pattern>
+        <pattern>/synchro/*</pattern>
+    </decorator>
+    
+     <decorator name="new-synchro" page="synchro/template-new.ftl">
+        <pattern>/new-synchro*</pattern>
+        <pattern>/new-synchro/*</pattern>
+    </decorator>
+
+    <decorator name="grail" page="grail/template.ftl">
+        <pattern>/grail*</pattern>
+        <pattern>/grail/*</pattern>
+    </decorator>
+    <decorator name="kantar" page="kantar/template.ftl">
+        <pattern>/kantar*</pattern>
+        <pattern>/kantar/*</pattern>
+    </decorator>
+
+    <decorator name="kantar-report" page="kantar/template.ftl">
+        <pattern>/kantar-report*</pattern>
+        <pattern>/kantar-report/*</pattern>
+    </decorator>
+    <decorator name="oracle-documents" page="synchro/template.ftl">
+        <pattern>/oracledocuments*</pattern>
+        <pattern>/oracledocuments/*</pattern>
+    </decorator>
+    
+    <decorator name="osp-oracle" page="osp/oracle/template.ftl">
+        <pattern>/oracle*</pattern>
+        <pattern>/oracle/*</pattern>
+    </decorator>
+    
+    <decorator name="osp-share" page="osp/share/template.ftl">
+        <pattern>/share*</pattern>
+        <pattern>/share/*</pattern>
+    </decorator>
+
+
+    <decorator name="default" page="default/template.ftl">
+        <pattern>/disclaimer*</pattern>
+    </decorator>
+
+    <!-- Excludes: these patterns will not be decorated -->
+
+    <excludes>
+        <pattern>/admin/system-log.js*</pattern>
+        <pattern>/admin/login.jsp*</pattern>
+        <pattern>/admin/upgrade/*</pattern>
+        <pattern>/admin/statuslevels-iconpicker.jsp*</pattern>
+        <pattern>/admin/admin-feeds-logs*</pattern>
+        <pattern>/admin/user-picker*</pattern>
+        <pattern>/admin/blog-picker*</pattern>
+        <pattern>/admin/community-picker*</pattern>
+        <pattern>/admin/doctype-picker*</pattern>
+        <pattern>/admin/expert-emailalerts-form.js*</pattern>
+        <pattern>/admin/avatar-display.jspa*</pattern>
+        <pattern>/admin/view-people-autocomplete.jspa*</pattern>
+        <pattern>/admin/scripts/jscalendar/i18n.js*</pattern>
+        <pattern>/admin/settings-resourcebundle-rules_viewRuleResult*</pattern>
+        <pattern>/admin/message-template-test*</pattern>
+        <pattern>/people/*/avatar/*.png*</pattern>
+        <pattern>/include/tiny_mce_plugins/*</pattern>
+        <pattern>/markuphelpfull.jsp*</pattern>
+        <pattern>/opensearch.xml</pattern>
+        <pattern>/view-people-autocomplete.jsp*</pattern>
+        <pattern>/services/*</pattern>
+        <pattern>/status-level-leaders.jspa*</pattern>
+        <pattern>/feed-transformer.jsp*</pattern>
+        <pattern>/*user-picker*</pattern>
+        <pattern>*.css</pattern>
+        <pattern>/dwr/*</pattern>
+        <pattern>/gc/*</pattern>
+        <pattern>/upgrade/*</pattern>
+        <pattern>/post-upgrade/*</pattern>
+        <pattern>/viewToolbox.jsp*</pattern>
+        <pattern>/community/feeds/search*</pattern>
+        <pattern>/community/feeds/stats*</pattern>
+        <pattern>/community/feeds/polls*</pattern>
+        <pattern>/community/feeds/announcements*</pattern>
+        <pattern>/community/feeds/blogs*</pattern>
+        <pattern>/community/feeds/document*</pattern>
+        <pattern>/community/feeds/messages*</pattern>
+        <pattern>/community/feeds/threads*</pattern>
+        <pattern>/community/feeds/popularthreads*</pattern>
+        <pattern>/community/feeds/allcontent*</pattern>
+        <pattern>*/blog/feeds/posts*</pattern>
+        <pattern>*/blog/feeds/comments*</pattern>
+        <pattern>*/blog/feeds/tags/*</pattern>
+        <pattern>/projects/feeds/search*</pattern>
+        <pattern>/projects/feeds/stats*</pattern>
+        <pattern>/projects/feeds/polls*</pattern>
+        <pattern>/projects/feeds/announcements*</pattern>
+        <pattern>/projects/feeds/blogs*</pattern>
+        <pattern>/projects/feeds/document*</pattern>
+        <pattern>/projects/feeds/messages*</pattern>
+        <pattern>/projects/feeds/opentasks*</pattern>
+        <pattern>/projects/feeds/overduetasks*</pattern>
+        <pattern>/projects/feeds/resolvedtasks*</pattern>
+        <pattern>/projects/feeds/threads*</pattern>
+        <pattern>/projects/feeds/popularthreads*</pattern>
+        <pattern>/projects/feeds/allcontent*</pattern>
+        <pattern>/approval-status*</pattern>
+        <pattern>/test.jsp*</pattern>
+        <pattern>/customer_version.jsp*</pattern>        
+        <pattern>/admin/index.jsp</pattern>
+        <pattern>/admin/setup/index.jsp</pattern>
+        <pattern>/index.jsp</pattern>
+        <pattern>/document-pdf.jspa*</pattern>
+        <pattern>/widget-props*</pattern>
+        <pattern>/widget-editor*</pattern>
+        <pattern>/widget-frame*</pattern>
+        <pattern>/widget-layout*</pattern>
+        <pattern>*/view-task-list*</pattern>
+        <pattern>/tooltip-task-list*</pattern>
+        <pattern>/create-quick-task*</pattern>
+        <pattern>/create-favorite-bookmark*</pattern>
+        <pattern>/project-chooser*</pattern>
+        <pattern>*/*?pdf=true</pattern>
+        <pattern>/profile-image-display.jspa*</pattern>
+        <pattern>/resources/scripts/tiny_mce/blank.htm</pattern>
+        <pattern>/resources/scripts/tiny_mce/plugins/table/row.htm</pattern>
+        <pattern>/resources/scripts/tiny_mce/plugins/table/cell.htm</pattern>
+        <pattern>/resources/scripts/tiny_mce/plugins/table/merge_cells.htm</pattern>
+        <pattern>/resources/scripts/tiny_mce/plugins/table/table.htm</pattern>
+        <pattern>/internal/*</pattern>
+        <pattern>/people/*.vcf</pattern>
+        <pattern>/people/*.vcard</pattern>
+        <pattern>/group-invite-autocomplete.jsp*</pattern>
+        <pattern>/404.jsp</pattern>
+        <pattern>/lockout.jsp</pattern>
+        <pattern>/api/*</pattern>
+        <pattern>/verify/login.jsp*</pattern>
+        <pattern>/welcome-dynamic.jsp*</pattern>
+        <pattern>/admin/settings-saml-tiedhouse-login-preview*</pattern>
+    </excludes>
+</decorators>

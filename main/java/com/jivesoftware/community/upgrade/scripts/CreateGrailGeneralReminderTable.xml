@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<schema name="CreateGrailGeneralReminderTable">
+    <table name="grailgeneralreminders" description="">
+        <column name="id" type="bigint" nullable="false" description=""/>
+        <column name="remindTo" type="bigint" nullable="false" description="user id to remind"/>
+        <column name="body" type="text" description="Body of the reminder"/>
+        <column name="datetime" type="bigint" description="Stores date of reminder"/>
+        <column name="isActive" type="bigint" nullable="false" description=""/>
+        <column name="createdBy" type="bigint" nullable="false" description=""/>
+        <column name="createdDate" type="bigint" nullable="false" description=""/>
+        <index type="primary" name="grailgeneralreminders_Idx" column="id"/>
+    </table>
+</schema>

@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<!-- Table definition for PIB & Target Segments -->
+<schema name="CreatePIBTargetSegmentTable">
+
+    <table name="grailPIBTargetSegment" description="">
+        <column name="docID" type="bigint" nullable="true" description=""/>
+        <column name="projectID" type="bigint" nullable="false" description=""/>
+        <column name="endMarketID" type="bigint" nullable="false" description=""/>
+        <column name="segmentDetail" type="varchar" size="4000" nullable="true" description=""/>
+        <!-- We will not have any Audit fields here as PIB will be responsible for state change -->
+
+    </table>
+
+</schema>

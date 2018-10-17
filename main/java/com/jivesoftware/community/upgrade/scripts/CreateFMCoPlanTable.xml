@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+
+<!-- Table definition for Financial co-plan -->
+<schema name="CreateFMCoPlanTable">
+
+    <table name="grailFMCoPlan" description="">
+        <column name="projectID" type="bigint" nullable="false" description=""/>
+        <column name="budgetYear" type="int" nullable="false" description=""/>
+        <column name="budgetApproverID" type="bigint" nullable="false" description=""/>
+        <column name="pmBudget" type="decimal" default="0" nullable="true" description=""/>
+        <column name="pmBudgetType" type="int"  nullable="true" description=""/>
+        <column name="pmBudgetExchangeRate" type="decimal" nullable="true" description=""/>
+        <column name="fwBudget" type="decimal" default="0" nullable="true" description=""/>
+        <column name="fwBudgetType" type="int" nullable="true" description=""/>
+        <column name="supplier" type="bigint" nullable="true" description=""/>
+
+        <column name="creationBy" type="bigint" nullable="false" description="Author who created the content"/>
+        <column name="modificationBy" type="bigint" nullable="false" description="Author who modified the content"/>
+        <column name="creationDate" type="bigint" nullable="false" description="Creation date"/>
+        <column name="modificationDate" type="bigint" nullable="false" description="Modification date"/>
+         <column name="status" type="int" nullable="false" description="Status of Co Plan"/>
+
+
+        <index type="normal" name="grailFMCoPlan_Idx" column="projectID,budgetYear,budgetApproverID"/>
+    </table>
+
+</schema>

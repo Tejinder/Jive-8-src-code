@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+
+<!-- Table definition for PIB Reporting -->
+<schema name="CreatePIBReportingTable">
+
+    <table name="grailPIBReporting" description="">
+        <column name="projectID" type="bigint" nullable="false" description=""/>
+        <column name="endMarketID" type="bigint" nullable="false" description=""/>
+
+        <column name="topLinePresentation" type="int" nullable="true" description=""/>
+        <column name="presentation" type="int" nullable="true" description=""/>
+        <column name="fullReport" type="int" nullable="true" description=""/>
+        <column name="globalSummary" type="int" nullable="true" description=""/>
+        
+        <column name="otherReportingRequirements" type="varchar" size="1000" nullable="true" description=""/>
+    </table>
+
+</schema>

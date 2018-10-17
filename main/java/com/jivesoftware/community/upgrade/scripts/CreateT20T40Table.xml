@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+
+<!-- Table definition for End Markets -->
+<schema name="CreateT20T40Table">
+
+    <table name="grailT20T40MetaFields" description="">
+          <column name="tid" type="bigint" nullable="false" description=""/>
+        <column name="name" type="varchar" size="255" nullable="false" description=""/>
+       <column name="sortOrder" type="bigint" nullable="true" description="Stores the order by which it sorts"/>
+		<column name="isActive" type="int" default="1" nullable="true" description="Property active/inactive state"/>
+        <index type="normal" name="grailT20T40_Idx" column="tid,name"/>
+    </table>
+
+</schema>

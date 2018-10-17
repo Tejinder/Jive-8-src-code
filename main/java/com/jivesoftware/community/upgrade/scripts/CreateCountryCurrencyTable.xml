@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<schema name="CreateCountryCurrencyTable">
+    <table name="grailCountryCurrency" description="">
+        <column name="endmarketid" type="bigint" nullable="false" description=""/>
+        <column name="currencyid" type="bigint" nullable="false" description=""/>
+        <index type="normal" name="grailCountryCurrency_Idx" column="endmarketid"/>
+    </table>
+		<sql>
+	  <![CDATA[
+		INSERT INTO grailCountryCurrency (endmarketid, currencyid) VALUES (1, 91);
+		INSERT INTO grailCountryCurrency (endmarketid, currencyid) VALUES (12, 3);
+		]]>
+	</sql>
+</schema>

@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+
+<!-- Table definition for Projects -->
+<schema name="CreateActivityLogTable">
+    <table name="grailActivityLog" description="Table for logging activities of users">
+		<column name="timestamp" type="bigint" nullable="false" description="Time stamp of the user log activity"/>
+        <column name="userID" type="bigint" nullable="false" description="User ID of the user in consideration"/>		
+		<column name="userName" type="text" nullable="true" description="Activity JSON Object"/>
+		<column name="portal" type="varchar" size="1000" nullable="true" description="Portal Name"/>
+		<column name="page" type="bigint" nullable="true" description="Page Type"/>
+		<column name="type" type="bigint" nullable="true" description="Type of Activity"/>
+		<column name="stage" type="bigint" nullable="true" description="Project Stage of Activity"/>
+		<column name="jsonValue" type="text" nullable="false" description="Activity JSON Object"/>
+		<column name="projectID" type="bigint" nullable="false" description="Project ID"/>
+		<column name="endmarketID" type="bigint" nullable="true" description="End Market ID"/>
+		<column name="projectName" type="text" nullable="false" description="Project Name"/>
+        <index type="normal" name="grailActivityLog_Idx" column="userID,timestamp"/>
+    </table>
+</schema>

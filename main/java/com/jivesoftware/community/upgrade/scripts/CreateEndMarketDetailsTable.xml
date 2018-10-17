@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+
+<!-- Table definition for EndMarket Details -->
+<schema name="CreateEndMarketDetailsTable">
+
+    <table name="grailEndMarketDetails" description="">
+        <column name="projectID" type="bigint" nullable="false" description=""/>
+        <column name="endMarketID" type="bigint" nullable="false" description=""/>
+        <column name="startMonth" type="int" nullable="true" description=""/>
+        <column name="startYear" type="int" nullable="true" description=""/>
+        <column name="endMonth" type="int" nullable="true" description=""/>
+        <column name="endYear" type="int" nullable="true" description=""/>
+        <column name="interviews" type="int" size="255" nullable="true" description=""/>
+        <column name="waves" type="int" size="255" nullable="true" description=""/>
+        <column name="cells" type="int" size="255" nullable="true" description=""/>
+        <column name="focusGroups" type="int" size="255" nullable="true" description=""/>
+		<column name="respondents" type="int" size="255" nullable="true" description=""/>
+		<column name="contactsperrespondent" type="int" size="255" nullable="true" description=""/>
+		<column name="depthinterviews" type="int" size="255" nullable="true" description=""/>
+		<column name="respondentsperfocus" type="int" size="255" nullable="true" description=""/>
+        <!-- Fields need to be updated based on the project waver required field -->
+
+        <column name="dataCollectionMethod" type="varchar" size="1000" nullable="true" description=""/>
+        <column name="partialMethodologyWaiver" type="int" nullable="true" description=""/>
+       <!--  <column name="methodologyDescription" type="varchar" size="1000" nullable="true" index_none="true" unicode="true" description=""/> -->
+        <column name="methodologyRationale" type="varchar" size="1000" nullable="true" index_none="true" unicode="true" description=""/>
+        <column name="oracleApprover" type="bigint" nullable="true" description=""/>
+        <column name="approved" type="int" nullable="true" description=""/>
+        <column name="oracleApproverComment"  type="varchar" size="10000" nullable="true" index_none="true" unicode="true" description=""/>
+
+        <column name="creationBy" type="bigint" nullable="false" description="Author who created the content"/>
+        <column name="modificationBy" type="bigint" nullable="false" description="Author who modified the content"/>
+        <column name="creationDate" type="bigint" nullable="false" description="Creation date"/>
+        <column name="modificationDate" type="bigint" nullable="false" description="Modification date"/>
+
+        <index type="normal" name="endMarketDetails_Idx" column="projectID,endMarketID,interviews,waves,cells"/>
+    </table>
+
+</schema>

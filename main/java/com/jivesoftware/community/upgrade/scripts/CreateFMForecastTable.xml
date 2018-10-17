@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+
+<!-- Table definition for Financial Forecast -->
+<schema name="CreateFMForecastTable">
+
+    <table name="grailFMForecast" description="">
+        <column name="projectID" type="bigint" nullable="false" description=""/>
+        <column name="budgetYear" type="int" nullable="false" description=""/>
+        <column name="budgetApproverID" type="bigint" nullable="false" description=""/>
+        <!-- PM Forecast -->
+        <column name="pmQPR1" type="decimal" default="0" nullable="true" description=""/>
+        <column name="pmQPR1Type" type="int" nullable="false" description=""/>
+        <column name="pmQPR1ExchangeRate" type="decimal" nullable="true" description=""/>
+        <column name="pmQPR2" type="decimal" default="0" nullable="true" description=""/>
+        <column name="pmQPR2Type" type="int"  nullable="false" description=""/>
+        <column name="pmQPR2ExchangeRate" type="decimal" nullable="true" description=""/>
+        <column name="pmQPR3" type="decimal" default="0" nullable="true" description=""/>
+        <column name="pmQPR3Type" type="int"  nullable="false" description=""/>
+        <column name="pmQPR3ExchangeRate" type="decimal" nullable="true" description=""/>
+        <column name="pmQPR4" type="decimal" default="0" nullable="true" description=""/>
+        <column name="pmQPR4Type" type="int"  nullable="false" description=""/>
+        <column name="pmQPR4ExchangeRate" type="decimal" nullable="true" description=""/>
+
+        <!-- FW1 Quarters -->
+        <column name="fw1QPR1" type="decimal" default="0" nullable="true" description=""/>
+        <column name="fw1QPR1Type" type="int" nullable="false" description=""/>
+        <column name="fw1QPR2" type="decimal" default="0" nullable="true" description=""/>
+        <column name="fw1QPR2Type" type="int" nullable="false" description=""/>
+        <column name="fw1QPR3" type="decimal" default="0" nullable="true" description=""/>
+        <column name="fw1QPR3Type" type="int" nullable="false" description=""/>
+        <column name="fw1QPR4" type="decimal" default="0" nullable="true" description=""/>
+        <column name="fw1QPR4Type" type="int" nullable="false" description=""/>
+        <column name="supplier1" type="bigint" nullable="true" description=""/>
+        <!-- FW2 Quarters -->
+        <column name="fw2QPR1" type="decimal" default="0" nullable="true" description=""/>
+        <column name="fw2QPR1Type" type="int" nullable="false" description=""/>
+        <column name="fw2QPR2" type="decimal" default="0" nullable="true" description=""/>
+        <column name="fw2QPR2Type" type="int" nullable="false" description=""/>
+        <column name="fw2QPR3" type="decimal" default="0" nullable="true" description=""/>
+        <column name="fw2QPR3Type" type="int" nullable="false" description=""/>
+        <column name="fw2QPR4" type="decimal" default="0" nullable="true" description=""/>
+        <column name="fw2QPR4Type" type="int" nullable="false" description=""/>
+        <column name="supplier2" type="bigint" nullable="true" description=""/>
+        <!-- FW3 Quarters -->
+        <column name="fw3QPR1" type="decimal" default="0" nullable="true" description=""/>
+        <column name="fw3QPR1Type" type="int" nullable="false" description=""/>
+        <column name="fw3QPR2" type="decimal" default="0" nullable="true" description=""/>
+        <column name="fw3QPR2Type" type="int" nullable="false" description=""/>
+        <column name="fw3QPR3" type="decimal" default="0" nullable="true" description=""/>
+        <column name="fw3QPR3Type" type="int" nullable="false" description=""/>
+        <column name="fw3QPR4" type="decimal" default="0" nullable="true" description=""/>
+        <column name="fw3QPR4Type" type="int" nullable="false" description=""/>
+        <column name="supplier3" type="bigint" nullable="true" description=""/>
+
+        <column name="creationBy" type="bigint" nullable="false" description="Author who created the content"/>
+        <column name="modificationBy" type="bigint" nullable="false" description="Author who modified the content"/>
+        <column name="creationDate" type="bigint" nullable="false" description="Creation date"/>
+        <column name="modificationDate" type="bigint" nullable="false" description="Modification date"/>
+        <column name="status" type="int" nullable="false" description="Status of Forecast Plan"/>
+
+
+        <index type="normal" name="grailFMForecast_Idx" column="projectID,budgetYear,budgetApproverID"/>
+    </table>
+
+</schema>

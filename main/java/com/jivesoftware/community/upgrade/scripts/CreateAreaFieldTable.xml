@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<schema name="CreateAreaFieldTable">
+    <table name="grailAreaFields" description="">
+        <column name="id" type="bigint" nullable="false" description=""/>
+        <column name="name" type="varchar" size="255" nullable="false" description=""/>
+		<column name="sortOrder" type="bigint" nullable="true" description="Stores the order by which it sorts"/>
+		<column name="isActive" type="int" default="1" nullable="true" description="Property active/inactive state"/>
+        <index type="normal" name="grailAreaFields_Idx" column="id"/>
+    </table>
+	<sql>
+	  <![CDATA[	  
+	  	INSERT INTO grailAreaFields(id, "name", sortorder) VALUES (1, 'Area 1',1);
+		INSERT INTO grailAreaFields(id, "name", sortorder) VALUES (2, 'Area 2',2);
+		INSERT INTO grailAreaFields(id, "name", sortorder) VALUES (3, 'Area 3',3);
+		]]>
+	</sql>
+</schema>

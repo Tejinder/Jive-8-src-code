@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<schema name="CreateMethodologyGroupFieldTable">
+    <table name="grailMethodologyGroupFields" description="">
+        <column name="id" type="bigint" nullable="false" description=""/>
+        <column name="name" type="varchar" size="255" nullable="false" description=""/>
+		<column name="sortOrder" type="bigint" nullable="true" description="Stores the order by which it sorts"/>
+		<column name="isActive" type="int" default="1" nullable="true" description="Property active/inactive state"/>
+        <index type="normal" name="gMethodologyGroupFields_Idx" column="id"/>		
+    </table>
+		<sql>
+	  <![CDATA[
+		INSERT INTO grailmethodologygroupfields(id, "name", sortorder) VALUES (1,'Brand - NPI',1);
+		INSERT INTO grailmethodologygroupfields(id, "name", sortorder) VALUES (2,'Brand - Other',2);
+		INSERT INTO grailmethodologygroupfields(id, "name", sortorder) VALUES (3,'Illicit Trade',3);
+		INSERT INTO grailmethodologygroupfields(id, "name", sortorder) VALUES (4,'Others',5);
+		INSERT INTO grailmethodologygroupfields(id, "name", sortorder) VALUES (5,'Pricing',6);
+		INSERT INTO grailmethodologygroupfields(id, "name", sortorder) VALUES (6,'Product',7);
+		INSERT INTO grailmethodologygroupfields(id, "name", sortorder) VALUES (7,'Retail Audit',9);
+		INSERT INTO grailmethodologygroupfields(id, "name", sortorder) VALUES (8,'Segmentation',10);
+		INSERT INTO grailmethodologygroupfields(id, "name", sortorder) VALUES (9,'Trade',11);
+		INSERT INTO grailmethodologygroupfields(id, "name", sortorder) VALUES (11,'Product Other Tools',8);
+		INSERT INTO grailmethodologygroupfields(id, "name", sortorder) VALUES (12,'Market Understanding/Tracking',4);
+		]]>
+	</sql>
+</schema>

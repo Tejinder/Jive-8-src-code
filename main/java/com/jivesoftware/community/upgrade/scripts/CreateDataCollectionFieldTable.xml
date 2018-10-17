@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<schema name="CreateDataCollectionFieldTable">
+    <table name="grailDataCollectionFields" description="">
+        <column name="id" type="bigint" nullable="false" description=""/>
+        <column name="name" type="varchar" size="255" nullable="false" description=""/>	
+		<column name="sortOrder" type="bigint" nullable="true" description="Stores the order by which it sorts"/>
+		<column name="isActive" type="int" default="1" nullable="true" description="Property active/inactive state"/>
+        <index type="normal" name="graildCollectionFields_Idx" column="id"/>		
+    </table>
+		<sql>
+	  <![CDATA[
+	  	INSERT INTO grailDataCollectionFields(id, "name", sortorder) VALUES (1,'Auditor',1);
+		INSERT INTO grailDataCollectionFields(id, "name", sortorder) VALUES (2,'CATI',2);
+		INSERT INTO grailDataCollectionFields(id, "name", sortorder) VALUES (3,'CAWI / Online',3);
+		INSERT INTO grailDataCollectionFields(id, "name", sortorder) VALUES (4,'EPOS',4);
+		INSERT INTO grailDataCollectionFields(id, "name", sortorder) VALUES (5,'F2F',5);
+		INSERT INTO grailDataCollectionFields(id, "name", sortorder) VALUES (6,'F2F (CAPI)',6);
+		INSERT INTO grailDataCollectionFields(id, "name", sortorder) VALUES (7,'F2F (CAWI)',7);
+		INSERT INTO grailDataCollectionFields(id, "name", sortorder) VALUES (8,'F2F (PAPI)',8);
+		INSERT INTO grailDataCollectionFields(id, "name", sortorder) VALUES (9,'F2F Group Discussions',9);
+		INSERT INTO grailDataCollectionFields(id, "name", sortorder) VALUES (10,'F2F Observation',10);
+		INSERT INTO grailDataCollectionFields(id, "name", sortorder) VALUES (11,'IDI Telephonic',11);
+		INSERT INTO grailDataCollectionFields(id, "name", sortorder) VALUES (12,'in-depth Discussions',12);
+		INSERT INTO grailDataCollectionFields(id, "name", sortorder) VALUES (13,'Mystery Shopper',13);	
+		INSERT INTO grailDataCollectionFields(id, "name", sortorder) VALUES (14,'Online',14);
+		INSERT INTO grailDataCollectionFields(id, "name", sortorder) VALUES (15,'Online chat room',15);
+		INSERT INTO grailDataCollectionFields(id, "name", sortorder) VALUES (16,'Others',16);
+		INSERT INTO grailDataCollectionFields(id, "name", sortorder) VALUES (17,'Social Media Listening (SML)',17);
+		
+		
+		
+		
+		]]>
+	</sql>
+</schema>

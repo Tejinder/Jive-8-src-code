@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<schema name="CreateGrailProjectReminderDailyFrequencyTable">
+    <table name="grailProjReminderDailyFreq" description="">
+        <column name="reminderId" type="bigint" nullable="false" description=""/>
+        <column name="dailyFrequencyType" type="bigint" description="Frequency Type"/>
+        <column name="dayFrequency" type="bigint" nullable="true" description="Remind on every mentioned day(s)"/>
+        <constraint type="foreignkey" name="projreminder_dailyfrq_fk" column="reminderId" reftable="grailprojectreminders"  deferred="true"/>
+    </table>
+</schema>

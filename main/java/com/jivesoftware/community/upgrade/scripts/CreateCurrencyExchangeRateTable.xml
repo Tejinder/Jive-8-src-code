@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<!-- Table definition for Currency Exchange Rate Table -->
+<schema name="CreateCurrencyExchangeRateTable">
+
+    <table name="grailCurrencyExchangeRate" description="">
+        <column name="currencyID" type="bigint" nullable="false" description=""/>      
+        <column name="exchangeRate" type="decimal" nullable="true" description=""/>      
+        <column name="modificationBy" type="bigint" nullable="false" description="Author who modified the currency exchange rate"/>     
+        <column name="modificationDate" type="bigint" nullable="false" description="Currency exchange rate Modification date"/>
+	</table>
+
+</schema>

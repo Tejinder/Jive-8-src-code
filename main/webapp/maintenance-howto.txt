@@ -1,0 +1,9 @@
+
+How to customize and upload custom maintenance page:
+
+1. Firstly, having maintenance.html in the custom WAR has no effect.
+2. If there are any images that need to be added, drop them in the same folder i.e web/src/main/webapp
+3. Customize maintenance.html as needed
+4. Use your favorite Zip tool to zip the images and html file together.
+5. Upload the zip file in JCA by clicking Upload Maintenance page.
+6. Don't forget to check into SVN :-)

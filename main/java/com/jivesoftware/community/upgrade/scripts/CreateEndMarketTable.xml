@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+
+<!-- Table definition for End Markets -->
+<schema name="CreateEndMarketTable">
+
+    <table name="grailEndMarket" description="">
+        <column name="marketID" type="bigint" nullable="false" description=""/>
+        <column name="name" type="varchar" size="255" nullable="false" description="" constraint="unique"/>
+        <column name="description" type="varchar" size="255" nullable="true" description=""/>
+
+        <column name="creationBy" type="bigint" nullable="false" description="Author who created the content"/>
+        <column name="modificationBy" type="bigint" nullable="false" description="Author who modified the content"/>
+        <column name="creationDate" type="bigint" nullable="false" description="Creation date"/>
+        <column name="modificationDate" type="bigint" nullable="false" description="Modification date"/>
+
+
+        <index type="normal" name="grailEndmarket_Idx" column="marketID,name"/>
+    </table>
+
+</schema>

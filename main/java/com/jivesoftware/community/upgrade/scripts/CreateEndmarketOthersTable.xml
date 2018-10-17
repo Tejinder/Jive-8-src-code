@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+
+<!-- Table definition for End Markets -->
+<schema name="CreateEndmarketOthersTable">
+    <table name="grailEMOthersMapping" description="">
+        <column name="eid" type="bigint" nullable="false" description=""/>
+        <column name="approval"  default="1" type="bigint" nullable="false" description=""/>
+        <column name="eu"  default="1" type="bigint" nullable="false" description=""/>        
+        <index type="normal" name="grailEMOthr_Idx" column="eid"/>
+    </table>
+</schema>

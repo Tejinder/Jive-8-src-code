@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<schema name="CreateProductFieldTable">
+    <table name="grailProductFields" description="">
+        <column name="id" type="bigint" nullable="false" description=""/>
+        <column name="name" type="varchar" size="255" nullable="false" description=""/>
+		<column name="sortOrder" type="bigint" nullable="true" description="Stores the order by which it sorts"/>
+		<column name="isActive" type="int" default="1" nullable="true" description="Property active/inactive state"/>
+        <index type="normal" name="grailProductFields_Idx" column="id"/>
+    </table>
+	<sql>
+	  <![CDATA[
+	  
+	  	INSERT INTO grailproductfields(id, "name", sortorder) VALUES (1, 'Manufactured Cigarettes',1);
+		INSERT INTO grailproductfields(id, "name", sortorder) VALUES (3, 'Roll Your Own/Make Your Own',2);
+		INSERT INTO grailproductfields(id, "name", sortorder) VALUES (4, 'Heat Not Burn',3);
+		INSERT INTO grailproductfields(id, "name", sortorder) VALUES (5, 'E-Cigarettes',4);
+		INSERT INTO grailproductfields(id, "name", sortorder) VALUES (6, 'Cigars/Cigarillos',5);
+		INSERT INTO grailproductfields(id, "name", sortorder) VALUES (7, 'Other Combustibles',6);
+		INSERT INTO grailproductfields(id, "name", sortorder) VALUES (8, 'Other Non-Combustibles',7);
+		INSERT INTO grailproductfields(id, "name", sortorder) VALUES (9, 'Multi-Category',8);
+
+		]]>
+	</sql>
+</schema>

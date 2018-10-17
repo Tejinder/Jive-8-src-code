@@ -1,0 +1,764 @@
+<upgrade-config>
+    <upgrades>
+
+        <upgrade order="1">
+            <name>grail-synchro</name>
+            <tasks>
+                <!-- Grail Synchro cusotm tables -->
+
+
+                <!--<task version="50051001"-->
+                <!--className="com.jivesoftware.community.upgrade.tasks.synchro.CreateAgencyEvaluationRatingsTableTask"/>-->
+
+                <!--<task version="50051026"-->
+                <!--className="com.jivesoftware.community.upgrade.tasks.synchro.CreateCAFieldWorkMappingTableTask"/>-->
+
+                <!--<task version="50051003"-->
+                <!--className="com.jivesoftware.community.upgrade.tasks.synchro.CreateCoordinationDetailsTableTask"/>-->
+
+                <!--<task version="50051026"-->
+                <!--className="com.jivesoftware.community.upgrade.tasks.synchro.CreateEndMarketDetailsTableTask"/>-->
+
+                <!-- <task version="50051005"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateEndMarketTableTask"/>-->
+
+                <!--<task version="50051006"-->
+                <!--className="com.jivesoftware.community.upgrade.tasks.synchro.CreateFMActualsTableTask"/>-->
+
+                <!--<task version="50051007"-->
+                <!--className="com.jivesoftware.community.upgrade.tasks.synchro.CreateFMCoPlanTableTask"/>-->
+
+                <!--<task version="50051008"-->
+                <!--className="com.jivesoftware.community.upgrade.tasks.synchro.CreateFMForecastTableTask"/>-->
+
+                <!--<task version="50051009"-->
+                <!--className="com.jivesoftware.community.upgrade.tasks.synchro.CreateFMPrePlanTableTask"/>-->
+
+                <!--<task version="50051010"-->
+                <!--className="com.jivesoftware.community.upgrade.tasks.synchro.CreateProjectBudgetApproversTableTask"/>-->
+
+                <!--<task version="50051011"-->
+                <!--className="com.jivesoftware.community.upgrade.tasks.synchro.CreateProjectEndMarketTableTask"/>-->
+
+
+
+                <!--<task version="50051013"-->
+                <!--className="com.jivesoftware.community.upgrade.tasks.synchro.CreateResearchCommissionTableTask"/>-->
+
+
+
+                <!--<task version="50051017"
+                className="com.jivesoftware.community.upgrade.tasks.synchro.CreateConstraintTask"/>-->
+
+                <!--<task version="50051018"-->
+                <!--className="com.jivesoftware.community.upgrade.tasks.synchro.CreatePIBTableTask"/>-->
+
+                <!--<task version="50051019"-->
+                <!--className="com.jivesoftware.community.upgrade.tasks.synchro.CreatePIBBrandMappingTableTask"/>-->
+
+                <!--<task version="50051020"-->
+                <!--className="com.jivesoftware.community.upgrade.tasks.synchro.CreatePIBTargetSegmentTableTask"/>-->
+
+                <!--<task version="50051021"-->
+                <!--className="com.jivesoftware.community.upgrade.tasks.synchro.CreatePIBStimulusTableTask"/>-->
+
+                <!--<task version="50051022"-->
+                <!--className="com.jivesoftware.community.upgrade.tasks.synchro.CreatePIBReportingTableTask"/>-->
+
+
+
+                <!--<task version="50051024"-->
+                <!--className="com.jivesoftware.community.upgrade.tasks.synchro.CreateCAFieldWorkDataCollectionTableTask"/>-->
+
+
+
+                <!-- Grail Phase 4 -->
+
+                <task version="50051101"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateProjectTableTask"/>
+
+                <task version="50051102"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateProjectTemplateTableTask"/>
+
+                <task version="500511117"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreatePIBTableTask"/>
+
+                <task version="500511118"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreatePIBReportingTableTask"/>                
+
+                <task version="50051106"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateStageApproversTableTask"/>
+
+                <task version="50051107"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateEndMarketInvestmentTableTask"/>
+
+                <task version="50051179"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreatePIBMethodologyWaiverTableTask"/>
+
+                <task version="50051177"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateProposalTableTask"/>
+
+                <task version="500511119"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateProposalReportingTableTask"/>
+
+                <task version="500511104"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateProposalEndMarketDetailsTableTask"/>
+
+                <task version="50051178"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateProjectSpecsTableTask"/>
+
+
+                <task version="500511120"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateProjectSpecsReportingTableTask"/>
+
+                <task version="500511113"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateProjectSpecsEMDetailsTableTask"/>
+
+                <task version="500511112"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateProjectReportSummaryTableTask"/>
+
+                <task version="500511131"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateProjectEvalTableTask"/>
+
+                <task version="50051117"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateProjectPermissionTableTask"/>
+
+               
+                <task version="50051121"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateStageToDoListTableTask"/>                
+
+                <task version="50051123"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateCurrencyExchangeRateTableTask"/>
+                
+                <task version="50051131"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateSupplierFieldTableTask"/>
+
+                <task version="50051132"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateSupplierGroupFieldTableTask"/>
+
+                <task version="50051133"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateSupplierGroupFieldMappingTableTask"/>
+
+                <task version="50051134"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateFwSupplierGFieldMappingTableTask"/>
+
+                <task version="50051135"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateFwSupplierFieldTableTask"/>
+
+                <task version="50051136"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateFwSupplierGFieldTableTask"/>
+					  
+                <task version="50051138"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateTAgencyFieldTableTask"/>
+
+                <task version="50051139"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateNewUserTrackerTableTask"/>
+
+                <task version="50051140"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateMyLibraryTableTask"/>
+
+                <task version="50051141"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateAutoSaveTableTask"/>
+
+				<task version="50051143"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateUserReadTrackerTableTask"/>
+					  
+				<task version="50051144"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateInviteUserTrackTableTask"/>
+				
+				<task version="50051145"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateProjectDeleteStatusTableTask"/>
+					  
+				<task version="50051148"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateProjectStatusTableTask"/>
+                      
+                <task version="50051149"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateAttachmentUserTableTask"/>
+                
+                <task version="50051175"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreatePSMethodologyWaiverTableTask"/>
+					  
+				<task version="50051157"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateProjectStatusTrackTableTask"/>
+					  
+				<task version="50051158"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyProjectTableTask"/>		
+					  
+				<task version="500511101"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateProductBrandFieldMappingTableTask"/>			
+					  
+				<task version="500511101"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateMethodologyGroupFieldTableTask"/>
+					  
+				<task version="500511101"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateProductFieldTableTask"/>
+				
+				<task version="500511101"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateBrandFieldTableTask"/>
+					  
+				<task version="500511101"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateCurrencyFieldTableTask"/>
+					 
+				<task version="500511101"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateDataCollectionFieldTableTask"/>
+					  
+				<task version="500511101"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateMethodologyTypeFieldTableTask"/>
+				
+				<task version="500511101"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateMethCollectionMappingTableTask"/>
+				
+				<task version="500511101"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateEndMarketFieldTableTask"/>
+					  
+				<task version="500511101"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateMethodologyFieldTableTask"/>
+					  
+				<task version="500511101"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateMethodologyFieldMappingTableTask"/>
+					  
+				<task version="500511102"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyProjectSpecsEMDetailsTableTask"/>
+					  
+					  
+				<task version="500511103"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateFundingInvestmentTableTask"/>
+					  
+				<task version="500511103"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyMultimarketProjectTableTask"/>
+					  
+				<task version="500511103"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyEndMarketInvestmentTableTask"/>
+					  
+				<task version="500511106"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyMultimarketProjectTableTask2"/>
+					  
+				<task version="500511107"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateAreaFieldTableTask"/>
+					  
+				<task version="500511107"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateAreaEndMarketFieldMappingTableTask"/>
+					  
+				<task version="500511121"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateRegionFieldTableTask"/>
+					  
+				<task version="500511107"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateEndMarketFieldTableTask"/>
+					
+				<task version="500511108"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateRegionEndMarketFieldMappingTableTask"/>
+				
+				<task version="500511109"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyMultimarketProjectTableTask3"/>
+					  
+				<task version="500511110"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyMultimarketProjectTableTask4"/>
+					  
+				<task version="500511114"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyMultimarketProjectTableTask5"/>
+                <task version="500511116"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateWaiverApproversTableTask"/>
+
+                <task version="500511116"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateWaiverEndMarketTableTask"/>
+					 
+				<task version="500511116"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateWaiverTableTask"/>
+				
+				<task version="500511122"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyProjectReportSummaryTask"/>	
+                      
+                <task version="500511123"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyMultimarketProposalTableTask"/>	
+                      
+				<task version="500511126"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyProposalTableTask"/>
+				
+				<task version="500511127"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifySpecsTableTask"/>
+
+				<task version="500511128"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifySpecsTableTask2"/>
+				
+				<task version="500511130"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyInvestmentFundingTableTask"/>
+					  
+				<task version="500511133"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyPIBTableTask"/>
+					  
+				<task version="500511135"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreatePIBStakeholderListTableTask"/>
+				
+				<task version="500511136"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyPIBTableTask1" />
+
+				<task version="500511137"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateEmailNotificationsTableTask"/>
+
+                <task version="500511139"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateUserDepartmentsTableTask"/>
+				
+				<task version="500511142"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateJobTitleFieldTableTask"/>
+
+                <task version="500511150"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateProjectCostFieldsTableTask"/>
+
+                <task version="500511151"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyProjectTableTask2"/>
+                      
+                 <task version="500511152"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifySpecsTableTask3"/>
+
+                <!--<task version="500511145"-->
+                      <!--className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyProjectCostFieldsTableTask"/>-->
+
+
+                <!--<task version="500511140"-->
+                      <!--className="com.jivesoftware.community.upgrade.tasks.synchro.CreatePendingActivityTableTask"/>-->
+				<task version="500511153"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateCountryCurrencyTableTask"/>
+
+                <!--<task version="500511154"-->
+                      <!--className="com.jivesoftware.community.upgrade.tasks.synchro.CreateDefaultTemplatesTableTask"/>-->
+					  
+				<task version="500511155"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyPIBAndProjectTableTask"/>
+				
+				<task version="500511156"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyPIBTableTask2"/>
+					  
+				<task version="500511157"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyProposalTableTask1"/>
+					  
+				<task version="500511157"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyProposalTableTask2"/>
+					  
+				<task version="500511158"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifySpecsTableTask4"/>
+					  
+				<task version="500511158"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyPIBTableTask3"/>
+					  
+				<task version="500511159"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyProjectTableTask3"/>
+
+
+                <task version="500511160"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateGrailBriefTemplateTableTask"/>
+				
+				<!-- Run this task while pushing editor to Production 
+				<task version="500511161"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CopyTextValuesInTableTask"/>
+				-->
+				<task version="500511161"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.FormatFieldTypesToTextTask"/>
+
+                <task version="500511162"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyGrailBriefTemplateTableTask"/>
+
+                <task version="500511163"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CopyTextValuesInTableTask"/>
+
+                <task version="500511164"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyProjectCostFieldsTableTask"/>
+                      
+                 <task version="500511165"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifySpecsWaiverTableTask"/>
+
+                 <task version="500511166"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateKantarBriefTemplateTableTask"/>
+
+                <!--<task version="500511167"-->
+                      <!--className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyKantarBriefTemplateTableTask"/>-->
+
+				<task version="500511168"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyPIBTableTask4"/>
+                      
+                <task version="500511169"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreatePIBKantarMethodologyWaiverTableTask"/>
+
+                <task version="500511170"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyKantarBriefTemplateTableTask"/>
+
+                <task version="500511171"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyProjectSpecsTableTask"/>
+
+                <task version="500511172"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateGrailEmailQueriesTableTask"/>
+                      
+                <task version="500511175"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyProjectTableTask4"/>
+                      
+                <task version="500511176"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyWaiverTableTask"/>
+                      
+                <task version="500511177"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyPIBKantarMWTableTask"/>
+
+                <task version="500511178"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyKantarBriefTemplateTableTask1"/>
+                      
+                <task version="500511179"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyPIBStakeholderTableTask1"/>
+                      
+                <task version="500511180"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyPIBStakeholderTableTask2"/>      
+
+                <task version="500511180"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateKantarReportTableTask"/>
+
+                <task version="500511181"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyGrailEmailQueriesTableTask"/>
+
+
+                <task version="500511182"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyGrailBriefTemplateTableTask1"/>
+
+                <task version="500511183"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateKantarReportTypeTabletask"/>
+
+                <task version="500511184"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateKantarButtonMethodologyTypeTableTask"/>
+
+                <task version="500511185"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateGrailButtonMethodologyTypeTableTask"/>
+
+                <task version="500511186"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyKantarReportTypeTableTask"/>
+
+                <task version="500511187"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateMethodologyTypeMappingTableTask"/>
+
+                <task version="500511188"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifySynchroProjectTableTask"/>
+
+                <task version="500511189"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateMethodologyGroupTypeMappingTableTask"/>
+
+                <!--<task version="500511189"-->
+                      <!--className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyKantarReportTypeTableTask"/>-->
+
+				 <task version="500511189"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyProjectTableTask5"/>
+                      
+                 <task version="500511190"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyProjectReportSummaryTask1"/>
+
+                <task version="500511191"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifySynchroProjectTableForAgencyDepartmentTask"/>
+
+                <task version="500511192"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyInviteUserTrackTableTask"/>
+
+                <task version="500511193"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateGrailProjectRemindersTableTask"/>
+
+                <task version="500511193"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateGrailProjectReminderUserMappingTableTask"/>
+
+                <task version="500511193"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateGrailProjectReminderDailyFrequencyTableTask"/>
+
+                <task version="500511193"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateGrailProjectReminderWeeklyFrequencyTableTask"/>
+
+                <task version="500511193"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateGrailProjectReminderMonthlyFrequencyTableTask"/>
+
+                <task version="500511193"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateGrailProjectReminderYearlyFrequencyTableTask"/>
+
+                <task version="500511193"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateGrailGeneralReminderTableTask"/>
+                      
+                <task version="500511194"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateRSSynchroToIRISTableTask"/>      
+					  
+				<task version="500511195"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateActivityLogTableTask"/>
+
+                <task version="500511196"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateGrailGeneralReminderViewsTableTask"/>
+
+                <task version="500511196"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateGrailProjectReminderViewsTableTask"/>
+                      
+                <task version="500511197"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyRSSynchroToIRISTableTask"/>
+
+                <task version="500511198"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyGrailProjectReminderTableTask"/>
+                      
+                <task version="500511199"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyProjectReportSummaryTask2"/>
+                      
+                 <task version="500511200"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyProposalTableTask3"/>     
+                
+                 <task version="500511201"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyProjectTableTask6"/>     
+                      
+                 <task version="500511202"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyPIBTableTask5"/>
+                      
+                 <task version="500511203"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyProposalTableTask4"/>    
+                      
+                 <task version="500511204"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyProjectSpecsTableTask1"/>
+                      
+                 <task version="500511205"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyProjectReportSummaryTask3"/>  
+                      
+                <task version="500511206"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyInvestmentFundingTableTask1"/>
+
+                <task version="500511207"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreatePendingActivityViewsTableTask"/>
+                      
+                  <task version="500511208"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyRSSynchroToIRISTableTask1"/>
+
+                <task version="500511209"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyKantarReportTypeTableTask1"/>
+
+
+                <!--<task version="500511168"-->
+                      <!--className="com.jivesoftware.community.upgrade.tasks.synchro.CreateKantarProjectTableTask"/>-->
+
+                <!--<task version="500511169"-->
+                      <!--className="com.jivesoftware.community.upgrade.tasks.synchro.CreateKantarProjectStatusTableTask"/>-->
+
+                <!--<task version="500511170"-->
+                      <!--className="com.jivesoftware.community.upgrade.tasks.synchro.CreateKantarProjectMarketsTableTask"/>-->
+
+                <!--<task version="500511171"-->
+                      <!--className="com.jivesoftware.community.upgrade.tasks.synchro.CreateKantarProjectStakeholdersTableTask"/>-->
+
+                <!--<task version="500511172"-->
+                      <!--className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyProjectSpecsTableTask"/>-->
+                
+                <!--  Synchro New Requirement Tables Start -->
+                     
+               
+                <!-- <task version="500520001"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateNewProjectTableTask"/> -->   
+                      
+                <!-- <task version="500520002"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateProjectCostDetailsTableTask"/>
+                     --> 
+                <task version="500520003"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyMethodologyFieldsTableTask"/>
+                      
+                 <task version="500520004"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateResearchAgencyTableTask"/>
+                      
+                 <task version="500520005"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateResearchAgencyGroupTableTask"/>
+                      
+                 <task version="500520006"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateResearchAgencyMappingTableTask"/>
+                 
+                 <task version="500520007"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyCurrencyFieldTableTask"/>
+                 
+                 <task version="500520008"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateNewPIBTableTask"/>
+                      
+                 <task version="500520009"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateNewProposalTableTask"/>
+                      
+                 <task version="500520010"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateNewProjectSpecsTableTask"/>
+                      
+				<task version="500520011"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateT20T40TableTask"/>
+					  
+				<task version="500520012"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateT20T40MappingTableTask"/>
+					  
+				<task version="500520013"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateEndmarketsOtherTableTask"/>	
+               
+              <!--  <task version="500520014"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateNewProjectTableTask"/>-->
+                      
+               <task version="500520015"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateProjectCostDetailsTableTask"/>
+                      
+               <task version="500520016"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyProjectTableTask7"/>
+               
+               <task version="500520017"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyPIBTableTask6"/>
+                      
+               <task version="500520018"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyProposalTableTask5"/>
+                      
+               <task version="500520019"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyProjectSpecsTableTask2"/>
+                      
+               <task version="500520020"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateProjectReportSummaryDetailsTableTask"/>
+                      
+               <task version="500520021"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateProjectReportSummaryAttachmentTableTask"/>
+                      
+               <task version="500520022"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyProjectEvalTableTask"/>    
+                      
+               <task version="500520023"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyProjectTableTask8"/>   
+               
+               <task version="500520024"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyMethodologyFieldsTableTask1"/>   
+
+			   <task version="500520025"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyProjectReportSummaryTask4"/>   
+                
+               <task version="500520026"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyProjectTableTask9"/>
+                    
+               <task version="500520027"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyPIBTableTask7"/> 
+                      
+               <task version="500520028"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyProposalTableTask6"/> 
+                      
+               <task version="500520029"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyProjectTableTask10"/>
+                      
+               <task version="500520030"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyProjectTableTask11"/>
+                      
+              <task version="500520031"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyEndMarketInvestmentTableTask1"/>
+                      
+              <task version="500520032"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyEndMarketInvestmentTableTask2"/>
+                      
+              <task version="500520033"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateProjectTPDSummaryTableTask"/>
+                      
+              <task version="500520034"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateProjectTPDSKUTableTask"/>  
+                      
+             <task version="500520035"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyProjectTPDSummaryTableTask1"/>   
+                      
+              <!-- QPR Snapshot Tables -->
+             <task version="500520036"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateQPRSnapshotTableTask"/>
+                      
+              <task version="500520037"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateQPRSnapshotProjectTableTask"/>  
+                      
+             <task version="500520038"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateQPRSnapshotProjectCostTableTask"/> 
+                      
+              <task version="500520039"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyEMOtherMappingTableTask"/>                                 
+               
+              <task version="500520040"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyProjectTPDSummaryTableTask2"/>       
+              
+              <task version="500520041"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyQPRSnapshotProjectTableTask"/>  
+                      
+              <task version="500520042"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyProjectTPDSummaryTableTask3"/>
+                      
+              <task version="500520043"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyPIBTableTask8"/> 
+                      
+              <task version="500520044"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyProposalTableTask7"/>        
+                      
+              <task version="500520045"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyProjectTPDSummarySKUTableTask"/>                 
+                      
+              <task version="500520046"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyActivityTableTask"/>   
+                      
+              <task version="500520047"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyQPRSnapshotProjectTableTask1"/>  
+                      
+              <task version="500520048"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyBrandTableTask"/>
+                      
+              <task version="500520049"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyQPRSnapshotTableTask"/>   
+                      
+              <task version="500520050"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyProjectTableTask12"/>                                     
+                      
+              <task version="500520051"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyProjectTPDSummarySKUTableTask1"/>        
+                      
+              <task version="500520052"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyProjectTPDSummarySKUTableTask2"/>    
+                      
+              <task version="500520053"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyProjectTableTask13"/>   
+                      
+              <task version="500520054"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyProjectTableTask14"/>      
+                      
+              <task version="500520056"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyQPRSnapshotProjectTableTask2"/>     
+                      
+              <task version="500520057"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyProjectTableTask15"/>                                       
+                      
+             <task version="500520058"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyProjectTPDSummarySKUTableTask3"/>         
+                      
+              <task version="500520059"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyProjectTableTask16"/>   
+                      
+             <task version="500520060"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyPIBTableTask9"/>      
+                      
+             <task version="500520061"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyProposalTableTask8"/>                                 
+                      
+             <task version="500520062"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyProjectTPDSummaryTableTask4"/>   
+                      
+             <task version="500520063"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.ModifyQPRSnapshotProjectCostTableTask"/>                     
+                      
+             <task version="500520064"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateOracleTileTableTask"/>         
+				                                      
+			<task version="500520065"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateOracleFolderTableTask"/>         
+			
+			<task version="500520066"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateOracleFileTableTask"/>  
+            
+            
+             <!--                   
+			<task version="500520067"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateIRISMetaDataTableTask"/>  
+                 -->  
+                           
+            <task version="500520068"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateShareTileTableTask"/>         
+				                                      
+			<task version="500520069"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateShareFolderTableTask"/>         
+			
+			<task version="500520070"
+                      className="com.jivesoftware.community.upgrade.tasks.synchro.CreateShareFileTableTask"/>            
+                      
+              
+				                            			
+                <!--  Synchro New Requirement Tables End -->
+            </tasks>
+
+        </upgrade>
+
+    </upgrades>
+</upgrade-config>

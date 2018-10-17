@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<schema name="CreateGrailEmailQueriesTable">
+    <table name="grailemailqueries" description="">
+        <column name="id" type="bigint" nullable="false" description=""/>
+        <column name="recipients" type="text" nullable="false" description=""/>
+        <column name="subject" type="text" nullable="false" description=""/>
+        <column name="body" type="text" nullable="false" description=""/>
+        <column name="attachmentId" type="bigint" nullable="true" description=""/>
+        <column name="sender" type="bigint" nullable="false" description=""/>
+        <column name="creationdate" type="bigint" nullable="false"  description=""/>
+        <column name="emailsent" type="bigint" nullable="true"  description=""/>
+        <column name="type" type="bigint" nullable="false"  description=""/>
+        <index type="primary" name="grailemailqueries_Idx" column="id"/>
+        <constraint type="foreignkey" name="grailemailqueries_user_fk" column="sender" reftable="jiveUser" deferred="true"/>
+    </table>
+</schema>

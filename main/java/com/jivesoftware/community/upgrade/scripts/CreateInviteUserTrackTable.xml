@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+
+<schema name="CreateInviteUserTrackTable">
+    <table name="grailInviteUserTrackTable" description="Used to track users invited by wish you were here link">
+        <column name="id" type="bigint" nullable="false" description=""/>
+        <column name="email" type="varchar" nullable="false" size="1000" description=""/>        
+		<index type="normal" name="grailInviteUser_idx" column="id"/>
+    </table>
+</schema>

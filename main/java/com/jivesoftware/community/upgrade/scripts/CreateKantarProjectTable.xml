@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+
+<!-- Table definition for Kantar Projects -->
+<schema name="CreateKantarProjectTable">
+    <table name="grailkantarproject" description="Kantar Project Table">
+        <column name="projectID" type="bigint" nullable="false" description="Kantar Project ID"/>
+        <column name="name" type="varchar" size="255" nullable="false" description="Kantar Project name"/>
+        <column name="description" type="text" nullable="false" description="Kantar Project description"/>
+        <!--<column name="market" type="bigint" nullable="false" description="Kantar Project Market"/>-->
+        <column name="methodologyType" type="bigint" nullable="false" description=""/>
+        <column name="startDate" type="bigint" nullable="false" description="Kantar Project Start Date"/>
+        <column name="endDate" type="bigint" nullable="false" description="Kantar Project End Date"/>
+        <!--<column name="stakeholder" type="bigint" nullable="true" description="Kantar Project Stakeholder"/>-->
+        <!--<column name="status" type="bigint" nullable="false" description="Kantar Project Status"/>-->
+        <column name="estimatedCost" type="decimal" default="0" nullable="true" description="Project Estimated Cost"/>
+        <column name="estimatedCostCurrency" type="int"  nullable="true" description=""/>
+        <column name="comments" type="text" nullable="true" description="Kantar Project description comments"/>
+        <column name="creationBy" type="bigint" nullable="false" description="Author ID who created the content"/>
+        <column name="modificationBy" type="bigint" nullable="false" description="Author who modified the content"/>
+        <column name="creationDate" type="bigint" nullable="false" description="Creation date"/>
+        <column name="modificationDate" type="bigint" nullable="false" description="Modification date"/>
+        <index type="normal" name="grailkantarproject_idx" column="projectID"/>
+    </table>
+</schema>

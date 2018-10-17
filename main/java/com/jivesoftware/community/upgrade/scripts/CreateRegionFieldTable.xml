@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<schema name="CreateRegionFieldTable">
+    <table name="grailRegionFields" description="">
+        <column name="id" type="bigint" nullable="false" description=""/>
+        <column name="name" type="varchar" size="255" nullable="false" description=""/>
+		<column name="sortOrder" type="bigint" nullable="true" description="Stores the order by which it sorts"/>
+		<column name="isActive" type="int" default="1" nullable="true" description="Property active/inactive state"/>
+        <index type="normal" name="grailRegionFields_Idx" column="id"/>
+    </table>
+	<sql>
+	  <![CDATA[	  
+		INSERT INTO grailRegionFields(id, "name", sortorder, isactive) VALUES (1, 'Global',5,0);
+	  	INSERT INTO grailRegionFields(id, "name", sortorder) VALUES (2, 'Americas',4);
+		INSERT INTO grailRegionFields(id, "name", sortorder) VALUES (3, 'ASPAC',1);
+		INSERT INTO grailRegionFields(id, "name", sortorder) VALUES (4, 'EEMEA',2);
+		INSERT INTO grailRegionFields(id, "name", sortorder) VALUES (5, 'WE',3);
+		]]>
+	</sql>
+</schema>

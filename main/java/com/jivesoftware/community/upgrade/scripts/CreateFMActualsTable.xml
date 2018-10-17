@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+
+<!-- Table definition for Financial Actuals -->
+<schema name="CreateFMActualsTable">
+
+    <table name="grailFMActuals" description="">
+        <column name="projectID" type="bigint" nullable="false" description=""/>
+        <column name="budgetYear" type="int" nullable="false" description=""/>
+        <column name="budgetApproverID" type="bigint" nullable="false" description=""/>
+        <column name="pmActualCost" type="decimal" default="0" nullable="true" description=""/>
+        <column name="pmActualCostType" type="int"  nullable="false" description=""/>
+        <column name="pmActualExchangeRate" type="decimal" nullable="true" description=""/>
+        
+        <column name="fwOne" type="decimal" default="0" nullable="true" description=""/>
+        <column name="fwOneType" type="int"  nullable="false" description=""/>
+        <column name="fwOneExchangeRate" type="decimal" nullable="true" description=""/>
+        
+        <column name="fwTwo" type="decimal" default="0" nullable="true" description=""/>
+        <column name="fwTwoType" type="int" nullable="false" description=""/>
+        <column name="fwTwoExchangeRate" type="decimal" nullable="true" description=""/>
+        
+        <column name="fwThree" type="decimal" default="0" nullable="true" description=""/>
+        <column name="fwThreeType" type="int" nullable="false" description=""/>
+        <column name="fwThreeExchangeRate" type="decimal" nullable="true" description=""/>
+
+        <column name="creationBy" type="bigint" nullable="false" description="Author who created the content"/>
+        <column name="modificationBy" type="bigint" nullable="false" description="Author who modified the content"/>
+        <column name="creationDate" type="bigint" nullable="false" description="Creation date"/>
+        <column name="modificationDate" type="bigint" nullable="false" description="Modification date"/>
+        <column name="status" type="int" nullable="false" description="Status of Actuals Plan"/>
+
+
+        <index type="normal" name="grailFMAcutals_Idx" column="projectID,budgetYear,budgetApproverID"/>
+    </table>
+
+</schema>

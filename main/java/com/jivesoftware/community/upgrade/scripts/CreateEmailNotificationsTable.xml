@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+
+<!-- Table definition for Email Timestamp notofications -->
+<schema name="CreateEmailNotificationsTable">
+    <table name="grailEmailNotification" description="Used to save the Email Notifications Timestamp">
+        <column name="id" type="bigint" nullable="false" description=""/>
+        <column name="projectID" type="bigint" nullable="false" description=""/>
+        <column name="endMarketID" type="bigint" nullable="true" description=""/>
+        <column name="agencyID" type="bigint" nullable="true" description=""/>
+        <column name="stageID" type="bigint" nullable="true" description=""/>
+        <column name="emailType" type="int" nullable="false" description="Action or Notification"/>
+        <column name="emailDesc" type="varchar" size="1000" nullable="true" description="Email Desc"/>
+        <column name="emailTime" type="bigint" nullable="false" description="Email Notification time"/>
+        <column name="emailSubject" type="varchar" size="1000" nullable="true" description="Email Subject"/>
+        <column name="emailSender" type="varchar" size="1000" nullable="true" description="Email Sender"/>
+        <column name="emailRecipients" type="varchar" size="1000" nullable="true" description="Email Recipients"/>
+        <index type="normal" name="grailEmailNotification_Idx" column="projectID"/>
+    </table>
+</schema>

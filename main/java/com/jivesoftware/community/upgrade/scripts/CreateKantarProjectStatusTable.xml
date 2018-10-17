@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<!-- Table definition for Kantar Projects -->
+<schema name="CreateKantarProjectStatusTable">
+    <table name="grailkantarprojectstatus" description="Kantar Project Table">
+        <column name="projectID" type="bigint" nullable="false" description="Kantar Project ID"/>
+        <column name="status" type="bigint" nullable="false" description="Kantar Project Status"/>
+        <column name="creationBy" type="bigint" nullable="false" description="Author ID who created the content"/>
+        <column name="modificationBy" type="bigint" nullable="false" description="Author who modified the content"/>
+        <column name="creationDate" type="bigint" nullable="false" description="Creation date"/>
+        <column name="modificationDate" type="bigint" nullable="false" description="Modification date"/>
+    </table>
+</schema>

@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+
+<!-- Table definition for Agency EvaluationRatings Details -->
+<schema name="CreateAgencyEvaluationRatingsTable">
+
+    <table name="grailAgencyEvaluationRatings" description="">
+        <column name="projectID" type="bigint" nullable="false" description=""/>
+        <column name="agencyID" type="bigint" nullable="false" description=""/>
+        <column name="rating" type="decimal" default="0" nullable="true" description=""/>
+        <column name="comments" type="varchar" size="4000" description=""/>
+        <column name="creationBy" type="bigint" nullable="false" description="Author who created the content"/>
+        <column name="modificationBy" type="bigint" nullable="false" description="Author who modified the content"/>
+        <column name="creationDate" type="bigint" nullable="false" description="Creation date"/>
+        <column name="modificationDate" type="bigint" nullable="false" description="Modification date"/>
+        <column name="status" type="int" nullable="false" description="Status of Agency Evaluation Rating"/>
+
+        <index type="normal" name="agencyEvalRatings_Idx" column="projectID,agencyID,rating" />
+    </table>
+
+</schema>

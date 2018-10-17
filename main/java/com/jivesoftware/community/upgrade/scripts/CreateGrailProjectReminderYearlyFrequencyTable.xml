@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<schema name="CreateGrailProjectReminderYearlyFrequencyTable">
+    <table name="grailProjReminderYearlyFreq" description="">
+        <column name="reminderId" type="bigint" nullable="false" description=""/>
+        <column name="dayOfMonth" type="bigint" nullable="true" description="Remind on day of month in mentioned year"/>
+        <column name="weekNumOfMonth" type="bigint" nullable="true" description="Remind on every mentioned week number of month"/>
+        <column name="dayOfWeek" type="bigint" nullable="true" description="Remind on day of week in month in mentioned year"/>
+        <column name="monthOfYear" type="bigint" nullable="true" description="Remind on given month in mentioned year"/>
+        <column name="yearFrequency" type="bigint" nullable="true" description="Remind on every mentioned year"/>
+        <column name="yearFrequencyType" type="bigint" nullable="true" description="Yearly frequency type"/>
+        <constraint type="foreignkey" name="projreminder_yearfrq_fk" column="reminderId" reftable="grailprojectreminders"  deferred="true"/>
+    </table>
+</schema>

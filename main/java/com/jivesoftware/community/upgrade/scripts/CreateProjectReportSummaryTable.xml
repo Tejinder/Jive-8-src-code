@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+
+<!-- Table definition for Projects -->
+<schema name="CreateProjectReportSummaryTable">
+
+    <table name="grailProjectRepSummary" description="">
+        <column name="projectID" type="bigint" nullable="false" description=""/>
+        <column name="endMarketID" type="bigint" nullable="false" description=""/>
+        <column name="comments" type="varchar" size="2500" nullable="true" description=""/>
+        
+        <!-- Audit fields -->
+        <column name="creationBy" type="bigint" nullable="false" description="Author who created the content"/>
+        <column name="modificationBy" type="bigint" nullable="false" description="Author who modified the content"/>
+        <column name="creationDate" type="bigint" nullable="false" description="Creation date"/>
+        <column name="modificationDate" type="bigint" nullable="false" description="Modification date"/>
+        <column name="status" type="int" nullable="false" description="Status of Report Summary"/>
+        
+        <column name="isSPIApproved" type="int" nullable="true" description=""/>
+		
+		
+		<column name="spiApprovalDate" type="bigint" nullable="true" description=""/>
+		
+		
+		<column name="spiApprover" type="bigint" nullable="true" description=""/>
+		
+		
+		<column name="sendforapproval" type="int" nullable="true" description=""/>
+		<column name="needrevision" type="int" nullable="true" description=""/>
+		
+		<column name="legalApproval" type="int" nullable="true" description=""/>
+		<column name="legalApprover" type="varchar" size="1000" nullable="true" description=""/>
+		<column name="uploadedSummary" type="int" nullable="true" description=""/>
+		<column name="irisOracleSummary" type="int" nullable="true" description=""/>
+		
+        <index type="normal" name="grailProjectRepSummary_Idx" column="projectID,endMarketID"/>
+
+    </table>
+
+</schema>

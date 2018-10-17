@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+
+<!-- Table definition for Projects -->
+<schema name="CreatePIBTable">
+
+    <table name="grailPIB" description="">
+        <column name="projectID" type="bigint" nullable="false" description=""/>
+        <column name="endMarketID" type="bigint" nullable="false" description=""/>
+        <column name="bizQuestion" type="varchar" size="1000" nullable="true" description=""/>
+        <column name="researchObjective" type="varchar" size="1000" nullable="true" description=""/>
+        <column name="actionStandard" type="varchar" size="1000" nullable="true" description=""/>
+        <column name="researchDesign" type="varchar" size="5000" nullable="true" description=""/>
+        <column name="sampleProfile" type="varchar" size="1000" nullable="true" description=""/>
+        <column name="stimulusMaterial" type="varchar" size="1000" nullable="true" description=""/>
+        <column name="others" type="varchar" size="1000" nullable="true" description=""/>
+        <column name="stimuliDate" type="bigint" nullable="true" description=""/>
+        <column name="latestEstimate" type="decimal" default="0" nullable="true" description=""/>
+        <column name="latestEstimateType" type="int"  nullable="true" description=""/>
+        <column name="npiReferenceNo" type="varchar" size="1000" nullable="true" description=""/>
+        <column name="deviationFromSM" type="int" nullable="false" description="Deviation from Standard Methodology"/>
+        
+        <!-- Audit fields -->
+        <column name="creationBy" type="bigint" nullable="false" description="Author who created the content"/>
+        <column name="modificationBy" type="bigint" nullable="false" description="Author who modified the content"/>
+        <column name="creationDate" type="bigint" nullable="false" description="Creation date"/>
+        <column name="modificationDate" type="bigint" nullable="false" description="Modification date"/>
+        <column name="status" type="int" nullable="false" description="Status of PIB"/>
+        
+        <column name="legalApprovalRcvd" type="int" nullable="true" description=""/>
+        <column name="legalApprovalNotReq" type="int" nullable="true" description=""/>
+        <!-- <column name="legalApprover" type="bigint" nullable="true" description=""/>-->
+        <column name="legalApprover" type="varchar" size="1000" nullable="true" description=""/>
+        
+        <column name="notifyAboveMarketContacts" type="int" nullable="true" description=""/>
+        <column name="approveChanges" type="int" nullable="true" description=""/>
+        <column name="isEndMarketChanged" type="int" nullable="true" description=""/>
+        
+        <column name="notifySPI" type="int" nullable="true" description=""/>
+        <column name="notifyPO" type="int" nullable="true" description=""/>
+        
+
+        <index type="normal" name="grailPIB_Idx" column="projectID,endMarketID"/>
+
+    </table>
+
+</schema>

@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+
+<!-- Table definition for Projects -->
+<schema name="CreateNewProjectSpecsTable">
+
+    <table name="grailProjectSpecsNew" description="">
+        <column name="projectID" type="bigint" nullable="false" description=""/>
+       
+        <column name="documentation" type="text"  nullable="true" description="Documentation"/>
+        <column name="documentationtext" type="text"  nullable="true" description="Documentation Text"/>
+        <column name="status" type="int" nullable="false" description="Status of ProjectSpecs"/>         
+       
+        <!-- Audit fields -->
+        <column name="creationBy" type="bigint" nullable="false" description="Author who created the content"/>
+        <column name="modificationBy" type="bigint" nullable="false" description="Author who modified the content"/>
+        <column name="creationDate" type="bigint" nullable="false" description="Creation date"/>
+        <column name="modificationDate" type="bigint" nullable="false" description="Modification date"/>
+       
+        <index type="normal" name="grailProjectSpecsNew_Idx" column="projectID"/>
+
+    </table>
+
+</schema>

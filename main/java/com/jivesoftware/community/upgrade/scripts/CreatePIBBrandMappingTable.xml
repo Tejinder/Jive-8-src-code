@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<!-- Table definition for PIBBrandMapping -->
+<schema name="CreatePIBBrandMappingTable">
+
+    <table name="grailPIBBrandMapping" description="">
+        <column name="docID" type="bigint" nullable="false" description=""/>
+        <column name="projectID" type="bigint" nullable="false" description=""/>
+        <column name="endMarketID" type="bigint" nullable="false" description=""/>
+        <column name="brandID" type="bigint" nullable="false" description=""/>
+        <column name="brandMappingType" type="int" nullable="false" description=""/>
+        <!-- We will not have any Audit fields here as PIB will be responsible for state change -->
+
+    </table>
+
+</schema>

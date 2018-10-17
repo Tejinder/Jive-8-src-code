@@ -1,0 +1,115 @@
+<?xml version="1.0"?>
+<schema name="CreateCurrencyFieldTable">
+    <table name="grailCurrencyFields" description="">
+        <column name="id" type="bigint" nullable="false" description=""/>
+        <column name="name" type="varchar" size="255" nullable="false" description=""/>
+		<column name="description" type="varchar" size="255" nullable="true" description=""/>
+		<column name="sortOrder" type="bigint" nullable="true" description="Stores the order by which it sorts"/>
+		<column name="isActive" type="int" default="1" nullable="true" description="Property active/inactive state"/>
+        <index type="normal" name="grailCurrencyFields_Idx" column="id"/>		
+    </table>
+		<sql>
+	  <![CDATA[
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (1, 'Algeria - Algerian Dinar', 'DZD',1);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (2, 'Angolan new kwanza', 'AON',2);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (3, 'Argentina - Argetine Peso', 'ARS',3);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (4, 'Australia - Austrlian Dollar', 'AUD',4);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (5, 'Bahraini Dinar', 'BHD',5);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (6, 'Bangladesh - Bangladeshi Taka', 'BDT',6);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (7, 'Barbados - Barbados Dollars', 'BBD',7);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (8, 'Belorussian Ruble', 'BYR',8);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (9, 'Brazil - Brazilian Real', 'BRL',9);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (10, 'Bulgaria - Bulgarian Leva', 'BGL',10);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (11, 'CFA Franc', 'XOF',11);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (12, 'Canada - Canadian Dollar', 'CAD',12);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (13, 'Chile - Chilean Peso', 'CLP',13);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (14, 'China - Yuan Renminbi', 'CNY',14);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (15, 'Colombia - Colombian Pesos', 'COP',15);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (16, 'Costa Rica - Costa Rican Colon', 'CRC',16);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (17, 'Croatia - Croatian Kuna', 'HRK',17);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (18, 'Cyprus - Cyprus Pound', 'CYP',18);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (19, 'Czech Republic - Czech Koruna', 'CZK',19);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (20, 'D.R.C Congo - Congolese Franc', 'CDF',20);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (21, 'Denmark - Danish Krone', 'DKK',21);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (22, 'Djibouti Franc', 'DJF',22);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (23, 'Dominican - Dominican Peso', 'DOP',23);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (24, 'Egyp - Egyptian Pound', 'EGP',24);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (25, 'Eritrea - Eritrean Nakfa', 'ERN',25);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (26, 'Estonian Krone', 'EEK',26);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (27, 'Euro', 'EUR',27);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (28, 'Fiji - Fiji Dollar', 'FJD',28);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (29, 'Georgia - Georgian Lari', 'GEL',29);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (30, 'Ghana - Ghanian Cedi', 'GHC',30);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (31, 'Guatemala - Guetemala Quetzal', 'GTQ',31);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (32, 'Guyana - Guyana Dollars', 'GYD',32);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (33, 'Honduras - Honduras Dollar', 'HNL',33);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (34, 'Hong Kong - Hong Kong Dollar', 'HKD',34);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (35, 'Hungary - Hungarian Forint', 'HUF',35);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (36, 'India - Indian Rupee', 'INR',36);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (37, 'Indonesia - Indonesian Rupiah', 'IDR',37);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (38, 'Iran - Iranian Rial', 'IRR',38);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (39, 'Isreal - New Israeli Sheqel', 'ILS',39);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (40, 'Jamaica - Jamaican Dollar', 'JMD',40);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (41, 'Japan - Japanese Yen', 'JPY',41);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (42, 'Jordanian Dinars', 'JOD',42);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (43, 'Kazakhstani Tenge', 'KZT',43);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (44, 'Kenya - Kenyan Shilling', 'KES',44);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (45, 'Korea - Korean Won', 'KRW',45);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (46, 'Latvia - Latvian Lat', 'LVL',46);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (47, 'Libya - Libya Dinars', 'LYD',47);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (48, 'Lithuanian Lita', 'LTL',48);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (49, 'Malawi - Malawi Kwacha', 'MWK',49);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (50, 'Malaysia - Malaysian Ringgit', 'MYR',50);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (51, 'Malta - Maltese Lira', 'MTL',51);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (52, 'Mauritius - Mauritius Rupee', 'MUR',52);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (53, 'Mexico - Mexican New Peso', 'MXN',53);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (54, 'Moldova LEU', 'MDL',54);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (55, 'Moroccan Dirham', 'MAD',55);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (56, 'Mozambique - Mozambique Meticais', 'MZN',56);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (57, 'Nepal - Nepalese Rupee', 'NPR',57);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (58, 'New Zealand - New Zealand Dollar', 'NZD',58);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (59, 'Nicaragua - Nicaragua Cordobas','NIO',59);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (60, 'Nigeria - Nigerian Naira', 'NGN',60);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (61, 'Norway - Norwegian Krone', 'NOK',61);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (62, 'Pakistan - Pakistan Rupee', 'PKR',62);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (63, 'Panama - Panama Balboa', 'PAB',63);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (64, 'Papa New Guineau - Papa New Guineau Kina', 'PGK',64);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (65, 'Paraguay - Paraguay Guarani', 'PYG',65);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (66, 'Peru - Peru Nuevo Sol', 'PEN',66);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (67, 'Phillippines - Philippine Peso', 'PHP',67);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (68, 'Poland - Polish Zloty', 'PLN',68);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (69, 'Republic of Congo - CFA Franc', 'XAF',69);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (70, 'Romania - Romanian Lei', 'RON',70);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (71, 'Russia - Russian Ruble', 'RUR',71);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (72, 'Rwanda - Rwandan Franc', 'RWF',72);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (73, 'Serbia - Serbian Dinars', 'CSD',73);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (74, 'Siera Leone - Leone', 'SLL',74);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (75, 'Singapore - Singapore Dollar', 'SGD',75);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (76, 'Solomon Islands - Solomon Islands Dollar', 'SBD',76);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (77, 'South Africa - South African Rand', 'ZAR',77);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (78, 'Sri Lanka - Sri Lanka Rupee', 'LKR',78);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (79, 'Suridescription1 - Suridescription1 Dollars', 'SRD',79);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (80, 'Sweden - Swedish Krona', 'SEK',80);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (81, 'Switzerland - Swiss Franc', 'CHF',81);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (82, 'Taiwan - New Taiwan Dollar', 'TWD',82);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (83, 'Tanzania - Tanzanian Shilling', 'TZS',83);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (84, 'Thailand - Thai Baht', 'THB',84);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (85, 'Trinidad & Tobago - Dollars', 'TTD',85);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (86, 'Turkey - Turkish Lira', 'TRY',86);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (87, 'UK - Pound Sterling', 'GBP',87);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (88, 'US - US Dollar', 'USD',88);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (89, 'Uganda - Uganda Shilling', 'UGX',89);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (90, 'Ukraine - Ukrainian Hryvnia', 'UAH',90);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (91, 'United Arab Emirates - Dirham', 'AED',91);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (92, 'Uruguay - Uruguay Pesos', 'UYU',92);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (93, 'Uzbekistan - Uzbekistan Sum', 'UZS',93);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (94, 'Venezuela - Venezuelan Bolivar', 'VEF',94);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (95, 'Vietnam - Vietdescription1se Dong', 'VND',95);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (96, 'Western Samoa - Western Samoa Tala', 'WST',96);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (97, 'Yemen - Yemeni Rial', 'YER',97);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (98, 'Zambia - Zambian Kwacha', 'ZMK',98);
+		INSERT INTO grailCurrencyFields(id, "description", "name", sortorder) VALUES (99, 'Zimbabwe - Zimbabwe Dollar', 'ZWD',99);
+
+		]]>
+	</sql>
+</schema>

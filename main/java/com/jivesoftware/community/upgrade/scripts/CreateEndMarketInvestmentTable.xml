@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+
+<!-- Table definition for End Markets -->
+<schema name="CreateEndMarketInvestmentTable">
+    <table name="grailEndMarketInvestment" description="Grail End Market Investment Details">
+		<column name="projectID" type="bigint" nullable="false" description="Holds Project ID of the Project"/>		
+        <column name="endMarketID" type="bigint" nullable="false" description="Holds End Market ID to corresponding project"/>
+		<column name="initialCost" type="decimal" default="0" nullable="true" description=""/>
+		<column name="initialCostCurrency" type="bigint" nullable="true" description=""/>
+		<column name="spiContact" type="bigint" nullable="true" description=""/>
+		<column name="investmentType" type="bigint" nullable="true" description=""/>
+		<column name="marketName" type="varchar" size="255" nullable="true" description=""/>
+		<column name="approved" type="int" nullable="true" description=""/>
+		<column name="latestEstimateCost" type="decimal" default="0" nullable="true" description=""/>		
+		<column name="latestEstimateCostCurrency" type="bigint" nullable="true" description=""/>
+        <column name="creationBy" type="bigint" nullable="false" description="Author who created the content"/>
+        <column name="modificationBy" type="bigint" nullable="false" description="Author who modified the content"/>
+        <column name="creationDate" type="bigint" nullable="false" description="Creation date"/>
+        <column name="modificationDate" type="bigint" nullable="false" description="Modification date"/>		
+        <index type="normal" name="grailEndmarketInv_Idx" column="projectID,endMarketID"/>		
+    </table>
+</schema>

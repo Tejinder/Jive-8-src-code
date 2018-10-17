@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+
+<!-- Table definition for Projects -->
+<schema name="CreateProposalEndMarketDetailsTable">
+
+    <table name="grailProposalEndMarketDetails" description="">
+        <column name="projectID" type="bigint" nullable="false" description=""/>
+        <column name="endMarketID" type="bigint" nullable="false" description=""/>
+        <column name="agencyID" type="bigint" nullable="false" description=""/>
+        <column name="totalCost" type="decimal" nullable="true" description=""/>
+        <column name="totalCostCurrency" type="int" nullable="true" description=""/>
+        <column name="intMgmCost" type="decimal" nullable="true" description=""/>
+        <column name="intMgmtCostCurrency" type="int" nullable="true" description=""/>
+        <column name="localManagementCost" type="decimal" nullable="true" description=""/>
+        <column name="localManagementCostCurrency" type="int" nullable="true" description=""/>
+        <column name="fieldWorkCost" type="decimal" nullable="true" description=""/>
+        <column name="fieldWorkCostCurrency" type="int" nullable="true" description=""/>
+        
+        <column name="otherCost" type="decimal" nullable="true" description=""/>
+        <column name="otherCostCurrency" type="int" nullable="true" description=""/>
+        
+        <column name="proposedFWAgencyNames" type="varchar" size="1000" nullable="true" description=""/>
+        <column name="fwStartEstimated" type="bigint" nullable="true" description=""/>
+        <column name="fwCompleteEstimated" type="bigint" nullable="true" description=""/>
+        <column name="totalNoOfInterviews" type="int" size="255" nullable="true" description=""/>
+        <column name="totalNoOfVisits" type="int" size="255" nullable="true" description=""/>
+        <column name="averageInterviewDuration" type="int" size="255" nullable="true" description=""/>
+        <column name="totalNoOfGroups" type="int" size="255" nullable="true" description=""/>
+        <column name="interviewDuration" type="int" size="255" nullable="true" description=""/>
+        <column name="noOfRespPerGroup" type="int" size="255" nullable="true" description=""/>
+        <column name="geoSpreadNational" type="int" size="255" nullable="true" description=""/>
+        <column name="geoSpreadUrban" type="int" size="255" nullable="true" description=""/>
+        <column name="cities" type="varchar" size="1000" nullable="true" description=""/>
+        <column name="dataCollection" type="varchar" size="1000" nullable="true" description="Data Collection Methods"/>
+        
+      
+        <index type="normal" name="grailProposalEMD_Idx" column="projectID,endMarketID,agencyID"/>
+
+    </table>
+
+</schema>

@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<schema name="CreateKantarReportTypeTable">
+    <table name="grailkantarreporttype" description="">
+        <column name="id" type="bigint" nullable="false" description=""/>
+        <column name="name" type="varchar" size="255" nullable="false" description=""/>
+        <column name="isActive" type="int" default="1" nullable="true" description="Property active/inactive state"/>
+        <index type="normal" name="grailkantarreporttype_Idx" column="id"/>
+    </table>
+    <sql>
+        <![CDATA[
+		INSERT INTO grailkantarreporttype(id, name, isActive) VALUES (1,'Type 1',1);
+		INSERT INTO grailkantarreporttype(id, name, isActive) VALUES (2,'Type 2',1);
+		INSERT INTO grailkantarreporttype(id, name, isActive) VALUES (3,'Type 3',1);
+		INSERT INTO grailkantarreporttype(id, name, isActive) VALUES (4,'Oracle Manuals',1);
+		]]>
+    </sql>
+</schema>

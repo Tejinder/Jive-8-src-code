@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+
+<!-- Table definition for Kantar PIB details -->
+<schema name="CreateKantarPIBTable">
+    <table name="grailkantarpib" description="Kantar PIB Table">
+        <column name="projectID" type="bigint" nullable="false" description="Kantar Project ID"/>
+        <column name="name" type="varchar" size="255" nullable="false" description="Kantar Project name"/>
+        <column name="description" type="text" nullable="false" description="Kantar Project description is same as the community description"/>
+        <column name="market" type="bigint" nullable="false" description="Kantar Project Market"/>
+        <column name="methodologyType" type="bigint" nullable="false" description=""/>
+        <column name="startDate" type="bigint" nullable="false" description="Kantar Project Start Date"/>
+        <column name="endDate" type="bigint" nullable="false" description="Kantar Project End Date"/>
+        <column name="stakeholder" type="bigint" nullable="true" description="Kantar Project Stakeholder"/>
+        <column name="estimatedCost" type="decimal" default="0" nullable="false" description="Project Estimated Cost"/>
+        <!--<column name="status" type="bigint" nullable="false" description="Kantar Project Status"/>-->
+        <column name="creationBy" type="bigint" nullable="false" description="Author ID who created the content"/>
+        <column name="modificationBy" type="bigint" nullable="false" description="Author who modified the content"/>
+        <column name="creationDate" type="bigint" nullable="false" description="Creation date"/>
+        <column name="modificationDate" type="bigint" nullable="false" description="Modification date"/>
+        <index type="normal" name="grailkantarpib_idx" column="projectID"/>
+    </table>
+</schema>

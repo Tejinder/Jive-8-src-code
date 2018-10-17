@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+
+<schema name="CreateProjectEvalTable">
+
+    <table name="grailProjectEval" description="">
+        <column name="projectID" type="bigint" nullable="false" description=""/>
+        <column name="endMarketID" type="bigint" nullable="false" description=""/>
+        <column name="agencyPerformanceIM" type="int" nullable="true" description=""/>
+        <column name="batCommentsIM" type="varchar" size="1000" nullable="true" description=""/>
+        <column name="agencyCommentsIM" type="varchar" size="1000" nullable="true" description=""/>
+        <column name="agencyPerformanceLM" type="int" nullable="true" description=""/>
+        <column name="batCommentsLM" type="varchar" size="1000" nullable="true" description=""/>
+        <column name="agencyCommentsLM" type="varchar" size="1000" nullable="true" description=""/>
+        
+        <column name="agencyPerformanceFA" type="int" nullable="true" description=""/>
+        <column name="batCommentsFA" type="varchar" size="1000" nullable="true" description=""/>
+        <column name="agencyCommentsFA" type="varchar" size="1000" nullable="true" description=""/>
+        
+        <!-- Audit fields -->
+        <column name="creationBy" type="bigint" nullable="false" description="Author who created the content"/>
+        <column name="modificationBy" type="bigint" nullable="false" description="Author who modified the content"/>
+        <column name="creationDate" type="bigint" nullable="false" description="Creation date"/>
+        <column name="modificationDate" type="bigint" nullable="false" description="Modification date"/>
+        <column name="status" type="int" nullable="true" description=""/>
+        
+
+        <index type="normal" name="grailProjectEval_Idx" column="projectID,endMarketID"/>
+
+    </table>
+
+</schema>

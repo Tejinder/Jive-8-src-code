@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+
+<!-- Table definition for CAFieldWorking Mapping -->
+<schema name="CreateCAFieldWorkMappingTable">
+
+    <table name="grailCAFieldWorkMapping" description="">
+        <column name="projectID" type="bigint" nullable="false" description=""/>
+        <column name="coAgencyID" type="bigint" nullable="false" description=""/>
+        <column name="fwAgencyID" type="bigint" nullable="false" description=""/>
+        <column name="tenderingAgencyID" type="bigint" nullable="true" description=""/>
+        <column name="bidValue" type="decimal" nullable="true" description=""/>
+        <column name="bidValueType" type="int" size="3" nullable="true" description=""/>
+		<column name="bidValueExchangeRate" type="decimal" nullable="true" description=""/>
+		
+        <column name="fwSupplier" type="bigint" nullable="true" description=""/>
+        <column name="fwSupplierGroup" type="bigint" nullable="true" description=""/>
+        <column name="fwEndMarket" type="bigint" nullable="true" description=""/>
+        <column name="marketType" type="int" size="255" nullable="true" description=""/>
+       <!--  <column name="collectionMethod" type="bigint" nullable="true" description=""/>-->
+
+        <column name="fwBudPlan" type="decimal" nullable="true" description=""/>
+        <column name="fwBudPlanType" type="int" size="3" nullable="true" description=""/>
+		<column name="fwBudPlanExchangeRate" type="decimal" nullable="true" description=""/>
+
+        <column name="fwActualCost" type="decimal" nullable="true" description=""/>
+        <column name="fwActualCostType" type="int" size="3" nullable="true" description=""/>
+		<column name="fwActualCostExchangeRate" type="decimal" nullable="true" description=""/>
+
+        <column name="fwQPR1" type="decimal" nullable="true" description=""/>
+        <column name="fwQPR1Type" type="int" size="3" nullable="true" description=""/>
+		<column name="fwQPR1ExchangeRate" type="decimal" nullable="true" description=""/>
+
+        <column name="fwQPR2" type="decimal" nullable="true" description=""/>
+        <column name="fwQPR2Type" type="int" size="3" nullable="true" description=""/>
+		<column name="fwQPR2ExchangeRate" type="decimal" nullable="true" description=""/>
+
+        <column name="fwQPR3" type="decimal" nullable="true" description=""/>
+        <column name="fwQPR3Type" type="int" size="3" nullable="true" description=""/>
+		<column name="fwQPR3ExchangeRate" type="decimal" nullable="true" description=""/>
+
+        <column name="fwQPR4" type="decimal" nullable="true" description=""/>
+        <column name="fwQPR4Type" type="int" size="3" nullable="true" description=""/>
+		<column name="fwQPR4ExchangeRate" type="decimal" nullable="true" description=""/>
+		
+        <column name="fwCancelled" type="int" nullable="true" description=""/>
+        <!-- The status will be used to perform Soft Delete on the FW Agency Remove feature -->
+        <column name="status" type="int" nullable="true" description=""/>
+
+        <column name="creationBy" type="bigint" nullable="false" description="Author who created the content"/>
+        <column name="modificationBy" type="bigint" nullable="false" description="Author who modified the content"/>
+
+        <column name="creationDate" type="bigint" nullable="false" description="Creation date"/>
+        <column name="modificationDate" type="bigint" nullable="false" description="Modification date"/>
+
+        <index type="normal" name="fieldWorkMapping_Idx" column="coAgencyID,fwAgencyID,tenderingAgencyID"/>
+
+    </table>
+
+</schema>

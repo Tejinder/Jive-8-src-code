@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+
+<!-- Table definition for Projects -->
+<schema name="CreatePIBStakeHolderListTable">
+
+    <table name="grailPIBStakeHolderList" description="">
+        <column name="projectID" type="bigint" nullable="false" description=""/>
+        <column name="endMarketID" type="bigint" nullable="false" description=""/>
+        <column name="agencyContact1" type="bigint" nullable="true" description=""/>
+        <column name="agencyContact2" type="bigint" nullable="true" description=""/>
+        <column name="agencyContact3" type="bigint" nullable="true" description=""/>
+        <column name="agencyContact1Optional" type="bigint" nullable="true" description=""/>
+        <column name="agencyContact2Optional" type="bigint" nullable="true" description=""/>
+        <column name="agencyContact3Optional" type="bigint" nullable="true" description=""/>        
+        <column name="globalLegalContact" type="bigint" nullable="true" description=""/>
+        <column name="globalProcurementContact" type="bigint" nullable="true" description=""/>
+        <column name="globalCommunicationAgency" type="bigint" nullable="true" description=""/>
+		<column name="productContact" type="bigint" nullable="true" description=""/>
+        <index type="normal" name="grailPIBStakeHolderList_Idx" column="projectID,endMarketID"/>
+
+    </table>
+
+</schema>

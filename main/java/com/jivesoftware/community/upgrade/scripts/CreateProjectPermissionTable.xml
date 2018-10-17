@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+
+<!-- Table definition for Project Permission Matrix -->
+<schema name="CreateProjectPermissionTable">
+
+    <table name="grailProjectPermission" description="">
+        <column name="projectID" type="bigint" nullable="false" description=""/>
+        <column name="userID" type="bigint" nullable="false" description=""/>
+        <column name="jiveUGID" type="bigint" nullable="false" description=""/>
+
+        <column name="stage" type="int" description="Defines the stage, where the user is chosen as approver."/>
+        <!--<column name="value" type="int" description="The value for the cell whether the user has approver privilege."/>-->
+
+        <column name="creationBy" type="bigint" nullable="false" description="Author who created the content"/>
+        <column name="modificationBy" type="bigint" nullable="false" description="Author who modified the content"/>
+        <column name="creationDate" type="bigint" nullable="false" description="Creation date"/>
+        <column name="modificationDate" type="bigint" nullable="false" description="Modification date"/>
+
+        <index type="normal" name="grailProjectPermission_Idx" column="projectID,userID,jiveUGID"/>
+
+    </table>
+
+</schema>

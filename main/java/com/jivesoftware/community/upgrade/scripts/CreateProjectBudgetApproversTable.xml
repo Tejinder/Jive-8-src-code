@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<!-- Table definition for Project EndMarket Mapping -->
+<schema name="CreateProjectBudgetApproversTable">
+
+    <table name="grailProjectBudgetApprovers" description="">
+        <column name="projectID" type="bigint" nullable="false" description=""/>
+        <column name="approverID" type="bigint" nullable="false" description=""/>
+
+        <column name="creationBy" type="bigint" nullable="false" description="Author who created the content"/>
+        <column name="modificationBy" type="bigint" nullable="false" description="Author who modified the content"/>
+        <column name="creationDate" type="bigint" nullable="false" description="Creation date"/>
+        <column name="modificationDate" type="bigint" nullable="false" description="Modification date"/>
+    </table>
+
+</schema>

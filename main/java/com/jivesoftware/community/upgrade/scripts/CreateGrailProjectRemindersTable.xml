@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<schema name="CreateGrailProjectRemindersTable">
+    <table name="grailprojectreminders" description="">
+        <column name="id" type="bigint" nullable="false" description=""/>
+        <column name="categoryTypes" type="text" nullable="false" description="Comma separated values"/>
+        <column name="freqType" type="bigint"  nullable="true" description=""/>
+        <column name="remindDraftProjBefore" type="bigint" nullable="true" description="Stores no of days before draft project to remind"/>
+        <column name="recurrenceRangeStart" type="bigint" nullable="true" description="Stores start date of reminder"/>
+        <column name="recurrenceRangeEnd" type="bigint" nullable="true" description="Stores start end to reminder"/>
+        <column name="recurrenceRangeEndAfter" type="bigint" nullable="true" description="Stores no. of occurrences after for reminder end"/>
+        <column name="lastReminderSentOn" type="bigint" nullable="true" description="Date time of last reminder sent"/>
+        <column name="nextReminderOn" type="bigint" nullable="true" description="Date time of next reminder to be sent"/>
+        <column name="totalReminderCount" type="bigint" nullable="true" description="Reminder Count"/>
+        <column name="isActive" type="bigint" nullable="false" description=""/>
+        <column name="createdBy" type="bigint" nullable="false" description=""/>
+        <column name="createdDate" type="bigint" nullable="false" description=""/>
+        <index type="primary" name="grailprojectreminders_Idx" column="id"/>
+    </table>
+</schema>

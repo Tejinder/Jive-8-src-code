@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+
+<!-- Table definition for Projects -->
+<schema name="CreateProjectTable">
+    <table name="grailProject" description="Main Project Table">
+        <column name="projectID" type="bigint" nullable="false" description="Project ID"/>
+        <column name="name" type="varchar" size="255" nullable="false" description="Project name"/>
+        <column name="status" type="bigint" nullable="false" description="Project Status"/>
+        <column name="description" type="varchar" size="2000" nullable="false" description="Project description is same as the community description"/>
+		<column name="communityID" type="bigint" nullable="true" description="Community ID"/>
+		<column name="categoryType" type="varchar" size="5000" nullable="false" description="Category Type ID"/>
+		<column name="brand" type="bigint" nullable="false" description="Brand ID"/>
+		<column name="methodologyType" type="bigint" nullable="false" description=""/>
+		<column name="methodologyGroup" type="bigint" nullable="false" description="Methodology Group ID"/>
+		<column name="proposedMethodology" type="bigint" nullable="true" description="Proposed Methodology ID"/> 
+		<column name="startDate" type="bigint" nullable="false" description="Project Start Date"/>
+		<column name="endDate" type="bigint" nullable="false" description="Project End Date"/>		
+        <column name="projectOwner" type="bigint" nullable="false" description="Jive Project Owner ID"/>
+		<column name="briefCreator" type="bigint" nullable="false" description="SPI Contact's Jive ID"/>
+		<column name="multiMarket" type="int" nullable="false" description="Is Multi Market Project"/>
+		<column name="estimatedCost" type="decimal" default="0" nullable="true" description="Project Estimated Cost"/>		
+		<column name="creationBy" type="bigint" nullable="false" description="Author ID who created the content"/>
+        <column name="modificationBy" type="bigint" nullable="false" description="Author who modified the content"/>
+        <column name="creationDate" type="bigint" nullable="false" description="Creation date"/>
+        <column name="modificationDate" type="bigint" nullable="false" description="Modification date"/>		
+        <index type="normal" name="grailProject_Idx" column="projectID"/>
+    </table>
+
+</schema>

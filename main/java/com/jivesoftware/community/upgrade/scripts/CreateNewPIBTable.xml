@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+
+<!-- Table definition for Projects -->
+<schema name="CreateNewPIBTable">
+
+    <table name="grailPIBNew" description="">
+        <column name="projectID" type="bigint" nullable="false" description=""/>
+       
+        <column name="brief" type="text"  nullable="false" description="Project Brief"/>
+        <column name="brieftext" type="text"  nullable="true" description="Project Brief Text"/>
+        <column name="legalApprover" type="bigint" nullable="true" description="LegalApprover"/>
+        <column name="status" type="int" nullable="false" description="Status of PIB"/>
+        <column name="isApproved" type="int" nullable="true" description=""/>
+        <column name="approvalDate" type="bigint" nullable="true" description=""/>
+        <column name="isLegalSignoffReq" type="int" nullable="true" description=""/>
+        <column name="sendforapproval" type="int" nullable="true" description=""/>
+        <column name="needsdiscussion" type="int" nullable="true" description=""/>
+        <column name="legalapprovalstatus" type="int" nullable="true" description=""/>
+        
+         
+       
+        <!-- Audit fields -->
+        <column name="creationBy" type="bigint" nullable="false" description="Author who created the content"/>
+        <column name="modificationBy" type="bigint" nullable="false" description="Author who modified the content"/>
+        <column name="creationDate" type="bigint" nullable="false" description="Creation date"/>
+        <column name="modificationDate" type="bigint" nullable="false" description="Modification date"/>
+       
+        <index type="normal" name="grailPIBNew_Idx" column="projectID"/>
+
+    </table>
+
+</schema>

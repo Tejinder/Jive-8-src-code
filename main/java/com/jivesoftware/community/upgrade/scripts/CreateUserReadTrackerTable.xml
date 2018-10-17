@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<!-- Table definition for User Read Tracker -->
+<schema name="CreateUserReadTrackerTable">
+    <table name="grailUserReadTracker" description="">
+        <column name="projectID" type="bigint" nullable="false" description=""/>
+		<column name="userID" type="bigint" nullable="false" description=""/>
+		<column name="readDate" type="bigint" nullable="false" description="Last viewed document date for user"/>
+		<column name="stageID" type="bigint" nullable="false" description="Last viewed document stage id"/>		
+        <index type="normal" name="grailUserReadTracker_Idx" column="projectID,userID,stageID"/>
+    </table>
+</schema>

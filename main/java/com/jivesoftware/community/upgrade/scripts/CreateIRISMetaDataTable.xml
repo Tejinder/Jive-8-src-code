@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<!-- Table definition for OSP ORACLE New Requirements -->
+
+<schema name="CreateIRISMetaDataTable">
+    <table name="irisMetaData" description="New OSP ORACLE File Table">
+        <column name="documentId" type="bigint" nullable="true" description="Attachment ID"/>
+        <column name="synchrocode" type="bigint" nullable="true" description="Folder ID"/>
+        
+        <column name="studyoverview" type="varchar" size="255" nullable="true" description="File name"/>
+        <column name="relatedstudies" type="varchar" size="255" nullable="true" description="File name"/>
+        <index type="normal" name="irisMetaData_Idx" column="documentId"/>
+    </table>
+
+</schema>

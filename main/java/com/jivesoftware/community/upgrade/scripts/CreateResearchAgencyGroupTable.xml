@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<schema name="CreateResearchAgencyGroupTable">
+    <table name="grailResearchAgencyGroup" description="">
+        <column name="id" type="bigint" nullable="false" description=""/>
+        <column name="name" type="varchar" size="255" nullable="false" description=""/>
+		<column name="sortOrder" type="bigint" nullable="true" description="Stores the order by which it sorts"/>
+		<column name="isActive" type="int" default="1" nullable="true" description="Property active/inactive state"/>
+        <index type="normal" name="gResearchAgencyGroupFields_Idx" column="id"/>		
+    </table>
+		<sql>
+	  <![CDATA[
+		INSERT INTO grailResearchAgencyGroup(id, "name", sortorder) VALUES (1,'Kantar',1);
+		INSERT INTO grailResearchAgencyGroup(id, "name", sortorder) VALUES (2,'Non-Kantar',2);
+		INSERT INTO grailResearchAgencyGroup(id, "name", sortorder) VALUES (3,'Not Classified',3);
+		]]>
+	</sql>
+</schema>

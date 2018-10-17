@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+
+<!-- Table definition for Waiver EndMarket Mapping -->
+<schema name="CreateProjectEndMarketTable">
+
+    <table name="grailProjectEndMarket" description="">
+        <column name="projectID" type="bigint" nullable="false" description=""/>
+        <column name="marketID" type="bigint" nullable="false" description=""/>
+
+        <column name="creationBy" type="bigint" nullable="false" description="Author who created the content"/>
+        <column name="modificationBy" type="bigint" nullable="false" description="Author who modified the content"/>
+        <column name="creationDate" type="bigint" nullable="false" description="Creation date"/>
+        <column name="modificationDate" type="bigint" nullable="false" description="Modification date"/>
+
+        <!--<constraint type="foreignkey" name="grailProjectEndMarket_pID_fk" column="projectID" reftable="grailProject"
+                    deferred="true"/>
+        <constraint type="foreignkey" name="grailProEndMarket_mkID_fk" column="marketID" reftable="grailEndMarket"
+                    deferred="true"/>-->
+
+    </table>
+
+</schema>

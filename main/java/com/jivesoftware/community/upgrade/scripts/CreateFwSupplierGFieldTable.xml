@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<schema name="CreateFwSupplierGFieldTable">
+    <table name="grailFwSupplierGFields" description="">
+        <column name="id" type="bigint" nullable="false" description=""/>
+        <column name="name" type="varchar" size="255" nullable="false" description=""/>		
+        <index type="normal" name="grailFwSupplierGFields_Idx" column="id"/>		
+    </table>
+		<sql>
+	  <![CDATA[
+		INSERT INTO grailFwSupplierGFields(id, "name") VALUES (0, '');
+		INSERT INTO grailFwSupplierGFields(id, "name") VALUES (1, 'Unknown');
+		INSERT INTO grailFwSupplierGFields(id, "name") VALUES (2, 'Kantar Group');
+		INSERT INTO grailFwSupplierGFields(id, "name") VALUES (3, 'GfK Group');
+		INSERT INTO grailFwSupplierGFields(id, "name") VALUES (4, 'Ipsos');
+		INSERT INTO grailFwSupplierGFields(id, "name") VALUES (5, 'MASMI');
+		INSERT INTO grailFwSupplierGFields(id, "name") VALUES (6, 'Nielsen');
+		INSERT INTO grailFwSupplierGFields(id, "name") VALUES (7, 'Synovate');
+		]]>
+	</sql>
+</schema>

@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<!-- Table definition for CAFieldWork Data Collection Method -->
+<schema name="CreateCAFieldWorkDataCollectionTable">
+
+    <table name="grailCAFieldWorkDataCollection" description="">
+        <column name="projectID" type="bigint" nullable="false" description=""/>
+        <column name="coAgencyID" type="bigint" nullable="false" description=""/>
+        <column name="fwAgencyID" type="bigint" nullable="false" description=""/>
+        <column name="collectionMethod" type="bigint" nullable="true" description=""/>
+
+        <index type="normal" name="fieldWorkDataCollection_Idx" column="coAgencyID,fwAgencyID,projectID"/>
+
+    </table>
+
+</schema>

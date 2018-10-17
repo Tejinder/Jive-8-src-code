@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+
+<!-- Table definition for Synchro New Requirements -->
+
+<schema name="CreateQPRSnapshotProjectCostTable">
+    <table name="grailQPRSnapshotProjCost" description="New Project Cost QPR Snapshot Table">
+        <column name="snapshotId" type="bigint" nullable="false" description="Snapshot ID"/>
+        
+        <column name="projectID" type="bigint" nullable="false" description="Project ID"/>
+        <column name="agencyID" type="bigint" nullable="true" description="Agency ID"/>
+        <column name="costComponent" type="int" nullable="true" description="Cost Component"/>
+        <column name="costCurrency" type="int" nullable="true" description="Cost Currency"/>
+        <column name="estimatedCost" type="decimal" nullable="true" description="Estimated Cost"/>
+                
+        <index type="normal" name="grailQPRSnaphostProjCost_Idx" column="snapshotId,projectID"/>
+    </table>
+
+</schema>

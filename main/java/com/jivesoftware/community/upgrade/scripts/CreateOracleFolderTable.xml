@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+
+<!-- Table definition for OSP ORACLE New Requirements -->
+
+<schema name="CreateOracleFolderTable">
+    <table name="grailOracleFolder" description="New OSP ORACLE Folder Table">
+        <column name="folderId" type="bigint" nullable="false" description="Folder ID"/>
+        <column name="tileId" type="bigint" nullable="false" description="Tile ID"/>
+        <column name="folderName" type="varchar" size="255" nullable="false" description="Folder name"/>
+        <column name="folderSize" type="bigint" nullable="true" description="Folder Size"/>
+        <column name="isActive" type="int" nullable="true" description="Is the Folder Active"/>
+        <column name="creationBy" type="bigint" nullable="false" description="Author ID who created the content"/>
+        <column name="modificationBy" type="bigint" nullable="false" description="Author who modified the content"/>
+        <column name="creationDate" type="bigint" nullable="false" description="Creation date"/>
+        <column name="modificationDate" type="bigint" nullable="false" description="Modification date"/>
+        <index type="normal" name="grailOracleFolder_Idx" column="folderId"/>
+    </table>
+
+</schema>

@@ -1,0 +1,2172 @@
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+        "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+
+    <!-- Include actions go here -->
+   <!--   <package name="community-custom-include" extends="community-actions-include">-->
+    <package name="community-custom-include" extends="community-default">
+
+        <!-- default-interceptor-ref copied from struts-community.xml, comment if this is modified -->
+        <default-interceptor-ref name="includeStack"/>
+
+        <!-- global-results copied from struts-community.xml, comment if this is modified -->
+        <!-- Global results - these are implicit in all action definitions and can be overridden -->
+        <global-results>
+            <result name="login" type="httpheader">403</result>
+            <result name="unauthorized" type="httpheader">403</result>
+            <result name="unauthenticated" type="httpheader">403</result>
+            <result name="notfound" type="httpheader">404</result>
+            <result name="redirect" type="redirect">${url}</result>
+            <result name="error" type="httpheader">500</result>
+            <result name="none" type="httpheader">204</result>
+        </global-results>
+
+        <!-- Override include actions here -->
+
+        <!-- Add new application actions here -->
+
+    </package>
+
+    <!-- Core actions go here -->
+    <!-- Interceptors and results should NOT be modified here.  Overlay struts-community.xml instead. -->
+    <!--  <package name="community-custom" extends="community-actions">-->
+ 	  <package name="community-custom" extends="community-default">
+        <!-- Override application actions here -->
+        
+        <action name="portal-options" class="com.grail.synchro.action.CommunityOptions" method="input">
+            <interceptor-ref name="paramsPrepareParamsStack"/>
+            <interceptor-ref name="token">
+                <param name="excludeMethods">input</param>
+            </interceptor-ref>
+            <result name="input" type="freemarker">/template/global/community-options.ftl</result>
+            <!-- <result name="success" type="redirect">${successURL}</result>-->
+        </action>
+        
+        <action name="disclaimer" class="com.jivesoftware.community.action.DisclaimerAction">
+            <result name="declineAction" type="redirect">logout.jspa</result>
+            <result name="acceptAction" type="redirect">${acceptURL}</result>
+            <!--<result name="rkpAcceptAction" type="redirect">/index.jspa</result>-->
+            <!--<result name="synchroAcceptAction" type="redirect">/synchro/home</result>-->
+            <!--<result name="grailAcceptAction" type="redirect">/grail/home!input.jspa</result>-->
+            <!--<result name="kantarAcceptAction" type="redirect">/kantar/home!input.jspa</result>-->
+            <!--<result name="kantarReportAcceptAction" type="redirect">/kantar-report/dashboard.jspa</result>-->
+            <!--<result name="portalSelectionError" type="redirect">/portal-options.jspa</result>-->
+            <result name="success">/template/global/disclaimer.ftl</result>
+        </action>
+        
+        <!-- ViewCart action displays the cart items for a give User -->
+        <action name="view-cart" class="com.grail.cart.action.ViewCartAction" method="input" >
+            <result name="input">/template/cart/view-cart.ftl</result>
+            <result name="success" type="redirect">view-cart!input.jspa</result>
+        </action>
+        <!-- DownloadCart action allows User to download their cart as ZIP file -->
+        <action name="download-cart" class="com.grail.cart.action.DownloadCartAction">
+            <!-- <result name="success" type="redirect">view-cart!input.jspa</result>-->
+            <result name="input" type="redirect">view-cart.jspa</result>
+            <result name="success" type="stream">
+                <param name="contentType">application/zip</param>
+                <param name="inputName">zipStream</param>
+                <param name="bufferSize">5120</param>
+                <param name="contentDisposition">filename="${zipFilename}"</param>
+                <param name="contentLength">${zipFileLength}</param>
+            </result>
+        </action>
+        
+		 <action name="search-tips" class="com.jivesoftware.community.action.SearchTipsAction">
+            <result name="input">/template/global/search-tips.ftl</result>
+            <result name="success">/template/global/search-tips.ftl</result>
+        </action>
+
+		
+        <action name="search" class="com.jivesoftware.community.search.action.SoySearchAction">
+            <result name="input" type="soy-page">jive.search.page</result>
+            <result name="success" type="soy-page">jive.search.page</result>
+            <result name="quick-search">/template/docs/quick-search-documents.ftl</result>
+        </action>
+        
+        <action name="tag-cloud" class="com.jivesoftware.community.action.TagCloudAction">
+            <result name="success">/template/global/include/tag-cloud.ftl</result>
+        </action>
+        
+       <action name="taggable-content" class="com.jivesoftware.community.action.TaggableContentAction">
+            <result name="success">/template/global/include/taggable-content.ftl</result>
+            <result name="browse" type="redirect">${browseURL}</result>
+        </action>
+        
+         <action name="change-password" class="com.jivesoftware.community.action.ChangePasswordAction">
+            <interceptor-ref name="defaultStack"/>
+            <interceptor-ref name="token">
+                <param name="excludeMethods">cancel,input</param>
+            </interceptor-ref>
+            <result name="cancel" type="redirect">portal-options.jspa</result>
+            <result name="input">/template/global/change-password.ftl</result>
+            <result name="success" type="redirect">portal-options.jspa?changePassword=true</result>
+        </action>
+        
+         <action name="resetPassword" class="com.jivesoftware.community.action.ResetPassword">
+            <result name="cancel" type="redirect">portal-options.jspa</result>
+            <result name="input">/template/global/reset-password.ftl</result>
+            <result name="success" type="redirect">portal-options.jspa?changePassword=true</result>
+        </action>
+        
+         
+                <action name="osp" class="com.jivesoftware.community.action.OSP">
+            
+            <result name="input">/template/global/osp.ftl</result>
+            
+        </action>
+        
+
+    </package>
+
+    <!-- Admin actions go here -->
+    <!-- Interceptors and results should NOT be modified here.  Overlay struts-community-admin.xml instead. -->
+    <package name="community-admin-custom" extends="community-admin-actions" namespace="/admin">
+
+        <!-- Override core admin actions here -->
+ 
+        <!-- User report input page -->
+        <action name="usersReportInput" class="com.grail.custom.analytics.action.EventAnalyticsAction" method="usersReportInput">
+            <result name="user-report-input" type="freemarker">/template/admin/grail/analytics/users-report.ftl</result>
+        </action>
+        <!-- User report -->
+        <action name="userReport" class="com.grail.custom.analytics.action.EventAnalyticsAction" method="userReport">
+            <result name="success" type="freemarker">/template/admin/grail/analytics/users-report.ftl</result>
+            <result name="user-report-input" type="freemarker">/template/admin/grail/analytics/users-report.ftl</result>
+        </action>
+
+        <!-- Download user report -->
+        <action name="downloadUserReport" class="com.grail.custom.analytics.action.EventAnalyticsAction" method="downloadUserReport">
+            <result name="success" type="stream">
+                <param name="contentType">application/vnd.ms-excel</param>
+                <param name="inputName">exportStream</param>
+                <param name="contentDisposition">attachment; filename="${exportFilename}"</param>
+                <param name="bufferSize">1024</param>
+            </result>
+            <result name="user-report-input" type="redirect">usersReportInput.jspa</result>
+        </action>
+
+        <action name="downloadUserDrillDownReport" class="com.grail.custom.analytics.action.EventAnalyticsAction" method="downloadUserDrillDownReport">
+            <result name="success" type="stream">
+                <param name="contentType">application/vnd.ms-excel</param>
+                <param name="inputName">exportStream</param>
+                <param name="contentDisposition">attachment; filename="${exportFilename}"</param>
+                <param name="bufferSize">1024</param>
+            </result>
+            <result name="user-report-input" type="redirect">usersReportInput.jspa</result>
+        </action>
+
+        <!-- Document report input page -->
+        <action name="docReportInput" class="com.grail.custom.analytics.action.EventAnalyticsAction" method="docReportInput">
+            <result name="document-report-input" type="freemarker">/template/admin/grail/analytics/documents-report.ftl</result>
+        </action>
+        <!-- Document report -->
+        <action name="documentReport" class="com.grail.custom.analytics.action.EventAnalyticsAction" method="documentReport">
+            <result name="success" type="freemarker">/template/admin/grail/analytics/documents-report.ftl</result>
+            <result name="document-report-input" type="freemarker">/template/admin/grail/analytics/documents-report.ftl</result>
+        </action>
+
+        <!-- Download document report -->
+        <action name="downloadDocReport" class="com.grail.custom.analytics.action.EventAnalyticsAction" method="downloadDocumentReport">
+            <result name="success" type="stream">
+                <param name="contentType">application/vnd.ms-excel</param>
+                <param name="inputName">exportStream</param>
+                <param name="contentDisposition">attachment; filename="${exportFilename}"</param>
+                <param name="bufferSize">1024</param>
+            </result>
+            <result name="document-report-input" type="redirect">docReportInput.jspa</result>
+        </action>
+
+        <!-- Download All Users and All Events document report -->
+        <action name="downloadAllDocReport" class="com.grail.custom.analytics.action.EventAnalyticsAction" method="downloadAllDocumentsReport">
+            <result name="success" type="stream">
+                <param name="contentType">application/vnd.ms-excel</param>
+                <param name="inputName">exportStream</param>
+                <param name="contentDisposition">attachment; filename="${exportFilename}"</param>
+                <param name="bufferSize">1024</param>
+            </result>
+            <result name="document-report-input" type="redirect">docReportInput.jspa</result>
+        </action>
+
+        <action name="downloadDrillDocumentReport" class="com.grail.custom.analytics.action.EventAnalyticsAction" method="downloadDrillDocumentReport">
+            <result name="success" type="stream">
+                <param name="contentType">application/vnd.ms-excel</param>
+                <param name="inputName">exportStream</param>
+                <param name="contentDisposition">attachment; filename="${exportFilename}"</param>
+                <param name="bufferSize">1024</param>
+            </result>
+            <result name="user-report-input" type="redirect">docReportInput.jspa</result>
+        </action>
+
+        <!-- Action to return User Drill down report -->
+        <action name="userDrillDownReport" class="com.grail.custom.analytics.action.EventAnalyticsDWRAction" method="userDrillDownReport">
+            <result name="success" type="freemarker">/template/admin/grail/analytics/user-drill-down-report.ftl</result>
+        </action>
+
+        <!-- Action to return Document Drill down report -->
+        <action name="documentDrillDownReport" class="com.grail.custom.analytics.action.EventAnalyticsDWRAction" method="documentDrillDownReport">
+            <result name="success" type="freemarker">/template/admin/grail/analytics/doc-drill-down-report.ftl</result>
+        </action>
+        <!-- Add new admin actions here -->
+        <!-- Add new admin actions here -->
+
+    </package>
+	
+	<!-- Synchro Package -->
+    <package name="community-custom-synchro" extends="community-default" namespace="/synchro">
+
+        <!-- SYNCHRO ACTIONS STARTS -->
+
+        <action name="home" class="com.grail.synchro.action.HomeAction">
+            <result name="success" type="freemarker">/template/global/synchro-main.ftl</result>
+            <result name="disclaimererror" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+ 
+
+
+
+        <!-- Synchro Project Overview Page -->
+
+        <action name="dashboard" class="com.grail.synchro.action.DashboardAction">
+            <result name="success" type="freemarker">/template/global/synchro-dashboard.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+
+        <action name="draft-dashboard" class="com.grail.synchro.action.DashboardDraftAction">
+            <result name="success" type="freemarker">/template/global/synchro-draft-dashboard.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+
+        <action name="delegate-add-stakeholders" class="com.grail.synchro.action.DelegateAddStakeholdersAction">
+            <result name="success" type="freemarker">/template/global/delegate-add-stakeholders.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+
+        <action name="delegate-add-stakeholders-pagination" class="com.grail.synchro.action.DelegateAddStakeholderPaginationAction">
+            <result name="success" type="freemarker">/template/global/delegate-add-stakeholder-table.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+            <result name="delegateProject" type="redirect">delegate-add-stakeholders.jspa</result>
+            <result name="addStakeholders" type="redirect">delegate-add-stakeholders.jspa</result>
+        </action>
+        
+        <action name="log-dashboard" class="com.grail.synchro.action.DashboardLogAction">
+            <result name="success" type="freemarker">/template/global/synchro-log-dashboard.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+
+ 		<action name="dashboard-log-pagination" class="com.grail.synchro.action.DashboardLogPaginationAction">
+            <result name="success" type="freemarker">/template/global/synchro-log-dashboard-table.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+            <result name="downloadLog" type="stream">
+                <param name="contentType">application/csv</param>
+                <param name="inputName">downloadStream</param>
+                <param name="contentDisposition">attachment; filename="${downloadFilename}"</param>
+                <param name="bufferSize">1024</param>
+            </result>
+        </action>
+        
+        <!-- Discussion Forums on Dashboard page -->
+
+        <action name="history" class="com.grail.synchro.action.ProjectHistoryAction">
+            <result name="success" type="freemarker">/template/global/synchro-history.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+
+        <action name="endmarket-dashboard" class="com.grail.synchro.action.DashboardEndMarketAction">
+            <result name="success" type="freemarker">/template/global/synchro-endmarket-dashboard.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+
+        <action name="dashboard-pagination" class="com.grail.synchro.action.DashboardPaginationAction">
+            <result name="success" type="freemarker">/template/global/synchro-dashboard-table.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+
+        <!-- Action for Draft Project dashboards -->
+        <action name="dashboard-draft-pagination" class="com.grail.synchro.action.DashboardDraftPaginationAction">
+            <result name="success" type="freemarker">/template/global/synchro-dashboard-table.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+
+        <!--  Beans for Project Stages -->
+        <action name="pib-details" class="com.grail.synchro.action.PIBAction" method="input">
+            <result name="input" type="freemarker">/template/global/pib-details.ftl</result>
+            <result name="success" type="redirect">pib-details!input.jspa?projectID=${projectID}</result>
+            <result name="proposal-details" type="redirect">proposal-details!input.jspa?projectID=${projectID}</result>
+            <result name="moveToNextStage" type="redirect">proposal-details!input.jspa?projectID=${projectID}</result>
+            <result name="pending-actions" type="redirect">current-status!input.jspa?projectID=${projectID}</result>
+            <result name="validationError" type="redirect">pib-details!input.jspa?projectID=${projectID}&amp;validationError=true</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+
+        <!--  Beans for Project Stages -->
+        <action name="generate-pdf" class="com.grail.synchro.action.PDFGenerateAction">
+            <result name="success" type="redirect">${redirectURL}</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+
+        <action name="pib-multi-details" class="com.grail.synchro.action.PIBMultiMarketAction" method="input">
+            <result name="input" type="freemarker">/template/global/pib-multi-details.ftl</result>
+            <!--<result name="success" type="redirect">pib-multi-details!input.jspa?projectID=${projectID}</result>-->
+            <result name="moveToNextStage" type="redirect">proposal-multi-details!input.jspa?projectID=${projectID}</result>
+            <result name="success" type="redirect">${redirectURL}</result>
+            <result name="pending-actions" type="redirect">current-status-multi!input.jspa?projectID=${projectID}</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+
+        <action name="proposal-details" class="com.grail.synchro.action.ProposalAction" method="input">
+            <result name="input" type="freemarker">/template/global/proposal-details.ftl</result>
+            <result name="success" type="redirect">proposal-details!input.jspa?projectID=${projectID}&amp;agencyID=${agencyID}</result>
+            <result name="moveToNextStage" type="redirect">project-specs!input.jspa?projectID=${projectID}</result>
+            <result name="validationError" type="redirect">proposal-details!input.jspa?projectID=${projectID}&amp;agencyID=${agencyID}&amp;validationError=true</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+            <result name="proposal-unaccessible" type="freemarker">/template/global/proposal-unaccessible.ftl</result>
+            <result name="current-status" type="redirect">current-status!input.jspa?projectID=${projectID}</result>
+            
+        </action>
+
+        <action name="proposal-multi-details" class="com.grail.synchro.action.ProposalMultiMarketAction" method="input">
+            <result name="input" type="freemarker">/template/global/proposal-multimarket-details.ftl</result>
+            <result name="success" type="redirect">proposal-multi-details!input.jspa?projectID=${projectID}&amp;agencyID=${agencyID}</result>
+            <result name="moveToNextStage" type="redirect">project-multi-specs!input.jspa?projectID=${projectID}</result>
+            <result name="validationError" type="redirect">proposal-multi-details!input.jspa?projectID=${projectID}&amp;agencyID=${agencyID}&amp;validationError=true</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+            <result name="proposal-unaccessible" type="freemarker">/template/global/proposal-unaccessible.ftl</result>
+            <result name="current-status-multi" type="redirect">current-status-multi!input.jspa?projectID=${projectID}</result>
+        </action>
+
+        <!--  This is action for Project Specs Stage -->
+        <action name="project-specs" class="com.grail.synchro.action.ProjectSpecsAction" method="input">
+            <result name="input" type="freemarker">/template/global/project-specs.ftl</result>
+            <result name="success" type="redirect">project-specs!input.jspa?projectID=${projectID}</result>
+            <result name="moveToNextStage" type="redirect">report-summary!input.jspa?projectID=${projectID}</result>
+            <result name="validationError" type="redirect">project-specs!input.jspa?projectID=${projectID}&amp;validationError=true</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+
+        <action name="project-multi-specs" class="com.grail.synchro.action.ProjectSpecsMultiMarketAction" method="input">
+            <result name="input" type="freemarker">/template/global/project-multi-specs.ftl</result>
+            <!--<result name="success" type="redirect">project-multi-specs!input.jspa?projectID=${projectID}</result> -->
+            <result name="success" type="redirect">${redirectURL}</result>
+            <result name="moveToNextStage" type="redirect">report-multi-summary!input.jspa?projectID=${projectID}</result>
+            <!--<result name="validationError" type="redirect">project-multi-specs!input.jspa?projectID=${projectID}&amp;validationError=true</result>-->
+            <result name="validationError" type="redirect">${redirectURL}</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+
+        <!--  This is action for Report Summary Stage -->
+        <action name="report-summary" class="com.grail.synchro.action.ReportSummaryAction" method="input">
+            <result name="input" type="freemarker">/template/global/report-summary.ftl</result>
+            <result name="success" type="redirect">report-summary!input.jspa?projectID=${projectID}</result>
+            <result name="moveToNextStage" type="redirect">project-eval!input.jspa?projectID=${projectID}</result>
+            <result name="validationError" type="redirect">report-summary!input.jspa?projectID=${projectID}&amp;validationError=true</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+
+        <action name="report-multi-summary" class="com.grail.synchro.action.ReportSummaryMultiMarketAction" method="input">
+            <result name="input" type="freemarker">/template/global/report-multi-summary.ftl</result>
+            <result name="success" type="redirect">${redirectURL}</result>
+             <result name="moveToNextStage" type="redirect">project-multi-eval!input.jspa?projectID=${projectID}</result>
+            <result name="validationError" type="redirect">${redirectURL}</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+
+        <!--  This is action for Project Evaluation Stage -->
+        <action name="project-eval" class="com.grail.synchro.action.ProjectEvaluationAction" method="input">
+            <result name="input" type="freemarker">/template/global/project-evaluation.ftl</result>
+            <result name="success" type="redirect">project-eval!input.jspa?projectID=${projectID}</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+
+        <action name="project-multi-eval" class="com.grail.synchro.action.ProjectEvaluationMultiMarketAction" method="input">
+            <result name="input" type="freemarker">/template/global/project-multi-evaluation.ftl</result>
+            <result name="success" type="redirect">${redirectURL}</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+
+        <!--
+                <action name="target-segment" class="com.grail.synchro.action.PIBTargetSegmentAction" >
+                    <result name="error" type="redirect">pib-details!input.jspa?projectID=${projectID}</result>
+                </action>
+        -->
+
+
+        <!-- Project Status Action -->
+        <action name="project-status" class="com.grail.synchro.action.ProjectStatusAction" method="input">
+            <result name="input" type="freemarker">/template/global/project-status.ftl</result>
+            <result name="success" type="redirect">project-status!input.jspa?projectID=${projectID}</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+
+        <!-- Project Status Dashboard -->
+        <action name="status-dashboard" class="com.grail.synchro.action.ProjectStatusDashboardAction">
+            <result name="success" type="freemarker">/template/global/synchro-status-dashboard.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+
+        <action name="dashboard-status-pagination" class="com.grail.synchro.action.ProjectStatusPaginationAction">
+            <result name="success" type="freemarker">/template/global/synchro-status-dashboard-table.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+
+        <action name="dashboard-history-pagination" class="com.grail.synchro.action.ProjectHistoryPaginationAction">
+            <result name="success" type="freemarker">/template/global/synchro-history-dashboard-table.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+
+
+        <action name="pending-activities" class="com.grail.synchro.action.ProjectPendingActivityAction">
+            <result name="success" type="freemarker">/template/global/synchro-pending-activities.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+
+        <action name="pending-activities-pagination" class="com.grail.synchro.action.ProjectPendingActivityPaginationAction">
+            <result name="success" type="freemarker">/template/global/synchro-pending-activities-table.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+
+        <action name="waiver-pending-activities" class="com.grail.synchro.action.WaiverPendingActivityAction">
+            <result name="success" type="freemarker">/template/global/waiver-pending-activities.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+
+        <action name="waiver-pending-activities-pagination" class="com.grail.synchro.action.WaiverPendingActivityPaginationAction">
+            <result name="success" type="freemarker">/template/global/waiver-pending-activities-table.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+
+		<!-- View Current Status -->
+		<action name="current-status" class="com.grail.synchro.action.ProjectCurrentStatusAction" method="input">
+            <result name="input" type="freemarker">/template/global/synchro-current-status.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+            <result name="success" type="redirect">current-status!input.jspa?projectID=${projectID}</result>
+        </action>
+        
+        <!-- View Current Status -->
+		<action name="current-status-multi" class="com.grail.synchro.action.ProjectCurrentStatusMultiMarketAction" method="input">
+            <result name="input" type="freemarker">/template/global/synchro-current-status-multi.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+            <result name="success" type="redirect">current-status-multi!input.jspa?projectID=${projectID}</result>
+        </action>
+        
+     
+     	<action name="current-status-dashboard" class="com.grail.synchro.action.ProjectCurrentStatusDashboardAction">
+            <result name="success" type="freemarker">/template/global/synchro-current-status-dashboard.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+
+        <action name="current-status-dashboard-pagination" class="com.grail.synchro.action.ProjectCurrentStatusDashboardPaginationAction">
+            <result name="success" type="freemarker">/template/global/synchro-current-status-dashboard-table.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+        
+        <!--  Generate Reports Section -->
+        <action name="raw-extract" class="com.grail.synchro.action.reports.RawExtractReportAction">
+            <!--<result name="success" type="freemarker">/template/global/dummy/coming-soon.ftl</result>-->
+            <result name="success" type="freemarker">/template/global/reports/raw-extract.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+
+        <action name="raw-extract-pagination" class="com.grail.synchro.action.reports.RawExtractReportPaginationAction">
+            <!--<result name="success" type="freemarker">/template/global/dummy/coming-soon.ftl</result>-->
+            <result name="success" type="freemarker">/template/global/reports/raw-extract-table.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+
+
+        <action name="downloadRawExtract" class="com.grail.synchro.action.reports.RawExtractReportAction" method="downloadReport">
+            <result name="downloadReport" type="stream">
+                <param name="contentType">application/csv</param>
+                <param name="inputName">downloadStream</param>
+                <param name="contentDisposition">attachment; filename="${downloadFilename}"</param>
+                <param name="bufferSize">1024</param>
+            </result>
+        </action>     
+        
+
+        <action name="spend-reports" class="com.grail.synchro.action.reports.SpendReportsAction">
+            <!--<result name="success" type="freemarker">/template/global/dummy/coming-soon.ftl</result>-->
+            <result name="success" type="freemarker">/template/global/reports/spend-reports.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+
+        <action name="downloadSpendReports" class="com.grail.synchro.action.reports.SpendReportsAction" method="downloadReport">
+            <result name="reportTypeSelectionError" type="redirect">/synchro/spend-reports.jspa?reportTypeSelectionError=true</result>
+            <result name="downloadReport" type="stream">
+                <param name="contentType">${downloadStreamType}</param>
+                <param name="inputName">downloadStream</param>
+                <param name="contentDisposition">attachment; filename="${downloadFilename}"</param>
+                <param name="bufferSize">1024</param>
+            </result>
+        </action>
+
+        <action name="reports" class="com.grail.synchro.action.reports.ProjectSummaryReportAction">
+            <!--<result name="success" type="freemarker">/template/global/dummy/coming-soon.ftl</result>-->
+            <result name="success" type="freemarker">/template/global/reports/project-summary-extract.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+
+        <action name="reports-summary" class="com.grail.synchro.action.reports.ProjectSummaryPaginationReportAction">
+            <result name="success" type="freemarker">/template/global/reports/project-summary-extract-table.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+
+
+        <action name="financial-reports" class="com.grail.synchro.action.reports.ProjectFinancialReportAction">
+            <result name="success" type="freemarker">/template/global/reports/project-financial-extract.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+
+        <action name="project-finance-report" class="com.grail.synchro.action.reports.ProjectFinancialPaginationReportAction">
+            <result name="success" type="freemarker">/template/global/reports/project-financial-extract-table.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+
+        <action name="project-data-extract" class="com.grail.synchro.action.reports.ProjectDataExtractAction">
+            <result name="input" type="freemarker">/template/global/reports/project-data-extract.ftl</result>
+            <result name="success" type="freemarker">/template/global/reports/project-data-extract.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+
+        <action name="project-research-report" class="com.grail.synchro.action.reports.ProjectResearchCycleReportAction">
+            <result name="input" type="freemarker">/template/global/reports/project-research-report.ftl</result>
+            <result name="success" type="freemarker">/template/global/reports/project-research-report.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+
+        <action name="financial-data-extract" class="com.grail.synchro.action.reports.FinancialDataExtractAction">
+            <result name="input" type="freemarker">/template/global/reports/financial-data-report.ftl</result>
+            <result name="success" type="freemarker">/template/global/reports/financial-data-report.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+
+        <action name="agency-evaluation-report" class="com.grail.synchro.action.reports.AgencyEvaluationReportAction">
+            <result name="input" type="freemarker">/template/global/reports/agency-evaluation-report.ftl</result>
+            <result name="success" type="freemarker">/template/global/reports/agency-evaluation-report.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+
+        <action name="exchange-rate-report" class="com.grail.synchro.action.reports.ExchangeRateReportAction">
+            <result name="input" type="freemarker">/template/global/reports/exchange-rate-report.ftl</result>
+            <result name="success" type="freemarker">/template/global/reports/exchange-rate-report.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+
+        <action name="waiver-catalogue" class="com.grail.synchro.action.ProjectWaiverCatalogueAction">
+            <interceptor-ref name="paramsPrepareParamsStack"/>
+            <result name="success" type="freemarker">/template/global/project-waiver-catalogue.ftl</result>
+        </action>
+
+        <action name="waiver-catalogue-pagination" class="com.grail.synchro.action.ProjectWaiverCataloguePaginationAction">
+            <interceptor-ref name="paramsPrepareParamsStack"/>
+            <result name="success" type="freemarker">/template/global/project-waiver-catalogue-table.ftl</result>
+        </action>
+
+        <action name="create-waiver" class="com.grail.synchro.action.ProjectWaiverAction">
+            <result name="input" type="freemarker">/template/global/waiver-create.ftl</result>
+            <result name="success" type="redirect">view-waiver.jspa?projectWaiverID=${projectWaiverID}</result>
+        </action>
+
+        <action name="project-waiver" class="com.grail.synchro.action.ProjectWaiverAction">
+            <result name="input" type="freemarker">/template/global/project-waiver.ftl</result>
+            <result name="success" type="redirect">/synchro/project-waiver!input.jspa?projectWaiverID=${projectWaiverID}&amp;approved=${waiverApproved}</result>
+        </action>
+
+        <action name="my-library" class="com.grail.synchro.action.MyLibraryAction">
+            <result name="addDocResponse" type="stream">
+                <param name="parse">false</param>
+                <param name="contentType">text/plain</param>
+                <param name="inputName">addDocStatus</param>
+                <param name="bufferSize">1024</param>
+            </result>
+            <result name="removeDocResponse" type="stream">
+                <param name="parse">false</param>
+                <param name="contentType">text/plain</param>
+                <param name="inputName">removeDocStatus</param>
+                <param name="bufferSize">1024</param>
+            </result>
+            <result name="success">/template/global/my-library.ftl</result>
+        </action>
+
+        <action name="import-doc-util" class="com.grail.synchro.action.DocumentImportAction">
+            <result name="importDocResponse" type="stream">
+                <param name="parse">false</param>
+                <param name="contentType">text/plain</param>
+                <param name="inputName">importDocStatus</param>
+                <param name="bufferSize">1024</param>
+            </result>
+            <result name="success">/template/global/pib-details.ftl</result>
+        </action>
+
+        <action name="import-doc-ie-util" class="com.grail.synchro.action.DocumentImportIEAction">
+            <result name="importDocResponse" type="stream">
+                <param name="parse">false</param>
+                <param name="contentType">text/plain</param>
+                <param name="inputName">importDocStatus</param>
+                <param name="bufferSize">1024</param>
+            </result>
+            <result name="success">/template/global/pib-details.ftl</result>
+        </action>
+
+        <action name="my-library-pagination" class="com.grail.synchro.action.MyLibraryPaginationAction">
+            <interceptor-ref name="paramsPrepareParamsStack"/>
+            <result name="success" type="freemarker">/template/global/my-library-table.ftl</result>
+        </action>
+
+        <!-- Synchro Phase 4 -->
+        <action name="create-project" class="com.grail.synchro.action.ProjectCreateAction">
+            <result name="disclaimererror" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+            <result name="input" type="freemarker">/template/global/project-create.ftl</result>
+            <result name="success" type="redirect">view-project.jspa?projectID=${projectID}</result>
+            <result name="draft" type="redirect">create-project!input.jspa?projectID=${projectID}</result>
+            <result name="draft-initial" type="redirect">create-project!input.jspa?projectID=${projectID}&amp;savefirst=true</result>
+            <result name="draftLocation" type="redirect">${redirectUrl}</result>
+        </action>
+
+        <action name="create-multimarket-project" class="com.grail.synchro.action.ProjectMultiMarketCreateAction">
+            <result name="disclaimererror" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+            <result name="input" type="freemarker">/template/global/project-multimarket-create.ftl</result>
+            <result name="success" type="redirect">view-project.jspa?projectID=${projectID}&amp;multimarket=true</result>
+            <result name="draft" type="redirect">create-multimarket-project!input.jspa?projectID=${projectID}</result>
+            <result name="draft-initial" type="redirect">create-multimarket-project!input.jspa?projectID=${projectID}&amp;savefirst=true</result>
+            <!--<result name="input" type="freemarker">/template/global/dummy/coming-soon.ftl</result>-->
+            <result name="draftLocation" type="redirect">${redirectUrl}</result>
+        </action>
+
+        <action name="view-project" class="com.grail.synchro.action.ProjectViewAction">
+            <result name="success" type="freemarker">/template/global/project-continue.ftl</result>
+            <result name="disclaimererror" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+
+        <action name="view-waiver" class="com.grail.synchro.action.WaiverViewAction">
+            <result name="success" type="freemarker">/template/global/waiver-continue.ftl</result>
+            <result name="disclaimererror" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+
+        <action name="help" class="com.grail.synchro.action.HelpAction">
+            <!--<interceptor-ref name="token">-->
+            <!--<param name="excludeMethods">default, input</param>-->
+            <!--</interceptor-ref>-->
+            <result name="success" type="freemarker">/template/global/synchro-help.ftl</result>
+            <!--<result name="disclaimererror" type="freemarker">/template/global/synchro-agreement-error.ftl</result>-->
+        </action>
+
+        <action name="validate-email-attachment" class="com.grail.synchro.action.EmailAttachmentAction">
+            <result name="attachmentResponse" type="stream">
+                <param name="parse">false</param>
+                <param name="contentType">text/plain</param>
+                <param name="inputName">emailAttachmentStatus</param>
+                <param name="bufferSize">1024</param>
+            </result>
+            <result name="success">/template/global/pib-details.ftl</result>
+        </action>
+
+        <action name="default-templates" class="com.grail.synchro.action.DefaultTemplatesAction">
+            <result name="input" type="freemarker">/template/global/default-templates.ftl</result>
+            <result name="success" type="redirect">/grail/brief-template!input.jspa</result>
+        </action>
+
+        <action name="invite-user" class="com.grail.synchro.action.InvitedUsersAction">
+            <result name="input" type="freemarker">/template/global/include/synchro-invite-user.ftl</result>
+            <result name="success" type="freemarker">${successURL}</result>
+            <result name="downloadReport" type="stream">
+                <param name="contentType">${downloadStreamType}</param>
+                <param name="inputName">downloadStream</param>
+                <param name="contentDisposition">attachment; filename="${downloadFilename}"</param>
+                <param name="bufferSize">1024</param>
+            </result>
+        </action>
+
+        <action name="invited-users-modal" class="com.grail.synchro.action.InvitedUsersModalAction">
+            <result name="input" type="freemarker">/template/global/include/invited-users-modal.ftl</result>
+        </action>
+
+        <action name="reminder" class="com.grail.synchro.action.SynchroReminderAction">
+            <result name="input" type="freemarker">/template/global/synchro-reminder.ftl</result>
+            <result name="success" type="redirect">${successURL}</result>
+            <result name="dismissProjectReminder" type="redirect">/synchro/project-reminder-alerts!input.jspa</result>
+            <result name="dismissGeneralReminder" type="redirect">/synchro/general-reminder-alerts!input.jspa</result>
+        </action>
+
+        <action name="project-reminder" class="com.grail.synchro.action.ProjectReminderAction">
+            <result name="input" type="freemarker">/template/global/project-reminder.ftl</result>
+            <result name="setReminderResponse" type="stream">
+                <param name="parse">false</param>
+                <param name="contentType">text/plain</param>
+                <param name="inputName">setReminderStatus</param>
+                <param name="bufferSize">1024</param>
+            </result>
+            <result name="dismissReminderResponse" type="stream">
+                <param name="parse">false</param>
+                <param name="contentType">text/plain</param>
+                <param name="inputName">dismissStatus</param>
+                <param name="bufferSize">1024</param>
+            </result>
+            <result name="availableCategoriesCheckResponse" type="stream">
+                <param name="parse">false</param>
+                <param name="contentType">text/plain</param>
+                <param name="inputName">availableCategoriesCheckStatus</param>
+                <param name="bufferSize">1024</param>
+            </result>
+        </action>
+
+        <action name="project-reminders" class="com.grail.synchro.action.ProjectReminderDashboardAction">
+            <result name="input" type="freemarker">/template/global/project-reminder-dashboard.ftl</result>
+        </action>
+
+        <action name="project-reminders-pagination" class="com.grail.synchro.action.ProjectReminderDashboardPaginationAction">
+            <result name="success" type="freemarker">/template/global/project-reminder-dashboard-table.ftl</result>
+        </action>
+
+        <action name="project-reminder-view-result" class="com.grail.synchro.action.ProjectReminderViewResultAction">
+            <result name="input" type="freemarker">/template/global/project-reminder-result.ftl</result>
+        </action>
+
+        <action name="general-reminder" class="com.grail.synchro.action.GeneralReminderAction">
+            <result name="input" type="freemarker">/template/global/general-reminder.ftl</result>
+            <result name="setReminderResponse" type="stream">
+                <param name="parse">false</param>
+                <param name="contentType">text/plain</param>
+                <param name="inputName">setReminderStatus</param>
+                <param name="bufferSize">1024</param>
+            </result>
+            <result name="dismissReminderResponse" type="stream">
+                <param name="parse">false</param>
+                <param name="contentType">text/plain</param>
+                <param name="inputName">dismissStatus</param>
+                <param name="bufferSize">1024</param>
+            </result>
+        </action>
+
+        <action name="general-reminders" class="com.grail.synchro.action.GeneralReminderDashboardAction">
+            <result name="input" type="freemarker">/template/global/general-reminder-dashboard.ftl</result>
+        </action>
+
+        <action name="general-reminders-pagination" class="com.grail.synchro.action.GeneralReminderDashboardPaginationAction">
+            <result name="success" type="freemarker">/template/global/general-reminder-dashboard-table.ftl</result>
+        </action>
+
+
+
+        <action name="tinymce-test" class="com.grail.test.TinyMCETestAction" method="input">
+
+            <result name="input" type="freemarker">/template/global/tinymce-test.ftl</result>
+        </action>
+
+        <!-- SYNCHRO ACTION ENDS -->
+       
+    </package>
+    
+	<package name="community-custom-grail" extends="community-default" namespace="/grail">
+
+        <action name="home" class="com.grail.action.GrailHomeAction">
+            <result name="input" type="freemarker">/template/global/grail-home.ftl</result>
+            <result name="success" type="redirect">/grail/create-brief-template!input.jspa</result>
+        </action>
+
+        <action name="home-full" class="com.grail.action.GrailHomeAction">
+            <result name="input" type="freemarker">/template/global/grail-home-full.ftl</result>
+            <result name="success" type="redirect">/grail/create-brief-template!input.jspa</result>
+        </action>
+
+        <action name="dashboard" class="com.grail.action.GrailDashboardAction">
+            <result name="success" type="freemarker">/template/global/grail-dashboard.ftl</result>
+        </action>
+
+        <action name="dashboard-pagination" class="com.grail.action.GrailDashboardPaginationAction">
+            <result name="success" type="freemarker">/template/global/grail-dashboard-table.ftl</result>
+        </action>
+
+        <action name="create-brief-template" class="com.grail.action.GrailBriefTemplateAction">
+            <result name="input" type="freemarker">/template/global/grail-brief-template.ftl</result>
+            <result name="createSuccess" type="redirect">/grail/template-create-success!input.jspa?id=${id}</result>
+        </action>
+
+        <action name="template-create-success" class="com.grail.action.GrailTemplateCreationSuccessAction">
+            <result name="input" type="freemarker">/template/global/grail-template-create-success.ftl</result>
+        </action>
+
+        <action name="brief-template" class="com.grail.action.GrailBriefTemplateAction">
+            <result name="input" type="freemarker">/template/global/grail-brief-template.ftl</result>
+            <result name="success" type="redirect">${redirectURL}</result>
+            <result name="createSuccess" type="redirect">/grail/template-create-success!input.jspa?id=${id}</result>
+            <!--<result name="validationError" type="redirect">/kantar/brief-template!input.jspa?id=${id}</result>-->
+        </action>
+
+        <action name="documents" class="com.grail.action.GrailDocumentsAction">
+            <result name="input" type="freemarker">/template/global/grail-documents.ftl</result>
+            <result name="success" type="redirect">/grail/documents!input.jspa?id=${id}</result>
+        </action>
+
+        <action name="status" class="com.grail.action.GrailStatusAction">
+            <result name="input" type="freemarker">/template/global/grail-status.ftl</result>
+            <result name="success" type="redirect">/grail/status!input.jspa?id=${id}</result>
+        </action>
+
+        <!--<action name="brief-template" class="com.grail.action.GrailBriefTemplateAction">-->
+            <!--<result name="input" type="freemarker">/template/global/grail-brief-template.ftl</result>-->
+            <!--<result name="success" type="redirect">/grail/brief-template!input.jspa?success=true</result>-->
+            <!--&lt;!&ndash;<result name="success" type="redirect">brief-template.jspa</result>&ndash;&gt;-->
+        <!--</action>-->
+
+        <action name="download-raw-extract" class="com.grail.action.GrailRawExtractReportAction" method="downloadReport">
+            <result name="downloadReport" type="stream">
+                <param name="contentType">application/csv</param>
+                <param name="inputName">downloadStream</param>
+                <param name="contentDisposition">attachment; filename="${downloadFilename}"</param>
+                <param name="bufferSize">1024</param>
+            </result>
+        </action>
+
+
+        <action name="email-queries" class="com.grail.action.GrailEmailQueriesAction">
+            <result name="emailQueryNotificationResponse" type="stream">
+                <param name="parse">false</param>
+                <param name="contentType">text/plain</param>
+                <param name="inputName">emailQueryNotificationStatus</param>
+                <param name="bufferSize">1024</param>
+            </result>
+        </action>
+
+
+    </package>
+
+    <package name="community-custom-kantar" extends="community-default" namespace="/kantar">
+
+        <action name="home" class="com.grail.kantar.action.KantarHomeAction">
+            <result name="input" type="freemarker">/template/global/kantar-home.ftl</result>
+            <result name="success" type="redirect">/kantar/create-brief-template!input.jspa</result>
+        </action>
+
+        <action name="kantar-dashboard" class="com.grail.kantar.action.KantarDashboardAction">
+            <result name="success" type="freemarker">/template/global/kantar-dashboard.ftl</result>
+        </action>
+
+        <action name="kantar-dashboard-pagination" class="com.grail.kantar.action.KantarDashboardPaginationAction">
+            <result name="success" type="freemarker">/template/global/kantar-dashboard-table.ftl</result>
+        </action>
+
+        <action name="create-brief-template" class="com.grail.kantar.action.KantarBriefTemplateAction">
+            <result name="input" type="freemarker">/template/global/kantar-brief-template.ftl</result>
+            <result name="createSuccess" type="redirect">/kantar/template-create-success!input.jspa?id=${id}</result>
+        </action>
+
+        <action name="template-create-success" class="com.grail.kantar.action.KantarBriefTemplateCreationSuccessAction">
+            <result name="input" type="freemarker">/template/global/kantar-template-create-success.ftl</result>
+        </action>
+
+        <action name="brief-template" class="com.grail.kantar.action.KantarBriefTemplateAction">
+            <result name="input" type="freemarker">/template/global/kantar-brief-template.ftl</result>
+            <result name="success" type="redirect">${redirectURL}</result>
+            <result name="createSuccess" type="redirect">/kantar/template-create-success!input.jspa?id=${id}</result>
+            <!--<result name="validationError" type="redirect">/kantar/brief-template!input.jspa?id=${id}</result>-->
+        </action>
+
+        <action name="documents" class="com.grail.kantar.action.KantarDocumentsAction">
+            <result name="input" type="freemarker">/template/global/kantar-documents.ftl</result>
+            <result name="success" type="redirect">/kantar/documents!input.jspa?id=${id}</result>
+        </action>
+
+        <action name="status" class="com.grail.kantar.action.KantarStatusAction">
+            <result name="input" type="freemarker">/template/global/kantar-status.ftl</result>
+            <result name="success" type="redirect">/kantar/status!input.jspa?id=${id}</result>
+        </action>
+
+        <action name="help" class="com.grail.synchro.action.HelpAction">
+            <result name="success" type="freemarker">/template/global/synchro-help.ftl</result>
+        </action>
+
+
+
+
+        <action name="download-raw-extract" class="com.grail.kantar.action.KantarRawExtractReportAction" method="downloadReport">
+            <result name="downloadReport" type="stream">
+                <param name="contentType">application/csv</param>
+                <param name="inputName">downloadStream</param>
+                <param name="contentDisposition">attachment; filename="${downloadFilename}"</param>
+                <param name="bufferSize">1024</param>
+            </result>
+        </action>
+
+
+    </package>
+
+    <package name="community-custom-kantar-report" extends="community-default" namespace="/kantar-report">
+        <action name="dashboard" class="com.grail.kantar.action.KantarReportDashboardAction">
+            <result name="success" type="freemarker">/template/global/kantar-report-dashboard.ftl</result>
+        </action>
+
+        <action name="dashboard-pagination" class="com.grail.kantar.action.KantarReportDashboardPaginationAction">
+            <result name="success" type="freemarker">/template/global/kantar-report-dashboard-table.ftl</result>
+        </action>
+
+        <action name="upload-report" class="com.grail.kantar.action.KantarReportUploadAction">
+            <result name="uploadReportResponse" type="stream">
+                <param name="parse">false</param>
+                <param name="contentType">text/plain</param>
+                <param name="inputName">uploadReportStatus</param>
+                <param name="bufferSize">1024</param>
+            </result>
+            <result name="input" type="freemarker">/template/global/kantar-report-upload-form.ftl</result>
+        </action>
+
+        <action name="report-types" class="com.grail.kantar.action.KantarReportTypesViewAction">
+            <result name="success" type="freemarker">/template/global/kantar-report-types-view.ftl</result>
+        </action>
+
+    </package>
+
+    <package name="community-custom-oracledocuments" extends="community-default" namespace="/oracledocuments">
+
+        <action name="oracle-manuals" class="com.grail.synchro.action.OracleDocumentsAction">
+            <result name="input" type="freemarker">/template/global/oracledocuments/oracle-document.ftl</result>
+            <param name="page">oraclemanuals-ladingpage</param>
+            <param name="documentType">1</param>
+        </action>
+
+        <action name="oracle-governance" class="com.grail.synchro.action.OracleDocumentsAction">
+            <result name="input" type="freemarker">/template/global/oracledocuments/oracle-document.ftl</result>
+            <param name="page">oraclegovernance-ladingpage</param>
+            <param name="documentType">2</param>
+        </action>
+
+        <action name="oracle-governance-legal-disclaimer" class="com.grail.synchro.action.OracleDocumentsAction">
+            <result name="input" type="freemarker">/template/global/oracledocuments/oracle-document.ftl</result>
+            <param name="page">oraclegovernance-legal-disclaimer</param>
+            <param name="documentType">2</param>
+        </action>
+
+        <action name="oracle-manuals-4screen" class="com.grail.synchro.action.OracleDocumentsAction">
+            <result name="input" type="freemarker">/template/global/oracledocuments/oracle-document.ftl</result>
+            <param name="page">oraclemanuals-4screen</param>
+            <param name="documentType">1</param>
+        </action>
+        <action name="oracle-manuals-4tune" class="com.grail.synchro.action.OracleDocumentsAction">
+            <result name="input" type="freemarker">/template/global/oracledocuments/oracle-document.ftl</result>
+            <param name="page">oraclemanuals-4tune</param>
+            <param name="documentType">1</param>
+        </action>
+        <action name="oracle-manuals-4sight" class="com.grail.synchro.action.OracleDocumentsAction">
+            <result name="input" type="freemarker">/template/global/oracledocuments/oracle-document.ftl</result>
+            <param name="page">oraclemanuals-4sight</param>
+            <param name="documentType">1</param>
+        </action>
+        <action name="oracle-manuals-4cast" class="com.grail.synchro.action.OracleDocumentsAction">
+            <result name="input" type="freemarker">/template/global/oracledocuments/oracle-document.ftl</result>
+            <param name="page">oraclemanuals-4cast</param>
+            <param name="documentType">1</param>
+        </action>
+        <action name="oracle-manuals-4real" class="com.grail.synchro.action.OracleDocumentsAction">
+            <result name="input" type="freemarker">/template/global/oracledocuments/oracle-document.ftl</result>
+            <param name="page">oraclemanuals-4real</param>
+            <param name="documentType">1</param>
+        </action>
+
+        <action name="oracle-manuals-consumer-segmentation" class="com.grail.synchro.action.OracleDocumentsAction">
+            <result name="input" type="freemarker">/template/global/oracledocuments/oracle-document.ftl</result>
+            <param name="page">oraclemanuals-consumer-segmentation</param>
+            <param name="documentType">1</param>
+        </action>
+        <action name="oracle-manuals-market-track" class="com.grail.synchro.action.OracleDocumentsAction">
+            <result name="input" type="freemarker">/template/global/oracledocuments/oracle-document.ftl</result>
+            <param name="page">oraclemanuals-market-track</param>
+            <param name="documentType">1</param>
+        </action>
+        <action name="oracle-manuals-general-consumer-survey" class="com.grail.synchro.action.OracleDocumentsAction">
+            <result name="input" type="freemarker">/template/global/oracledocuments/oracle-document.ftl</result>
+            <param name="page">oraclemanuals-general-consumer-survey</param>
+            <param name="documentType">1</param>
+        </action>
+        <action name="oracle-manuals-trade-marketing" class="com.grail.synchro.action.OracleDocumentsAction">
+            <result name="input" type="freemarker">/template/global/oracledocuments/oracle-document.ftl</result>
+            <param name="page">oraclemanuals-trade-marketing</param>
+            <param name="documentType">1</param>
+        </action>
+        <action name="oracle-manuals-choice-based-conjoint" class="com.grail.synchro.action.OracleDocumentsAction">
+            <result name="input" type="freemarker">/template/global/oracledocuments/oracle-document.ftl</result>
+            <param name="page">oraclemanuals-choice-based-conjoint</param>
+            <param name="documentType">1</param>
+        </action>
+        <action name="oracle-manuals-communications-toolkit" class="com.grail.synchro.action.OracleDocumentsAction">
+            <result name="input" type="freemarker">/template/global/oracledocuments/oracle-document.ftl</result>
+            <param name="page">oraclemanuals-communications-toolkit</param>
+            <param name="documentType">1</param>
+        </action>
+        <action name="oracle-manuals-customer-voice" class="com.grail.synchro.action.OracleDocumentsAction">
+            <result name="input" type="freemarker">/template/global/oracledocuments/oracle-document.ftl</result>
+            <param name="page">oraclemanuals-customer-voice</param>
+            <param name="documentType">1</param>
+        </action>
+        <action name="oracle-manuals-unbranded-product-testing" class="com.grail.synchro.action.OracleDocumentsAction">
+            <result name="input" type="freemarker">/template/global/oracledocuments/oracle-document.ftl</result>
+            <param name="page">oraclemanuals-unbranded-product-testing</param>
+            <param name="documentType">1</param>
+        </action>
+
+        <action name="oracle-manuals-branded-product-testing" class="com.grail.synchro.action.OracleDocumentsAction">
+            <result name="input" type="freemarker">/template/global/oracledocuments/oracle-document.ftl</result>
+            <param name="page">oraclemanuals-branded-product-testing</param>
+            <param name="documentType">1</param>
+        </action>
+
+        <action name="oracle-manuals-tobacco-flavour-vector" class="com.grail.synchro.action.OracleDocumentsAction">
+            <result name="input" type="freemarker">/template/global/oracledocuments/oracle-document.ftl</result>
+            <param name="page">oraclemanuals-tobacco-flavour-vector</param>
+            <param name="documentType">1</param>
+        </action>
+
+        <action name="oracle-manuals-product-dialogue-encounter-workshop" class="com.grail.synchro.action.OracleDocumentsAction">
+            <result name="input" type="freemarker">/template/global/oracledocuments/oracle-document.ftl</result>
+            <param name="page">oraclemanuals-product-dialogue-encounter-workshop</param>
+            <param name="documentType">1</param>
+        </action>
+        <action name="oracle-manuals-consumer-physical-quality-evaluation" class="com.grail.synchro.action.OracleDocumentsAction">
+            <result name="input" type="freemarker">/template/global/oracledocuments/oracle-document.ftl</result>
+            <param name="page">oraclemanuals-consumer-physical-quality-evaluation</param>
+            <param name="documentType">1</param>
+        </action>
+
+        <action name="oracle-manuals-psychophysical-analysis" class="com.grail.synchro.action.OracleDocumentsAction">
+            <result name="input" type="freemarker">/template/global/oracledocuments/oracle-document.ftl</result>
+            <param name="page">oraclemanuals-psychophysical-analysis</param>
+            <param name="documentType">1</param>
+        </action>
+
+        <action name="save-oracle-document" class="com.grail.synchro.action.OracleDocumentsAction" method="saveOracleDocument">
+            <result name="success" type="redirect">${redirectURL}</result>
+        </action>
+
+        <action name="save-owner-content" class="com.grail.synchro.action.OracleDocumentsAction" method="saveOwnerContent">
+            <result name="success" type="redirect">${redirectURL}</result>
+        </action>
+
+
+        <!--<action name="upload-owner-image" class="com.grail.synchro.action.OracleDocumentsAction" method="uploadOwnerImage">-->
+        <!--</action>-->
+
+        <action name="upload-owner-image" class="com.grail.synchro.action.OracleDocumentsAction">
+            <result name="uploadImageResponse" type="stream">
+                <param name="parse">false</param>
+                <param name="contentType">text/plain</param>
+                <param name="inputName">uploadImageStatus</param>
+                <param name="bufferSize">1024</param>
+            </result>
+        </action>
+    </package>    
+    
+    
+    <!-- New Synchro Package -->
+    <package name="community-custom-new-synchro" extends="community-default" namespace="/new-synchro">
+
+        <!-- SYNCHRO ACTIONS STARTS -->
+
+        <action name="home" class="com.grail.synchro.action.HomeAction">
+            <result name="success" type="freemarker">/template/global/synchro-main-new.ftl</result>
+            <result name="disclaimererror" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+ 
+
+
+
+        <!-- Synchro Project Overview Page -->
+
+        <action name="dashboard" class="com.grail.synchro.action.DashboardActionNew">
+            <result name="success" type="freemarker">/template/global/synchro-dashboard-new.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+        
+        
+
+        <action name="draft-dashboard" class="com.grail.synchro.action.DashboardDraftActionNew">
+            <result name="success" type="freemarker">/template/global/synchro-draft-dashboard-new.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+
+        <action name="delegate-add-stakeholders" class="com.grail.synchro.action.DelegateAddStakeholdersAction">
+            <result name="success" type="freemarker">/template/global/delegate-add-stakeholders.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+
+        <action name="delegate-add-stakeholders-pagination" class="com.grail.synchro.action.DelegateAddStakeholderPaginationAction">
+            <result name="success" type="freemarker">/template/global/delegate-add-stakeholder-table.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+            <result name="delegateProject" type="redirect">delegate-add-stakeholders.jspa</result>
+            <result name="addStakeholders" type="redirect">delegate-add-stakeholders.jspa</result>
+        </action>
+        
+        <action name="log-dashboard" class="com.grail.synchro.action.DashboardLogActionNew">
+            <result name="success" type="freemarker">/template/global/synchro-log-dashboard-new.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+
+ 		<action name="dashboard-log-pagination" class="com.grail.synchro.action.DashboardLogPaginationActionNew">
+            <result name="success" type="freemarker">/template/global/synchro-log-dashboard-table-new.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+            <result name="downloadLog" type="stream">
+                <param name="contentType">application/csv</param>
+                <param name="inputName">downloadStream</param>
+                <param name="contentDisposition">attachment; filename="${downloadFilename}"</param>
+                <param name="bufferSize">1024</param>
+            </result>
+        </action>
+        
+        <!-- Discussion Forums on Dashboard page -->
+
+        <action name="history" class="com.grail.synchro.action.ProjectHistoryAction">
+            <result name="success" type="freemarker">/template/global/synchro-history.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+
+        
+        
+        <action name="endmarket-dashboard" class="com.grail.synchro.action.DashboardEndMarketAction">
+            <result name="success" type="freemarker">/template/global/synchro-endmarket-dashboard.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+
+        <action name="dashboard-pagination" class="com.grail.synchro.action.DashboardPaginationActionNew">
+            <result name="success" type="freemarker">/template/global/synchro-dashboard-table-new.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+        
+        
+        <action name="em-dashboard" class="com.grail.synchro.action.EndMarketDashboardAction">
+            <result name="success" type="freemarker">/template/global/synchro-em-dashboard-new.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+        
+        <action name="em-dashboard-pagination" class="com.grail.synchro.action.EndMarketDashboardPaginationAction">
+            <result name="success" type="freemarker">/template/global/synchro-em-dashboard-table-new.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+            <result name="downloadReport" type="stream">
+                <param name="contentType">${downloadStreamType}</param>
+                <param name="inputName">downloadStream</param>
+                <param name="contentDisposition">attachment; filename="${downloadFilename}"</param>
+                <param name="bufferSize">1024</param>
+            </result>
+        </action>
+        
+         <action name="em-dashboard-open" class="com.grail.synchro.action.EndMarketOpenDashboardAction">
+            <result name="success" type="freemarker">/template/global/synchro-em-open-dashboard-new.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+        
+        <action name="em-dashboard-open-pagination" class="com.grail.synchro.action.EndMarketOpenDashboardPaginationAction">
+            <result name="success" type="freemarker">/template/global/synchro-em-open-dashboard-table-new.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+            <result name="downloadReport" type="stream">
+                <param name="contentType">${downloadStreamType}</param>
+                <param name="inputName">downloadStream</param>
+                <param name="contentDisposition">attachment; filename="${downloadFilename}"</param>
+                <param name="bufferSize">1024</param>
+            </result>
+        </action>
+        
+         <action name="em-dashboard-close" class="com.grail.synchro.action.EndMarketCloseDashboardAction">
+            <result name="success" type="freemarker">/template/global/synchro-em-close-dashboard-new.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+        
+        <action name="em-dashboard-close-pagination" class="com.grail.synchro.action.EndMarketCloseDashboardPaginationAction">
+            <result name="success" type="freemarker">/template/global/synchro-em-close-dashboard-table-new.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+            <result name="downloadReport" type="stream">
+                <param name="contentType">${downloadStreamType}</param>
+                <param name="inputName">downloadStream</param>
+                <param name="contentDisposition">attachment; filename="${downloadFilename}"</param>
+                <param name="bufferSize">1024</param>
+            </result>
+        </action>
+
+        <!-- Action for Draft Project dashboards -->
+        <action name="dashboard-draft-pagination" class="com.grail.synchro.action.DashboardDraftPaginationActionNew">
+            <result name="success" type="freemarker">/template/global/synchro-draft-dashboard-table-new.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+        
+       <action name="global-dashboard" class="com.grail.synchro.action.GlobalDashboardAction">
+            <result name="success" type="freemarker">/template/global/synchro-global-dashboard-new.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+        
+       <action name="global-dashboard-pagination" class="com.grail.synchro.action.GlobalDashboardPaginationAction">
+            <result name="success" type="freemarker">/template/global/synchro-global-dashboard-table-new.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+            <result name="downloadReport" type="stream">
+                <param name="contentType">${downloadStreamType}</param>
+                <param name="inputName">downloadStream</param>
+                <param name="contentDisposition">attachment; filename="${downloadFilename}"</param>
+                <param name="bufferSize">1024</param>
+            </result>
+       </action>
+       
+       <action name="global-dashboard-open" class="com.grail.synchro.action.GlobalOpenDashboardAction">
+            <result name="success" type="freemarker">/template/global/synchro-global-open-dashboard-new.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+        
+       <action name="global-dashboard-open-pagination" class="com.grail.synchro.action.GlobalOpenDashboardPaginationAction">
+            <result name="success" type="freemarker">/template/global/synchro-global-open-dashboard-table-new.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+            <result name="downloadReport" type="stream">
+                <param name="contentType">${downloadStreamType}</param>
+                <param name="inputName">downloadStream</param>
+                <param name="contentDisposition">attachment; filename="${downloadFilename}"</param>
+                <param name="bufferSize">1024</param>
+            </result>
+        </action>
+        
+        <action name="global-dashboard-close" class="com.grail.synchro.action.GlobalCloseDashboardAction">
+            <result name="success" type="freemarker">/template/global/synchro-global-close-dashboard-new.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+        
+       <action name="global-dashboard-close-pagination" class="com.grail.synchro.action.GlobalCloseDashboardPaginationAction">
+            <result name="success" type="freemarker">/template/global/synchro-global-close-dashboard-table-new.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+            <result name="downloadReport" type="stream">
+                <param name="contentType">${downloadStreamType}</param>
+                <param name="inputName">downloadStream</param>
+                <param name="contentDisposition">attachment; filename="${downloadFilename}"</param>
+                <param name="bufferSize">1024</param>
+            </result>
+        </action>
+        
+        <action name="regional-dashboard" class="com.grail.synchro.action.RegionalDashboardAction">
+            <result name="success" type="freemarker">/template/global/synchro-regional-dashboard-new.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+        
+       <action name="regional-dashboard-pagination" class="com.grail.synchro.action.RegionalDashboardPaginationAction">
+            <result name="success" type="freemarker">/template/global/synchro-regional-dashboard-table-new.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+            <result name="downloadReport" type="stream">
+                <param name="contentType">${downloadStreamType}</param>
+                <param name="inputName">downloadStream</param>
+                <param name="contentDisposition">attachment; filename="${downloadFilename}"</param>
+                <param name="bufferSize">1024</param>
+            </result>
+        </action>
+        
+         <action name="regional-dashboard-open" class="com.grail.synchro.action.RegionalOpenDashboardAction">
+            <result name="success" type="freemarker">/template/global/synchro-regional-open-dashboard-new.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+        
+       <action name="regional-dashboard-open-pagination" class="com.grail.synchro.action.RegionalOpenDashboardPaginationAction">
+            <result name="success" type="freemarker">/template/global/synchro-regional-open-dashboard-table-new.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+            <result name="downloadReport" type="stream">
+                <param name="contentType">${downloadStreamType}</param>
+                <param name="inputName">downloadStream</param>
+                <param name="contentDisposition">attachment; filename="${downloadFilename}"</param>
+                <param name="bufferSize">1024</param>
+            </result>
+        </action>
+        
+        <action name="regional-dashboard-close" class="com.grail.synchro.action.RegionalCloseDashboardAction">
+            <result name="success" type="freemarker">/template/global/synchro-regional-close-dashboard-new.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+        
+       <action name="regional-dashboard-close-pagination" class="com.grail.synchro.action.RegionalCloseDashboardPaginationAction">
+            <result name="success" type="freemarker">/template/global/synchro-regional-close-dashboard-table-new.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+            <result name="downloadReport" type="stream">
+                <param name="contentType">${downloadStreamType}</param>
+                <param name="inputName">downloadStream</param>
+                <param name="contentDisposition">attachment; filename="${downloadFilename}"</param>
+                <param name="bufferSize">1024</param>
+            </result>
+        </action>
+        
+       <action name="tpd-dashboard" class="com.grail.synchro.action.TPDDashboardAction">
+            <result name="success" type="freemarker">/template/global/synchro-tpd-dashboard-new.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+        
+       <action name="tpd-dashboard-pagination" class="com.grail.synchro.action.TPDDashboardPaginationAction">
+            <result name="success" type="freemarker">/template/global/synchro-tpd-dashboard-table-new.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+            <result name="downloadReport" type="stream">
+                <param name="contentType">${downloadStreamType}</param>
+                <param name="inputName">downloadStream</param>
+                <param name="contentDisposition">attachment; filename="${downloadFilename}"</param>
+                <param name="bufferSize">1024</param>
+            </result>
+       </action>
+
+        <!--  Beans for Project Stages -->
+        <action name="pib-details" class="com.grail.synchro.action.PIBActionNew" method="input">
+            <result name="input" type="freemarker">/template/global/pib-details-new.ftl</result>
+            <result name="success" type="redirect">pib-details!input.jspa?projectID=${projectID}</result>
+            <result name="proposal-details" type="redirect">proposal-details!input.jspa?projectID=${projectID}</result>
+            <result name="moveToNextStage" type="redirect">proposal-details!input.jspa?projectID=${projectID}</result>
+            <result name="pending-actions" type="redirect">current-status!input.jspa?projectID=${projectID}</result>
+            <result name="validationError" type="redirect">pib-details!input.jspa?projectID=${projectID}&amp;validationError=true</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+            
+            <result name="methWaiver" type="redirect">pib-details!input.jspa?projectID=${projectID}&amp;methWaiver=true</result>
+            <result name="agencyWaiver" type="redirect">pib-details!input.jspa?projectID=${projectID}&amp;agencyWaiver=true</result>
+            
+            
+            <result name="redirectNextStage" type="redirect">${redirectURL}</result>
+            <result name="cancel" type="redirect">${redirectURL}</result>
+        </action>
+        
+        <action name="proposal-details-fieldwork" class="com.grail.synchro.action.ProposalActionFieldworkNew" method="input">
+            <result name="input" type="freemarker">/template/global/proposal-details-fieldwork-new.ftl</result>
+            <result name="success" type="redirect">proposal-details-fieldwork!input.jspa?projectID=${projectID}</result>
+            <result name="project-eval-fieldwork" type="redirect">project-eval-fieldwork!input.jspa?projectID=${projectID}</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+            <result name="redirectNextStage" type="redirect">${redirectURL}</result>
+            <result name="methWaiver" type="redirect">proposal-details-fieldwork!input.jspa?projectID=${projectID}&amp;methWaiver=true</result>
+            <result name="agencyWaiver" type="redirect">proposal-details-fieldwork!input.jspa?projectID=${projectID}&amp;agencyWaiver=true</result>
+            
+            <result name="cancel" type="redirect">${redirectURL}</result>
+             
+        </action>
+
+        <!--  Beans for Project Stages -->
+        <action name="generate-pdf" class="com.grail.synchro.action.PDFGenerateAction">
+            <result name="success" type="redirect">${redirectURL}</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+
+        <action name="pib-multi-details" class="com.grail.synchro.action.PIBMultiMarketAction" method="input">
+            <result name="input" type="freemarker">/template/global/pib-multi-details.ftl</result>
+            <!--<result name="success" type="redirect">pib-multi-details!input.jspa?projectID=${projectID}</result>-->
+            <result name="moveToNextStage" type="redirect">proposal-multi-details!input.jspa?projectID=${projectID}</result>
+            <result name="success" type="redirect">${redirectURL}</result>
+            <result name="pending-actions" type="redirect">current-status-multi!input.jspa?projectID=${projectID}</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+
+        <action name="proposal-details" class="com.grail.synchro.action.ProposalActionNew" method="input">
+            <result name="input" type="freemarker">/template/global/proposal-details-new.ftl</result>
+            <result name="success" type="redirect">proposal-details!input.jspa?projectID=${projectID}</result>
+            <result name="project-specs" type="redirect">project-specs!input.jspa?projectID=${projectID}</result>
+            <result name="moveToNextStage" type="redirect">project-specs!input.jspa?projectID=${projectID}</result>
+            <result name="validationError" type="redirect">proposal-details!input.jspa?projectID=${projectID}&amp;validationError=true</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+            <result name="proposal-unaccessible" type="freemarker">/template/global/proposal-unaccessible.ftl</result>
+            <result name="current-status" type="redirect">current-status!input.jspa?projectID=${projectID}</result>
+            <result name="redirectNextStage" type="redirect">${redirectURL}</result>
+            <result name="pib-details" type="redirect">pib-details!input.jspa?projectID=${projectID}</result>
+            
+            <result name="methWaiver" type="redirect">proposal-details!input.jspa?projectID=${projectID}&amp;methWaiver=true</result>
+            <result name="agencyWaiver" type="redirect">proposal-details!input.jspa?projectID=${projectID}&amp;agencyWaiver=true</result>
+            
+            <result name="cancel" type="redirect">${redirectURL}</result>
+            
+        </action>
+
+        <action name="proposal-multi-details" class="com.grail.synchro.action.ProposalMultiMarketAction" method="input">
+            <result name="input" type="freemarker">/template/global/proposal-multimarket-details.ftl</result>
+            <result name="success" type="redirect">proposal-multi-details!input.jspa?projectID=${projectID}&amp;agencyID=${agencyID}</result>
+            <result name="moveToNextStage" type="redirect">project-multi-specs!input.jspa?projectID=${projectID}</result>
+            <result name="validationError" type="redirect">proposal-multi-details!input.jspa?projectID=${projectID}&amp;agencyID=${agencyID}&amp;validationError=true</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+            <result name="proposal-unaccessible" type="freemarker">/template/global/proposal-unaccessible.ftl</result>
+            <result name="current-status-multi" type="redirect">current-status-multi!input.jspa?projectID=${projectID}</result>
+        </action>
+
+        <!--  This is action for Project Specs Stage -->
+        <action name="project-specs" class="com.grail.synchro.action.ProjectSpecsActionNew" method="input">
+            <result name="input" type="freemarker">/template/global/project-specs-new.ftl</result>
+            <result name="success" type="redirect">project-specs!input.jspa?projectID=${projectID}</result>
+            <result name="report-summary" type="redirect">report-summary!input.jspa?projectID=${projectID}</result>
+            <result name="moveToNextStage" type="redirect">report-summary!input.jspa?projectID=${projectID}</result>
+            <result name="validationError" type="redirect">project-specs!input.jspa?projectID=${projectID}&amp;validationError=true</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+            <result name="redirectNextStage" type="redirect">${redirectURL}</result>
+            <result name="pib-details" type="redirect">pib-details!input.jspa?projectID=${projectID}</result>
+            <result name="proposal-details" type="redirect">proposal-details!input.jspa?projectID=${projectID}</result>
+            
+            <result name="methWaiver" type="redirect">project-specs!input.jspa?projectID=${projectID}&amp;methWaiver=true</result>
+            <result name="agencyWaiver" type="redirect">project-specs!input.jspa?projectID=${projectID}&amp;agencyWaiver=true</result>
+            
+            <result name="cancel" type="redirect">${redirectURL}</result>
+            
+        </action>
+
+        <action name="project-multi-specs" class="com.grail.synchro.action.ProjectSpecsMultiMarketAction" method="input">
+            <result name="input" type="freemarker">/template/global/project-multi-specs.ftl</result>
+            <!--<result name="success" type="redirect">project-multi-specs!input.jspa?projectID=${projectID}</result> -->
+            <result name="success" type="redirect">${redirectURL}</result>
+            <result name="moveToNextStage" type="redirect">report-multi-summary!input.jspa?projectID=${projectID}</result>
+            <!--<result name="validationError" type="redirect">project-multi-specs!input.jspa?projectID=${projectID}&amp;validationError=true</result>-->
+            <result name="validationError" type="redirect">${redirectURL}</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+
+        <!--  This is action for Report Summary Stage -->
+        <action name="report-summary" class="com.grail.synchro.action.ReportSummaryActionNew" method="input">
+            <result name="input" type="freemarker">/template/global/report-summary-new.ftl</result>
+            <result name="success" type="redirect">report-summary!input.jspa?projectID=${projectID}</result>
+            <result name="project-eval" type="redirect">project-eval!input.jspa?projectID=${projectID}</result>
+            <result name="moveToNextStage" type="redirect">project-eval!input.jspa?projectID=${projectID}</result>
+            <result name="validationError" type="redirect">report-summary!input.jspa?projectID=${projectID}&amp;validationError=true</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+            <result name="redirectNextStage" type="redirect">${redirectURL}</result>
+            
+            <result name="pib-details" type="redirect">pib-details!input.jspa?projectID=${projectID}</result>
+            <result name="proposal-details" type="redirect">proposal-details!input.jspa?projectID=${projectID}</result>
+            <result name="methWaiver" type="redirect">report-summary!input.jspa?projectID=${projectID}&amp;methWaiver=true</result>
+            <result name="agencyWaiver" type="redirect">report-summary!input.jspa?projectID=${projectID}&amp;agencyWaiver=true</result>
+            <result name="cancel" type="redirect">${redirectURL}</result>
+        </action>
+
+        <action name="report-multi-summary" class="com.grail.synchro.action.ReportSummaryMultiMarketAction" method="input">
+            <result name="input" type="freemarker">/template/global/report-multi-summary.ftl</result>
+            <result name="success" type="redirect">${redirectURL}</result>
+             <result name="moveToNextStage" type="redirect">project-multi-eval!input.jspa?projectID=${projectID}</result>
+            <result name="validationError" type="redirect">${redirectURL}</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+
+        <!--  This is action for Project Evaluation Stage -->
+        <action name="project-eval" class="com.grail.synchro.action.ProjectEvaluationActionNew" method="input">
+            <result name="input" type="freemarker">/template/global/project-evaluation-new.ftl</result>
+ 			<result name="project-close" type="redirect">project-close!input.jspa?projectID=${projectID}</result>
+            <result name="success" type="redirect">project-eval!input.jspa?projectID=${projectID}</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+            <result name="report-summary" type="redirect">report-summary!input.jspa?projectID=${projectID}</result>
+            <result name="redirectNextStage" type="redirect">${redirectURL}</result>
+             
+            <result name="pib-details" type="redirect">pib-details!input.jspa?projectID=${projectID}</result>
+            <result name="proposal-details" type="redirect">proposal-details!input.jspa?projectID=${projectID}</result>
+            <result name="methWaiver" type="redirect">project-eval!input.jspa?projectID=${projectID}&amp;methWaiver=true</result>
+            <result name="agencyWaiver" type="redirect">project-eval!input.jspa?projectID=${projectID}&amp;agencyWaiver=true</result>
+            
+            <result name="cancel" type="redirect">${redirectURL}</result>
+            
+        </action>
+        
+        <!--  This is action for Project Evaluation for End Market Fieldwork  -->
+        <action name="project-eval-fieldwork" class="com.grail.synchro.action.ProjectEvaluationFieldworkActionNew" method="input">
+            <result name="input" type="freemarker">/template/global/project-evaluation-fieldwork-new.ftl</result>
+ 			<result name="project-close-fieldwork" type="redirect">project-close-fieldwork!input.jspa?projectID=${projectID}</result>
+            <result name="success" type="redirect">project-eval-fieldwork!input.jspa?projectID=${projectID}</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+            <result name="redirectNextStage" type="redirect">${redirectURL}</result>
+            <result name="methWaiver" type="redirect">project-eval-fieldwork!input.jspa?projectID=${projectID}&amp;methWaiver=true</result>
+            <result name="agencyWaiver" type="redirect">project-eval-fieldwork!input.jspa?projectID=${projectID}&amp;agencyWaiver=true</result>
+            
+            <result name="cancel" type="redirect">${redirectURL}</result>
+            
+        </action>
+
+        <action name="project-multi-eval" class="com.grail.synchro.action.ProjectEvaluationMultiMarketAction" method="input">
+            <result name="input" type="freemarker">/template/global/project-multi-evaluation.ftl</result>
+            <result name="success" type="redirect">${redirectURL}</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+        
+        <!--  This is action for Project Close Stage -->
+        <action name="project-close" class="com.grail.synchro.action.ProjectCloseAction" method="input">
+            <result name="input" type="freemarker">/template/global/project-close.ftl</result>
+            <result name="success" type="redirect">project-close!input.jspa?projectID=${projectID}</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+            <result name="redirectNextStage" type="redirect">${redirectURL}</result>
+            <result name="methWaiver" type="redirect">project-close!input.jspa?projectID=${projectID}&amp;methWaiver=true</result>
+            <result name="agencyWaiver" type="redirect">project-close!input.jspa?projectID=${projectID}&amp;agencyWaiver=true</result>
+                    
+            <result name="pib-details" type="redirect">pib-details!input.jspa?projectID=${projectID}</result>
+            <result name="proposal-details" type="redirect">proposal-details!input.jspa?projectID=${projectID}</result>
+            
+            <result name="cancel" type="redirect">${redirectURL}</result>
+        </action>
+        
+        <!--  This is action for Project Close Fielwork Stage -->
+        <action name="project-close-fieldwork" class="com.grail.synchro.action.ProjectCloseActionFieldwork" method="input">
+            <result name="input" type="freemarker">/template/global/project-close-fieldwork.ftl</result>
+            <result name="success" type="redirect">project-close-fieldwork!input.jspa?projectID=${projectID}</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+            <result name="redirectNextStage" type="redirect">${redirectURL}</result>
+            <result name="methWaiver" type="redirect">project-close-fieldwork!input.jspa?projectID=${projectID}&amp;methWaiver=true</result>
+            <result name="agencyWaiver" type="redirect">project-close-fieldwork!input.jspa?projectID=${projectID}&amp;agencyWaiver=true</result>
+            
+            <result name="cancel" type="redirect">${redirectURL}</result>
+        </action>
+        
+         <!--  This is action for TPD Summary Stage -->
+        <action name="tpd-summary" class="com.grail.synchro.action.TPDSummaryAction" method="input">
+            <result name="input" type="freemarker">/template/global/project-tpd-summary.ftl</result>
+            <result name="success" type="redirect">tpd-summary!input.jspa?projectID=${projectID}</result>
+            <result name="tpd-dashboard" type="redirect">tpd-dashboard.jspa</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+            <result name="redirectNextStage" type="redirect">${redirectURL}</result>
+        </action>
+
+		<!-- Migrate Projects Util -->
+		 <action name="migrate-projects" class="com.grail.synchro.action.FetchAttachmentActionNew" method="input">
+            <result name="input" type="freemarker">/template/global/fetch-attachments-new.ftl</result>
+            <result name="success" type="redirect">migrate-projects!input.jspa</result>
+        </action>
+		
+        <!-- Project Status Action -->
+        <action name="project-status" class="com.grail.synchro.action.ProjectStatusAction" method="input">
+            <result name="input" type="freemarker">/template/global/project-status.ftl</result>
+            <result name="success" type="redirect">project-status!input.jspa?projectID=${projectID}</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+
+        <!-- Project Status Dashboard -->
+        <action name="status-dashboard" class="com.grail.synchro.action.ProjectStatusDashboardAction">
+            <result name="success" type="freemarker">/template/global/synchro-status-dashboard.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+
+        <action name="dashboard-status-pagination" class="com.grail.synchro.action.ProjectStatusPaginationAction">
+            <result name="success" type="freemarker">/template/global/synchro-status-dashboard-table.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+
+        <action name="dashboard-history-pagination" class="com.grail.synchro.action.ProjectHistoryPaginationAction">
+            <result name="success" type="freemarker">/template/global/synchro-history-dashboard-table.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+
+
+        <action name="pending-activities" class="com.grail.synchro.action.ProjectPendingActivityActionNew">
+            <result name="success" type="freemarker">/template/global/synchro-pending-activities-new.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+
+        <action name="pending-activities-pagination" class="com.grail.synchro.action.ProjectPendingActivityPaginationActionNew">
+            <result name="success" type="freemarker">/template/global/synchro-pending-activities-table-new.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+            
+            <result name="downloadReport" type="stream">
+                <param name="contentType">${downloadStreamType}</param>
+                <param name="inputName">downloadStream</param>
+                <param name="contentDisposition">attachment; filename="${downloadFilename}"</param>
+                <param name="bufferSize">1024</param>
+            </result>
+        </action>
+        
+        
+
+        <action name="waiver-pending-activities" class="com.grail.synchro.action.WaiverPendingActivityAction">
+            <result name="success" type="freemarker">/template/global/waiver-pending-activities.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+
+        <action name="waiver-pending-activities-pagination" class="com.grail.synchro.action.WaiverPendingActivityPaginationAction">
+            <result name="success" type="freemarker">/template/global/waiver-pending-activities-table.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+        
+        
+        <action name="process-waiver-pending-activities" class="com.grail.synchro.action.ProcessWaiverPendingActivityActionNew">
+            <result name="success" type="freemarker">/template/global/process-waiver-pending-activities.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+
+        <action name="process-waiver-pending-activities-pagination" class="com.grail.synchro.action.ProcessWaiverPendingActivityPaginationActionNew">
+            <result name="success" type="freemarker">/template/global/process-waiver-pending-activities-table.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+           <!--   <result name="process-waiver-pending-activities" type="redirect">process-waiver-pending-activities.jspa</result>-->
+           <result name="process-waiver-pending-activities" type="redirect">${redirectUrl}</result>
+            
+            <result name="downloadReport" type="stream">
+                <param name="contentType">${downloadStreamType}</param>
+                <param name="inputName">downloadStream</param>
+                <param name="contentDisposition">attachment; filename="${downloadFilename}"</param>
+                <param name="bufferSize">1024</param>
+            </result>
+            
+        </action>
+
+		<action name="methodology-waiver-pending-activities" class="com.grail.synchro.action.MethodologyWaiverPendingActivityActionNew">
+            <result name="success" type="freemarker">/template/global/methodology-waiver-pending-activities.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+
+        <action name="methodology-waiver-pending-activities-pagination" class="com.grail.synchro.action.MethodologyWaiverPendingActivityPaginationActionNew">
+            <result name="success" type="freemarker">/template/global/methodology-waiver-pending-activities-table.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+           <!--  <result name="methodology-waiver-pending-activities" type="redirect">methodology-waiver-pending-activities.jspa</result> -->
+              <result name="methodology-waiver-pending-activities" type="redirect">${redirectUrl}</result>
+            <result name="downloadReport" type="stream">
+                <param name="contentType">${downloadStreamType}</param>
+                <param name="inputName">downloadStream</param>
+                <param name="contentDisposition">attachment; filename="${downloadFilename}"</param>
+                <param name="bufferSize">1024</param>
+            </result>
+        </action>
+        
+        <action name="agency-waiver-pending-activities" class="com.grail.synchro.action.AgencyWaiverPendingActivityActionNew">
+            <result name="success" type="freemarker">/template/global/agency-waiver-pending-activities.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+
+        <action name="agency-waiver-pending-activities-pagination" class="com.grail.synchro.action.AgencyWaiverPendingActivityPaginationActionNew">
+            <result name="success" type="freemarker">/template/global/agency-waiver-pending-activities-table.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+            <!-- <result name="agency-waiver-pending-activities" type="redirect">agency-waiver-pending-activities.jspa</result> -->
+             <result name="agency-waiver-pending-activities" type="redirect">${redirectUrl}</result>
+            <result name="downloadReport" type="stream">
+                <param name="contentType">${downloadStreamType}</param>
+                <param name="inputName">downloadStream</param>
+                <param name="contentDisposition">attachment; filename="${downloadFilename}"</param>
+                <param name="bufferSize">1024</param>
+            </result>
+        </action>
+        
+		<!-- View Current Status -->
+		<action name="current-status" class="com.grail.synchro.action.ProjectCurrentStatusAction" method="input">
+            <result name="input" type="freemarker">/template/global/synchro-current-status.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+            <result name="success" type="redirect">current-status!input.jspa?projectID=${projectID}</result>
+        </action>
+        
+        <!-- View Current Status -->
+		<action name="current-status-multi" class="com.grail.synchro.action.ProjectCurrentStatusMultiMarketAction" method="input">
+            <result name="input" type="freemarker">/template/global/synchro-current-status-multi.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+            <result name="success" type="redirect">current-status-multi!input.jspa?projectID=${projectID}</result>
+        </action>
+        
+     
+     	<action name="current-status-dashboard" class="com.grail.synchro.action.ProjectCurrentStatusDashboardAction">
+            <result name="success" type="freemarker">/template/global/synchro-current-status-dashboard.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+
+        <action name="current-status-dashboard-pagination" class="com.grail.synchro.action.ProjectCurrentStatusDashboardPaginationAction">
+            <result name="success" type="freemarker">/template/global/synchro-current-status-dashboard-table.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+        
+        <!--  Generate Reports Section -->
+        <action name="raw-extract" class="com.grail.synchro.action.reports.RawExtractReportAction">
+            <!--<result name="success" type="freemarker">/template/global/dummy/coming-soon.ftl</result>-->
+            <result name="success" type="freemarker">/template/global/reports/raw-extract.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+
+        <action name="raw-extract-pagination" class="com.grail.synchro.action.reports.RawExtractReportPaginationAction">
+            <!--<result name="success" type="freemarker">/template/global/dummy/coming-soon.ftl</result>-->
+            <result name="success" type="freemarker">/template/global/reports/raw-extract-table.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+
+
+       <!-- <action name="downloadRawExtract" class="com.grail.synchro.action.reports.RawExtractReportAction" method="downloadReport">
+            <result name="downloadReport" type="stream">
+                <param name="contentType">application/csv</param>
+                <param name="inputName">downloadStream</param>
+                <param name="contentDisposition">attachment; filename="${downloadFilename}"</param>
+                <param name="bufferSize">1024</param>
+            </result>
+        </action>
+        -->
+        
+        <action name="downloadRawExtract" class="com.grail.synchro.action.reports.RawExtractReportActionNew" method="downloadReport">
+            <result name="downloadReport" type="stream">
+                <param name="contentType">${downloadStreamType}</param>
+                <param name="inputName">downloadStream</param>
+                <param name="contentDisposition">attachment; filename="${downloadFilename}"</param>
+                <param name="bufferSize">1024</param>
+            </result>
+        </action>     
+        
+
+        <action name="spend-reports" class="com.grail.synchro.action.reports.SpendReportsActionNew">
+            <!--<result name="success" type="freemarker">/template/global/dummy/coming-soon.ftl</result>-->
+            <result name="success" type="freemarker">/template/global/reports/spend-reports-new.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+
+        <action name="downloadSpendReports" class="com.grail.synchro.action.reports.SpendReportsActionNew" method="downloadReport">
+            <result name="reportTypeSelectionError" type="redirect">/new-synchro/spend-reports.jspa?reportTypeSelectionError=true</result>
+            <result name="downloadReport" type="stream">
+                <param name="contentType">${downloadStreamType}</param>
+                <param name="inputName">downloadStream</param>
+                <param name="contentDisposition">attachment; filename="${downloadFilename}"</param>
+                <param name="bufferSize">1024</param>
+            </result>
+        </action>
+
+        <action name="reports" class="com.grail.synchro.action.reports.ProjectSummaryReportAction">
+            <!--<result name="success" type="freemarker">/template/global/dummy/coming-soon.ftl</result>-->
+            <result name="success" type="freemarker">/template/global/reports/project-summary-extract.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+
+        <action name="reports-summary" class="com.grail.synchro.action.reports.ProjectSummaryPaginationReportAction">
+            <result name="success" type="freemarker">/template/global/reports/project-summary-extract-table.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+
+
+        <action name="financial-reports" class="com.grail.synchro.action.reports.ProjectFinancialReportAction">
+            <result name="success" type="freemarker">/template/global/reports/project-financial-extract.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+
+        <action name="project-finance-report" class="com.grail.synchro.action.reports.ProjectFinancialPaginationReportAction">
+            <result name="success" type="freemarker">/template/global/reports/project-financial-extract-table.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+
+        <action name="project-data-extract" class="com.grail.synchro.action.reports.ProjectDataExtractAction">
+            <result name="input" type="freemarker">/template/global/reports/project-data-extract.ftl</result>
+            <result name="success" type="freemarker">/template/global/reports/project-data-extract.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+
+        <action name="project-research-report" class="com.grail.synchro.action.reports.ProjectResearchCycleReportAction">
+            <result name="input" type="freemarker">/template/global/reports/project-research-report.ftl</result>
+            <result name="success" type="freemarker">/template/global/reports/project-research-report.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+
+        <action name="financial-data-extract" class="com.grail.synchro.action.reports.FinancialDataExtractAction">
+            <result name="input" type="freemarker">/template/global/reports/financial-data-report.ftl</result>
+            <result name="success" type="freemarker">/template/global/reports/financial-data-report.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+
+        <action name="agency-evaluation-report" class="com.grail.synchro.action.reports.AgencyEvaluationReportAction">
+            <result name="input" type="freemarker">/template/global/reports/agency-evaluation-report.ftl</result>
+            <result name="success" type="freemarker">/template/global/reports/agency-evaluation-report.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+
+        <action name="exchange-rate-report" class="com.grail.synchro.action.reports.ExchangeRateReportAction">
+            <result name="input" type="freemarker">/template/global/reports/exchange-rate-report.ftl</result>
+            <result name="success" type="freemarker">/template/global/reports/exchange-rate-report.ftl</result>
+            <result name="disclaimer-error" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+
+        <action name="waiver-catalogue" class="com.grail.synchro.action.ProjectWaiverCatalogueActionNew">
+            <interceptor-ref name="paramsPrepareParamsStack"/>
+            <result name="success" type="freemarker">/template/global/project-waiver-catalogue-new.ftl</result>
+        </action>
+
+        <action name="waiver-catalogue-pagination" class="com.grail.synchro.action.ProjectWaiverCataloguePaginationActionNew">
+            <interceptor-ref name="paramsPrepareParamsStack"/>
+            <result name="success" type="freemarker">/template/global/project-waiver-catalogue-table-new.ftl</result>
+        </action>
+        
+        <action name="process-waiver-dashboard" class="com.grail.synchro.action.ProcessWaiverDashboardActionNew">
+            <interceptor-ref name="paramsPrepareParamsStack"/>
+            <result name="success" type="freemarker">/template/global/process-waiver-dashboard.ftl</result>
+        </action>
+        
+        <action name="process-waiver-dashboard-pagination" class="com.grail.synchro.action.ProcessWaiverDashboardPaginationActionNew">
+            <interceptor-ref name="paramsPrepareParamsStack"/>
+            <result name="success" type="freemarker">/template/global/process-waiver-dashboard-table.ftl</result>
+            <result name="downloadReport" type="stream">
+                <param name="contentType">${downloadStreamType}</param>
+                <param name="inputName">downloadStream</param>
+                <param name="contentDisposition">attachment; filename="${downloadFilename}"</param>
+                <param name="bufferSize">1024</param>
+            </result>
+        </action>
+        
+        <action name="methodology-waiver-dashboard" class="com.grail.synchro.action.MethodologyWaiverDashboardActionNew">
+            <interceptor-ref name="paramsPrepareParamsStack"/>
+            <result name="success" type="freemarker">/template/global/methodology-waiver-dashboard.ftl</result>
+        </action>
+        
+        <action name="methodology-waiver-dashboard-pagination" class="com.grail.synchro.action.MethodologyWaiverDashboardPaginationActionNew">
+            <interceptor-ref name="paramsPrepareParamsStack"/>
+            <result name="success" type="freemarker">/template/global/methodology-waiver-dashboard-table.ftl</result>
+            <result name="downloadReport" type="stream">
+                <param name="contentType">${downloadStreamType}</param>
+                <param name="inputName">downloadStream</param>
+                <param name="contentDisposition">attachment; filename="${downloadFilename}"</param>
+                <param name="bufferSize">1024</param>
+            </result>
+        </action>
+        
+        <action name="agency-waiver-dashboard" class="com.grail.synchro.action.AgencyWaiverDashboardActionNew">
+            <interceptor-ref name="paramsPrepareParamsStack"/>
+            <result name="success" type="freemarker">/template/global/agency-waiver-dashboard.ftl</result>
+            
+        </action>
+        
+        <action name="agency-waiver-dashboard-pagination" class="com.grail.synchro.action.AgencyWaiverDashboardPaginationActionNew">
+            <interceptor-ref name="paramsPrepareParamsStack"/>
+            <result name="success" type="freemarker">/template/global/agency-waiver-dashboard-table.ftl</result>
+            <result name="downloadReport" type="stream">
+                <param name="contentType">${downloadStreamType}</param>
+                <param name="inputName">downloadStream</param>
+                <param name="contentDisposition">attachment; filename="${downloadFilename}"</param>
+                <param name="bufferSize">1024</param>
+            </result>
+        </action>
+
+
+        <action name="create-waiver" class="com.grail.synchro.action.ProjectWaiverActionNew">
+            <result name="input" type="freemarker">/template/global/process-waiver-create-new.ftl</result>
+            <result name="success" type="redirect">view-waiver.jspa?projectWaiverID=${projectWaiverID}</result>
+        </action>
+        
+        <action name="view-waiver" class="com.grail.synchro.action.WaiverViewActionNew">
+            <result name="success" type="freemarker">/template/global/process-waiver-continue-new.ftl</result>
+            <result name="disclaimererror" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+
+        <action name="project-waiver" class="com.grail.synchro.action.ProjectWaiverActionNew">
+            <result name="input" type="freemarker">/template/global/project-waiver-new.ftl</result>
+            <result name="success" type="redirect">/new-synchro/project-waiver!input.jspa?projectWaiverID=${projectWaiverID}&amp;approved=${waiverApproved}</result>
+        </action>
+
+        <action name="my-library" class="com.grail.synchro.action.MyLibraryAction">
+            <result name="addDocResponse" type="stream">
+                <param name="parse">false</param>
+                <param name="contentType">text/plain</param>
+                <param name="inputName">addDocStatus</param>
+                <param name="bufferSize">1024</param>
+            </result>
+            <result name="removeDocResponse" type="stream">
+                <param name="parse">false</param>
+                <param name="contentType">text/plain</param>
+                <param name="inputName">removeDocStatus</param>
+                <param name="bufferSize">1024</param>
+            </result>
+            <result name="success">/template/global/my-library.ftl</result>
+        </action>
+
+        <action name="import-doc-util" class="com.grail.synchro.action.DocumentImportAction">
+            <result name="importDocResponse" type="stream">
+                <param name="parse">false</param>
+                <param name="contentType">text/plain</param>
+                <param name="inputName">importDocStatus</param>
+                <param name="bufferSize">1024</param>
+            </result>
+            <result name="success">/template/global/pib-details.ftl</result>
+        </action>
+
+        <action name="import-doc-ie-util" class="com.grail.synchro.action.DocumentImportIEAction">
+            <result name="importDocResponse" type="stream">
+                <param name="parse">false</param>
+                <param name="contentType">text/plain</param>
+                <param name="inputName">importDocStatus</param>
+                <param name="bufferSize">1024</param>
+            </result>
+            <result name="success">/template/global/pib-details.ftl</result>
+        </action>
+
+        <action name="my-library-pagination" class="com.grail.synchro.action.MyLibraryPaginationAction">
+            <interceptor-ref name="paramsPrepareParamsStack"/>
+            <result name="success" type="freemarker">/template/global/my-library-table.ftl</result>
+        </action>
+
+        <!-- Synchro Phase 4 -->
+        <action name="create-project" class="com.grail.synchro.action.ProjectCreateActionNew">
+            <result name="disclaimererror" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+            <result name="input" type="freemarker">/template/global/project-create-new.ftl</result>
+            <result name="success" type="redirect">view-project.jspa?projectID=${projectID}</result>
+            <!-- <result name="draft" type="redirect">create-project!input.jspa?projectID=${projectID}</result> -->
+            <result name="draft" type="redirect">${redirectUrl}</result>
+           <!--  <result name="draft-initial" type="redirect">create-project!input.jspa?projectID=${projectID}&amp;savefirst=true</result> -->
+           <result name="draft-initial" type="redirect">${redirectUrl}</result>
+            <result name="draftLocation" type="redirect">${redirectUrl}</result>
+        </action>
+        
+        <action name="create-project-global" class="com.grail.synchro.action.ProjectCreateActionGlobalNew">
+            <result name="disclaimererror" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+            <result name="input" type="freemarker">/template/global/project-create-global-new.ftl</result>
+            <result name="success" type="redirect">view-project.jspa?projectID=${projectID}</result>
+           <!--  <result name="draft" type="redirect">create-project-global!input.jspa?projectID=${projectID}</result> -->
+             <result name="draft" type="redirect">${redirectUrl}</result>
+            <!-- <result name="draft-initial" type="redirect">create-project-global!input.jspa?projectID=${projectID}&amp;savefirst=true</result> -->
+            <result name="draft-initial" type="redirect">${redirectUrl}</result>
+            <result name="draftLocation" type="redirect">${redirectUrl}</result>
+        </action>
+        
+        
+       <action name="download-agency-eval-extract" class="com.grail.synchro.action.reports.AgencyEvaluationReportActionNew" method="downloadReport">
+            <result name="downloadReport" type="stream">
+                <!--<param name="contentType">application/csv</param>-->
+                <param name="contentType">${downloadStreamType}</param>
+                <param name="inputName">downloadStream</param>
+                <param name="contentDisposition">attachment; filename="${downloadFilename}"</param>
+                <param name="bufferSize">1024</param>
+            </result>
+        </action>
+        
+       <action name="qpr-snapshot" class="com.grail.synchro.action.QPRSnapshotAction">
+            <result name="input" type="freemarker">/template/global/qpr-snapshot.ftl</result>
+            <result name="success" type="redirect">/new-synchro/qpr-snapshot!input.jspa</result>
+             <result name="downloadReport" type="stream">
+                <param name="contentType">application/csv</param>
+                <param name="inputName">downloadStream</param>
+                <param name="contentDisposition">attachment; filename="${downloadFilename}"</param>
+                <param name="bufferSize">1024</param>
+            </result>
+        </action>
+        
+        
+        <action name="downloadCrosstabSnapshot" class="com.grail.synchro.action.QPRSnapshotAction" method="downloadCrosstabSnapshot">
+           <result name="downloadReport" type="stream">
+                <param name="contentType">${downloadStreamType}</param>
+                <param name="inputName">downloadStream</param>
+                <param name="contentDisposition">attachment; filename="${downloadFilename}"</param>
+                <param name="bufferSize">1024</param>
+            </result>
+        </action>
+        
+        <action name="downloadLatestCostCrosstabSnapshot" class="com.grail.synchro.action.QPRSnapshotAction" method="downloadLatestCostCrosstabSnapshot">
+           <result name="downloadReport" type="stream">
+                <param name="contentType">${downloadStreamType}</param>
+                <param name="inputName">downloadStream</param>
+                <param name="contentDisposition">attachment; filename="${downloadFilename}"</param>
+                <param name="bufferSize">1024</param>
+            </result>
+        </action>
+        
+     <!--    <action name="create-project-global-eu" class="com.grail.synchro.action.ProjectCreateActionNew">
+            <result name="disclaimererror" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+            <result name="input" type="freemarker">/template/global/project-create-new-global-eu.ftl</result>
+            <result name="success" type="redirect">view-project.jspa?projectID=${projectID}</result>
+            <result name="draft" type="redirect">create-project-global-eu!input.jspa?projectID=${projectID}</result>
+            <result name="draft-initial" type="redirect">create-project-global-eu!input.jspa?projectID=${projectID}&amp;savefirst=true</result>
+            <result name="draftLocation" type="redirect">${redirectUrl}</result>
+        </action>
+-->
+       
+
+        <action name="view-project" class="com.grail.synchro.action.ProjectViewActionNew">
+            <result name="success" type="freemarker">/template/global/project-continue-new.ftl</result>
+            <result name="disclaimererror" type="freemarker">/template/global/synchro-agreement-error.ftl</result>
+        </action>
+
+       
+
+        <action name="help" class="com.grail.synchro.action.HelpAction">
+            <!--<interceptor-ref name="token">-->
+            <!--<param name="excludeMethods">default, input</param>-->
+            <!--</interceptor-ref>-->
+            <result name="success" type="freemarker">/template/global/synchro-help-new.ftl</result>
+            <!--<result name="disclaimererror" type="freemarker">/template/global/synchro-agreement-error.ftl</result>-->
+        </action>
+
+        <action name="validate-email-attachment" class="com.grail.synchro.action.EmailAttachmentAction">
+            <result name="attachmentResponse" type="stream">
+                <param name="parse">false</param>
+                <param name="contentType">text/plain</param>
+                <param name="inputName">emailAttachmentStatus</param>
+                <param name="bufferSize">1024</param>
+            </result>
+            <result name="success">/template/global/pib-details.ftl</result>
+        </action>
+
+        <action name="default-templates" class="com.grail.synchro.action.DefaultTemplatesAction">
+            <result name="input" type="freemarker">/template/global/default-templates.ftl</result>
+            <result name="success" type="redirect">/grail/brief-template!input.jspa</result>
+        </action>
+
+        <action name="invite-user" class="com.grail.synchro.action.InvitedUsersAction">
+            <result name="input" type="freemarker">/template/global/include/synchro-invite-user.ftl</result>
+            <result name="success" type="freemarker">${successURL}</result>
+            <result name="downloadReport" type="stream">
+                <param name="contentType">${downloadStreamType}</param>
+                <param name="inputName">downloadStream</param>
+                <param name="contentDisposition">attachment; filename="${downloadFilename}"</param>
+                <param name="bufferSize">1024</param>
+            </result>
+        </action>
+
+        <action name="invited-users-modal" class="com.grail.synchro.action.InvitedUsersModalAction">
+            <result name="input" type="freemarker">/template/global/include/invited-users-modal.ftl</result>
+        </action>
+
+        <action name="reminder" class="com.grail.synchro.action.SynchroReminderAction">
+            <result name="input" type="freemarker">/template/global/synchro-reminder.ftl</result>
+            <result name="success" type="redirect">${successURL}</result>
+            <result name="dismissProjectReminder" type="redirect">/synchro/project-reminder-alerts!input.jspa</result>
+            <result name="dismissGeneralReminder" type="redirect">/synchro/general-reminder-alerts!input.jspa</result>
+        </action>
+
+        <action name="project-reminder" class="com.grail.synchro.action.ProjectReminderAction">
+            <result name="input" type="freemarker">/template/global/project-reminder.ftl</result>
+            <result name="setReminderResponse" type="stream">
+                <param name="parse">false</param>
+                <param name="contentType">text/plain</param>
+                <param name="inputName">setReminderStatus</param>
+                <param name="bufferSize">1024</param>
+            </result>
+            <result name="dismissReminderResponse" type="stream">
+                <param name="parse">false</param>
+                <param name="contentType">text/plain</param>
+                <param name="inputName">dismissStatus</param>
+                <param name="bufferSize">1024</param>
+            </result>
+            <result name="availableCategoriesCheckResponse" type="stream">
+                <param name="parse">false</param>
+                <param name="contentType">text/plain</param>
+                <param name="inputName">availableCategoriesCheckStatus</param>
+                <param name="bufferSize">1024</param>
+            </result>
+        </action>
+
+        <action name="project-reminders" class="com.grail.synchro.action.ProjectReminderDashboardAction">
+            <result name="input" type="freemarker">/template/global/project-reminder-dashboard.ftl</result>
+        </action>
+
+        <action name="project-reminders-pagination" class="com.grail.synchro.action.ProjectReminderDashboardPaginationAction">
+            <result name="success" type="freemarker">/template/global/project-reminder-dashboard-table.ftl</result>
+        </action>
+
+        <action name="project-reminder-view-result" class="com.grail.synchro.action.ProjectReminderViewResultAction">
+            <result name="input" type="freemarker">/template/global/project-reminder-result.ftl</result>
+        </action>
+
+        <action name="general-reminder" class="com.grail.synchro.action.GeneralReminderAction">
+            <result name="input" type="freemarker">/template/global/general-reminder.ftl</result>
+            <result name="setReminderResponse" type="stream">
+                <param name="parse">false</param>
+                <param name="contentType">text/plain</param>
+                <param name="inputName">setReminderStatus</param>
+                <param name="bufferSize">1024</param>
+            </result>
+            <result name="dismissReminderResponse" type="stream">
+                <param name="parse">false</param>
+                <param name="contentType">text/plain</param>
+                <param name="inputName">dismissStatus</param>
+                <param name="bufferSize">1024</param>
+            </result>
+        </action>
+
+        <action name="general-reminders" class="com.grail.synchro.action.GeneralReminderDashboardAction">
+            <result name="input" type="freemarker">/template/global/general-reminder-dashboard.ftl</result>
+        </action>
+
+        <action name="general-reminders-pagination" class="com.grail.synchro.action.GeneralReminderDashboardPaginationAction">
+            <result name="success" type="freemarker">/template/global/general-reminder-dashboard-table.ftl</result>
+        </action>
+
+
+
+        <action name="tinymce-test" class="com.grail.test.TinyMCETestAction" method="input">
+
+            <result name="input" type="freemarker">/template/global/tinymce-test.ftl</result>
+        </action>
+
+        <!-- NEW SYNCHRO ACTION ENDS -->
+       
+    </package>
+    
+    
+    <!-- OSP - ORACLE STARTS -->
+    
+    <package name="community-custom-osp-oracle" extends="community-default" namespace="/oracle">
+       
+        <action name="home" class="com.grail.osp.action.OracleHomeAction">
+            <result name="success" type="freemarker">/template/global/osp/oracle-home.ftl</result>
+        </action>
+        <action name="folder" class="com.grail.osp.action.OracleFolderAction">
+            <result name="input" type="freemarker">/template/global/osp/oracle-folder.ftl</result>
+            <result name="success" type="redirect">folder!input.jspa?tileID=${tileID}</result>
+        </action>
+        
+        <action name="file" class="com.grail.osp.action.OracleFileAction">
+            <result name="input" type="freemarker">/template/global/osp/oracle-file.ftl</result>
+            <result name="success" type="redirect">file!input.jspa?tileID=${tileID}&amp;folderID=${folderID}</result>
+            <result name="downloadFile" type="stream">
+                <param name="contentType">${downloadContentType}</param>
+                <param name="inputName">downloadStream</param>
+                <param name="contentDisposition">attachment; filename="${downloadFilename}"</param>
+                <param name="bufferSize">1024</param>
+            </result>
+        </action>
+        
+         <action name="oracle-folder-dashboard" class="com.grail.osp.action.OracleFolderDashboardAction">
+            <interceptor-ref name="paramsPrepareParamsStack"/>
+            <result name="success" type="freemarker">/template/global/osp/oracle-folder-dashboard.ftl</result>
+            <result name="folderCreated" type="redirect">${redirectURL}</result>
+            <result name="folderRenamed" type="redirect">${redirectURL}</result>
+             <result name="folderDeleted" type="redirect">oracle-folder-dashboard.jspa?tileID=${tileID}</result>
+        </action>
+        
+        <action name="oracle-folder-dashboard-pagination" class="com.grail.osp.action.OracleFolderDashboardPaginationAction">
+            <interceptor-ref name="paramsPrepareParamsStack"/>
+            <result name="success" type="freemarker">/template/global/osp/oracle-folder-dashboard-table.ftl</result>
+            
+        </action>
+     
+     	<action name="oracle-file-dashboard" class="com.grail.osp.action.OracleFileDashboardAction">
+            <interceptor-ref name="paramsPrepareParamsStack"/>
+            <result name="success" type="freemarker">/template/global/osp/oracle-file-dashboard.ftl</result>
+            <result name="fileDeleted" type="redirect">oracle-file-dashboard.jspa?tileID=${tileID}&amp;folderID=${folderID}&amp;currPage=${currPage}&amp;sortBy=${sortBy}</result>
+             <result name="fileAdded" type="redirect">${redirectURL}</result>
+            <result name="downloadFile" type="stream">
+                <param name="contentType">${downloadContentType}</param>
+                <param name="inputName">downloadStream</param>
+                <param name="contentDisposition">attachment; filename="${downloadFilename}"</param>
+                <param name="bufferSize">1024</param>
+            </result>
+        </action>
+        
+        <action name="oracle-file-dashboard-pagination" class="com.grail.osp.action.OracleFileDashboardPaginationAction">
+            <interceptor-ref name="paramsPrepareParamsStack"/>
+            <result name="input" type="freemarker">/template/global/osp/oracle-file-dashboard-table.ftl</result>
+            <result name="success" type="freemarker">/template/global/osp/oracle-file-dashboard-table.ftl</result>
+            
+        </action>
+    </package>
+    
+    <!-- OSP - ORACLE ENDS -->
+    
+     <!-- OSP - SHARE STARTS -->
+    
+    <package name="community-custom-osp-share" extends="community-default" namespace="/share">
+       
+        <action name="home" class="com.grail.osp.action.ShareHomeAction">
+            <result name="success" type="freemarker">/template/global/osp/share-home.ftl</result>
+        </action>
+        
+         <action name="share-folder-dashboard" class="com.grail.osp.action.ShareFolderDashboardAction">
+            <interceptor-ref name="paramsPrepareParamsStack"/>
+            <result name="success" type="freemarker">/template/global/osp/share-folder-dashboard.ftl</result>
+            <result name="folderCreated" type="redirect">${redirectURL}</result>
+            <result name="folderRenamed" type="redirect">${redirectURL}</result>
+             <result name="folderDeleted" type="redirect">share-folder-dashboard.jspa?tileID=${tileID}</result>
+        </action>
+        
+        <action name="share-folder-dashboard-pagination" class="com.grail.osp.action.ShareFolderDashboardPaginationAction">
+            <interceptor-ref name="paramsPrepareParamsStack"/>
+            <result name="success" type="freemarker">/template/global/osp/share-folder-dashboard-table.ftl</result>
+            
+        </action>
+        
+        <action name="share-file-dashboard" class="com.grail.osp.action.ShareFileDashboardAction">
+            <interceptor-ref name="paramsPrepareParamsStack"/>
+            <result name="success" type="freemarker">/template/global/osp/share-file-dashboard.ftl</result>
+            <result name="fileDeleted" type="redirect">share-file-dashboard.jspa?tileID=${tileID}&amp;folderID=${folderID}&amp;currPage=${currPage}&amp;sortBy=${sortBy}</result>
+             <result name="fileAdded" type="redirect">${redirectURL}</result>
+            <result name="downloadFile" type="stream">
+                <param name="contentType">${downloadContentType}</param>
+                <param name="inputName">downloadStream</param>
+                <param name="contentDisposition">attachment; filename="${downloadFilename}"</param>
+                <param name="bufferSize">1024</param>
+            </result>
+        </action>
+        
+        
+        
+        <action name="share-file-dashboard-pagination" class="com.grail.osp.action.ShareFileDashboardPaginationAction">
+            <interceptor-ref name="paramsPrepareParamsStack"/>
+            <result name="success" type="freemarker">/template/global/osp/share-file-dashboard-table.ftl</result>
+            
+        </action>
+        
+        <action name="links" class="com.grail.osp.action.ShareLinksAction">
+           <result name="externalLinks" type="freemarker">/template/global/osp/share-external-links.ftl</result>
+          <!-- <result name="internalLinks" type="freemarker">/template/global/osp/share-internal-links.ftl</result> -->
+        </action>
+        
+        
+     
+    </package>
+    
+    <!-- OSP - SHARE ENDS -->
+
+</struts>

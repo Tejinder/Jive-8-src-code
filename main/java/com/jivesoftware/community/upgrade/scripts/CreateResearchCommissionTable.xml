@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+
+<!-- Table definition for ResearchCommission  -->
+<schema name="CreateResearchCommissionTable">
+
+    <table name="grailResearchCommission" description="">
+        <column name="projectID" type="bigint" nullable="false" description=""/>
+        <column name="approverID" type="bigint" nullable="false" description=""/>
+        <column name="raised" type="int" default="0" nullable="true" description=""/>
+        <column name="number" type="varchar" size="255" nullable="true" description=""/>
+
+        <column name="creationBy" type="bigint" nullable="false" description="Author who created the content"/>
+        <column name="modificationBy" type="bigint" nullable="false" description="Author who modified the content"/>
+        <column name="creationDate" type="bigint" nullable="false" description="Creation date"/>
+        <column name="modificationDate" type="bigint" nullable="false" description="Modification date"/>
+
+
+        <index type="normal" name="grailResearchCommission_Idx" column="projectID,approverID"/>
+    </table>
+
+</schema>

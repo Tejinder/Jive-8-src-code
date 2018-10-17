@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+
+<!-- Table definition for Synchro New Requirements -->
+
+<schema name="CreateQPRSnapshotTable">
+    <table name="grailQPRSnapshot" description="New Project QPR Snapshot Table">
+        <column name="snapshotId" type="bigint" nullable="false" description="Snapshot ID"/>
+        <column name="spendFor" type="int" nullable="true" description="Spend For"/>
+        <column name="budgetYear" type="int" nullable="true" description="Budget Year"/>
+        <column name="isFreeze" type="int" nullable="true" description="Is the SnapShot Frozen"/>
+        <column name="freezeDate" type="bigint" nullable="true" description="Snapshot Freeze date"/>
+        
+        <column name="creationBy" type="bigint" nullable="false" description="Author ID who created the content"/>
+        <column name="modificationBy" type="bigint" nullable="false" description="Author who modified the content"/>
+        <column name="creationDate" type="bigint" nullable="false" description="Creation date"/>
+        <column name="modificationDate" type="bigint" nullable="false" description="Modification date"/>
+        
+        <index type="normal" name="grailQPRSnaphost_Idx" column="snapshotId"/>
+    </table>
+
+</schema>

@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+
+<!-- Table definition for Projects -->
+<schema name="CreatePSMethodologyWaiverTable">
+
+    <table name="grailPSMethodologyWaiver" description="">
+        <column name="projectID" type="bigint" nullable="false" description=""/>
+        <column name="endMarketID" type="bigint" nullable="false" description=""/>
+        <column name="methodologyDeviationRationale" type="varchar" size="5000" nullable="true" description="Methodology Deviation Rationale"/>
+        <column name="methodologyApprover" type="bigint" nullable="true" description="Methodology Approver"/>
+        <column name="methodologyApproverComment" type="varchar" size="5000" nullable="true" description="Methodology Approver Comment"/>
+        <column name="isApproved" type="int" nullable="true" description="Is Methodology Waiver Approved"/>
+        <!-- Audit fields -->
+        <column name="creationBy" type="bigint" nullable="false" description="Author who created the content"/>
+        <column name="modificationBy" type="bigint" nullable="false" description="Author who modified the content"/>
+        <column name="creationDate" type="bigint" nullable="false" description="Creation date"/>
+        <column name="modificationDate" type="bigint" nullable="false" description="Modification date"/>
+        
+        <index type="normal" name="grailPSMethodologyWaiver_Idx" column="projectID,endMarketID"/>
+
+    </table>
+
+</schema>

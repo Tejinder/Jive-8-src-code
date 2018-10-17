@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+
+<!-- Table definition for Kantar Projects -->
+<schema name="CreateKantarProjectMarketsTable">
+    <table name="grailkantarprojectmarket" description="Kantar Project Market Table">
+        <column name="projectID" type="bigint" nullable="false" description="Kantar Project ID"/>
+        <column name="market" type="bigint" nullable="false" description="Kantar Project Market"/>
+    </table>
+</schema>

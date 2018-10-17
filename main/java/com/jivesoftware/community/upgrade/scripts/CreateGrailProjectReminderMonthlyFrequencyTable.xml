@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<schema name="CreateGrailProjectReminderMonthlyFrequencyTable">
+    <table name="grailProjReminderMonthlyFreq" description="">
+        <column name="reminderId" type="bigint" nullable="false" description=""/>
+        <column name="dayOfMonth" type="bigint" nullable="true" description="Remind on day of mentioned month"/>
+        <column name="weekNumOfMonth" type="bigint" nullable="true" description="Remind on every mentioned week number of month"/>
+        <column name="dayOfWeek" type="bigint" nullable="true" description="Remind on day of week in a mentioned month"/>
+        <column name="monthFrequency" type="bigint" nullable="true" description="Remind on every mentioned month"/>
+        <column name="monthFrequencyType" type="bigint" nullable="true" description="Month Frequency Type"/>
+        <constraint type="foreignkey" name="projreminder_monthfrq_fk" column="reminderId" reftable="grailprojectreminders"  deferred="true"/>
+    </table>
+</schema>

@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+
+<!-- Table definition for Synchro New Requirements -->
+<schema name="CreateNewProjectTable">
+    <table name="grailProjectNew" description="Main New Project Table">
+        <column name="projectID" type="bigint" nullable="false" description="Project ID"/>
+        <column name="name" type="varchar" size="255" nullable="false" description="Project name"/>
+        <column name="status" type="bigint" nullable="false" description="Project Status"/>
+        <column name="description" type="text"  nullable="true" description="Project description is same as the community description"/>
+        <column name="descriptiontext" type="text" nullable="true" description="Project description is same as the community description"/>
+        
+		<column name="categoryType" type="varchar" size="5000" nullable="true" description="Category Type ID"/>
+		<column name="brand" type="bigint" nullable="true" description="Brand ID"/>
+		<column name="methodologyType" type="bigint" nullable="true" description=""/>
+		<column name="methodologyGroup" type="bigint" nullable="true" description="Methodology Group ID"/>
+		<column name="methodologyDetails" type="varchar" size="5000" nullable="true" description="Methodology Details"/> 
+		<column name="startDate" type="bigint" nullable="true" description="Project Start Date"/>
+		<column name="endDate" type="bigint" nullable="true" description="Project End Date"/>		
+        <column name="projectOwner" type="bigint" nullable="true" description="Jive Project Owner ID"/>
+		<column name="briefCreator" type="bigint" nullable="false" description="Project Initiator User ID"/>
+		<column name="totalCost" type="decimal" default="0" nullable="true" description="Project Total Cost"/>
+		<column name="totalCostCurrency" type="bigint" nullable="true" description="Project Total Cost Currency"/>		
+		<column name="creationBy" type="bigint" nullable="false" description="Author ID who created the content"/>
+        <column name="modificationBy" type="bigint" nullable="false" description="Author who modified the content"/>
+        <column name="creationDate" type="bigint" nullable="false" description="Creation date"/>
+        <column name="modificationDate" type="bigint" nullable="false" description="Modification date"/>	
+        <column name="projectType" type="int" nullable="true" description="Project Type"/>
+        <column name="processType" type="int" nullable="true" description="Process Type"/>
+        <column name="fieldWorkStudy" type="int" nullable="true" description="Field Work Study"/>
+        <column name="methWaiverReq" type="int" nullable="true" description="Methodology Waiver Required"/>
+        <column name="brandSpecificStudy" type="int" nullable="true" description="Brand Specific Study"/>	
+        <column name="studyType" type="int" nullable="true" description="Study Type"/>	
+        <column name="budgetLocation" type="bigint" nullable="true" description="Budget Location"/>
+        <column name="budgetYear" type="bigint" nullable="true" description="Budget Year"/>
+        <column name="refSynchroCode" type="bigint" nullable="true" description="Reference Synchro Code"/>
+        
+        <index type="normal" name="grailProjectNew_Idx" column="projectID"/>
+    </table>
+
+</schema>

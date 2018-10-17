@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+
+<!-- Table definition for Waiver Approvers-->
+<schema name="CreateWaiverApproversTable">
+
+    <table name="grailWaiverApprovers" description="">
+        <column name="waiverID" type="bigint" nullable="false" description=""/>
+        <column name="approverID" type="bigint" nullable="false" description=""/>
+        <column name="approverComments" type="varchar" size="4000" nullable="true" description=""/>
+        <column name="isApproved" type="int"  nullable="true" description=""/>
+        <column name="creationBy" type="bigint" nullable="false" description="Author who created the content"/>
+        <column name="modificationBy" type="bigint" nullable="false" description="Author who modified the content"/>
+        <column name="creationDate" type="bigint" nullable="false" description="Creation date"/>
+        <column name="modificationDate" type="bigint" nullable="false" description="Modification date"/>
+
+
+    </table>
+
+
+</schema>

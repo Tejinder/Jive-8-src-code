@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+
+<!-- Table definition for Synchro New Requirements -->
+
+<schema name="CreateProjectTPDSKUTable">
+    <table name="grailProjectTPDSKUDetails" description="New Project TPD SKU Details Table">
+        <column name="projectID" type="bigint" nullable="false" description="Project ID"/>
+        <column name="submissionDate" type="bigint" nullable="true" description="TPD Modification Date"/>
+        <column name="skuDetails" type="varchar" size="1000" nullable="true" description="SKU Details"/>
+         
+        <index type="normal" name="grailProjectTPDSKU_Idx" column="projectID"/>
+    </table>
+
+</schema>

@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+
+<!-- Table definition for Financial pre-plan -->
+<schema name="CreateFMPrePlanTable">
+
+    <table name="grailFMPrePlan" description="">
+        <column name="projectID" type="bigint" nullable="false" description=""/>
+        <column name="budgetYear" type="int" nullable="false" description=""/>
+        <column name="budgetApproverID" type="bigint" nullable="false" description=""/>
+        <!-- <column name="holderLocation" type="bigint" nullable="true" description=""/>-->
+        <column name="holderLocation" type="varchar" size="255" nullable="true" description=""/>
+        <column name="holderFunction" type="bigint" nullable="true" description=""/>
+        <column name="totalCosts" type="decimal" default="0" nullable="true" description=""/>
+        <column name="totalCostsType" type="int" nullable="false" description=""/>
+        <column name="totalCostsExchangeRate" type="decimal" nullable="true" description=""/>
+
+        <column name="creationBy" type="bigint" nullable="false" description="Author who created the content"/>
+        <column name="modificationBy" type="bigint" nullable="false" description="Author who modified the content"/>
+        <column name="creationDate" type="bigint" nullable="false" description="Creation date"/>
+        <column name="modificationDate" type="bigint" nullable="false" description="Modification date"/>
+        <column name="status" type="int" nullable="false" description="Status of Pre Plan"/>
+
+        <index type="normal" name="grailFMPrePlan_Idx" column="projectID,budgetYear,budgetApproverID"/>
+    </table>
+
+</schema>
